@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                             <?= $form->field($model2, 'tempat')->textInput(['readonly' => False]) ?>
                                                                             <?= $form->field($model2, 'tanggal_test')->widget(DatePicker::classname(), [
     //'language' => 'ru',
-    //'dateFormat' => 'yyyy-MM-dd',
+    'dateFormat' => 'yyyy-MM-dd',
 ]) ?>
 
 
