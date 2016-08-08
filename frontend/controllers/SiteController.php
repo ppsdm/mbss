@@ -15,6 +15,8 @@ use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use app\models\UserExt;
 use app\models\tao\Statements;
+use app\models\tao\ResultsStorage;
+use app\models\tao\VariablesStorage;
 
 /**
  * Site controller
@@ -214,18 +216,43 @@ class SiteController extends Controller
         ]);
     }
 
+
+    public function actionResult($id) {
+
+    echo $id ;
+
+
+    $result_statements = Statements::find()->andWhere(['subject' => $id])->All();
+     foreach ($result_statements as $result_statement) {
+      echo '<br/>__' . $result_statement->object;
+     }
+
+    //$result_vars = VariablesStorage::find()->andWhere(['results_result_id' => $result->result_id])->groupBy('item, identifier')->All();
+    $result_vars = VariablesStorage::find()->andWhere(['results_result_id' => $id])->OrWhere(['identifier' => 'SCORE'])->OrWhere(['identifier' => 'LtiOutcome'])->groupBy('item')->All();
+    foreach ($result_vars as $result_var) {
+    echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ' . $result_var->value;
+    }
+
+
+
+    }
+
+
     public function actionHasil()
     {
-
+     //$
      $model = User::find()->andWhere(['username' => Yii::$app->user->identity->username])->One();
-     //$statements = Statements::find()->andWhere(['modelid' => 1])->One();
-     //echo $statements->predicate;
+     $user = Statements::find()->andWhere(['predicate' => 'http://www.tao.lu/Ontologies/generis.rdf#login'])
+     ->andWhere(['object' => Yii::$app->user->identity->username])
+     ->One();
+
 
      ob_start();
       ob_end_clean();
 
      return $this->render('hasil', [
         'model' => $model,
+        'user' => $user
      ]);
 
     }

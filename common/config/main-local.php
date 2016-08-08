@@ -4,15 +4,22 @@ return [
         'db' => [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=127.0.0.1;dbname=ppsdm_report',
-            'username' => 'ppsdm',
-            'password' => 'ppsdM2014',
+            'username' => 'root',
+            'password' => '',
             'charset' => 'utf8',
         ],
         'taodb' => [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=127.0.0.1;dbname=ppsdm_tao',
-            'username' => 'ppsdm',
-            'password' => 'ppsdM2014',
+            'username' => 'root',
+            'password' => '',
+            'charset' => 'utf8',
+        ],
+        'coredb' => [
+            'class' => 'yii\db\Connection',
+            'dsn' => 'mysql:host=127.0.0.1;dbname=ppsdm_core',
+            'username' => 'root',
+            'password' => '',
             'charset' => 'utf8',
         ],
         'mailer' => [

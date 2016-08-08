@@ -1,14 +1,57 @@
+<?php
+
+use app\models\tao\Statements;
+use app\models\tao\ResultsStorage;
+use app\models\tao\VariablesStorage;
+
+
+/*
+
+*/
+
+
+ ?>
+
+
  <h2>Hasil Test</h2><br/>
 <div class="body-content">
 
-    <div class="row">
-     <a href="http://report.ppsdm.com/site/print?username=<?php echo $model->username;?> ">
-<?= yii\bootstrap\Button::widget([
- 'options' => ['class' => 'btn-lg'],
+<?php
 
- 'label' => 'Psikotest Calon Karyawan'
+ if(isset($user)) {
+  //echo '<br/><br/><br/><br/><br/>User ID : ' . $user->subject . '<hr/>';
+  $results = ResultsStorage::find()->andWhere(['test_taker' => $user->subject])->groupBy('delivery')->orderBy('result_id ASC')->All();
 
- ]) ?>
-</a>
-</div>
+  foreach ($results as $result) {
+
+$result_statement = Statements::find()->andWhere(['predicate'=> 'http://www.w3.org/2000/01/rdf-schema#label'])->andWhere(['subject' => $result->result_id ])->One();
+     echo  '<div class="row"><a href="result/'.explode("#i",$result->result_id)[1].'">';
+     echo yii\bootstrap\Button::widget([
+      'options' => ['class' => 'btn-lg'],
+
+      'label' => $result_statement->object
+
+     ]);
+
+
+  echo '</a></div><br/>';
+
+
+
+
+
+
+   //echo '<hr/>
+   //echo '<br/>delivery id : ' . $result->delivery . '<br/>';
+
+  }
+
+ } else {
+  echo '<br/><br/><br/><br/><br/>no USER with that login in Tao';
+ }
+
+
+
+?>
+
 </div>
