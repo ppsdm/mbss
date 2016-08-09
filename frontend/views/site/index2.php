@@ -1,5 +1,7 @@
 <?php
 
+use yii\helpers\Url;
+
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
@@ -11,7 +13,7 @@ $this->title = 'My Yii Application';
 
         <p class="lead">You have successfully login.</p>
 <?php if(Yii::$app->user->isGuest) {
-  echo '<p><a class="btn btn-lg btn-success" href="../site/login">Klik Untuk Login</a></p>';
+  echo '<p><a class="btn btn-lg btn-success" href="'. Url::toRoute(['site/login']).'">Klik Untuk Login</a></p>';
 
 } else {
 

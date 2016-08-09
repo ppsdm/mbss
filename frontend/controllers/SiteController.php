@@ -15,8 +15,11 @@ use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use app\models\UserExt;
 use app\models\tao\Statements;
+use app\models\tao\Models;
 use app\models\tao\ResultsStorage;
 use app\models\tao\VariablesStorage;
+use yii\helpers\Url;
+use yii\helpers\Html;
 
 /**
  * Site controller
@@ -219,21 +222,47 @@ class SiteController extends Controller
 
     public function actionResult($id) {
 
-    echo $id ;
-
+     $tao_model = Models::find()->andWhere(['modelid' => '1'])->One();
+     $result_storage = ResultsStorage::find()->andWhere(['result_id' => $tao_model->modeluri . 'i'. $id])->One();
+     echo 'result id :' . $result_rdf = $tao_model->modeluri . 'i'. $id;
+     echo '<hr/>';
 
     $result_statements = Statements::find()->andWhere(['subject' => $id])->All();
      foreach ($result_statements as $result_statement) {
-      echo '<br/>__' . $result_statement->object;
+      echo '<br/>=======================' . $result_statement->object;
      }
 
     //$result_vars = VariablesStorage::find()->andWhere(['results_result_id' => $result->result_id])->groupBy('item, identifier')->All();
-    $result_vars = VariablesStorage::find()->andWhere(['results_result_id' => $id])->OrWhere(['identifier' => 'SCORE'])->OrWhere(['identifier' => 'LtiOutcome'])->groupBy('item')->All();
+    $result_vars = VariablesStorage::find()->andWhere(['results_result_id' => $id])
+    ->groupBy('item, identifier')
+    //->OrWhere(['identifier' => 'SCORE'])
+        ->OrWhere(['identifier' => 'RESPONSE'])
+    //->OrWhere(['identifier' => 'LtiOutcome'])
+    ->All();
+
     foreach ($result_vars as $result_var) {
-    echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ' . $result_var->value;
+    //echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ' . $result_var->value;
+
+    $strpos = strpos($result_var->value, '{');
+   $valuestring = substr($result_var->value, $strpos);
+    $exploded_result_var = explode(';',$valuestring);
+       $index = 0;
+    foreach($exploded_result_var as $singular_result_var) {
+
+       $ret = explode(':', $singular_result_var);
+       if ((sizeof($ret) > 2) && ($ret[2] == '"candidateResponse"')) {
+           //echo '<br/>'. $singular_result_var;
+           $value = explode(':', $exploded_result_var[$index + 1])[2];
+           echo '<br/>' . $result_var->call_id_item . ' = ' . base64_decode($value);
+       }
+
+ $index++;
+    }
     }
 
-
+echo '<hr/>';
+//echo Url::to(['post/view', 'id' => 100]);
+echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-link']);
 
     }
 
@@ -242,6 +271,8 @@ class SiteController extends Controller
     {
      //$
      $model = User::find()->andWhere(['username' => Yii::$app->user->identity->username])->One();
+
+
      $user = Statements::find()->andWhere(['predicate' => 'http://www.tao.lu/Ontologies/generis.rdf#login'])
      ->andWhere(['object' => Yii::$app->user->identity->username])
      ->One();
@@ -303,13 +334,23 @@ class SiteController extends Controller
     }
 
 
-    public function actionPrint()
+    public function actionPrint($id)
     {
+     $tao_model = Models::find()->andWhere(['modelid' => '1'])->One();
+     $result_storage = ResultsStorage::find()->andWhere(['result_id' => $tao_model->modeluri . 'i'. $id])->One();
 
-     $model = UserExt::find()->andWhere(['username' => Yii::$app->user->identity->username])->One();
+     $result_rdf = $tao_model->modeluri . 'i'. $id;
+
+     $user = Statements::find()->andWhere(['predicate' => 'http://www.tao.lu/Ontologies/generis.rdf#login'])
+     ->andWhere(['subject' => $result_storage->test_taker])
+     ->One();
+     $model = UserExt::find()->andWhere(['username' => $user->object])->One();
+
+
+
      ob_start();
       ob_end_clean();
-     return $this->render('psikotes', ['model'=>$model]);
+     //return $this->render('psikotes', ['model'=>$model]);
 
     }
 }

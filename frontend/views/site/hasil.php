@@ -3,6 +3,7 @@
 use app\models\tao\Statements;
 use app\models\tao\ResultsStorage;
 use app\models\tao\VariablesStorage;
+use Yii\helpers\Url;
 
 
 /*
@@ -38,11 +39,12 @@ $result_statement = Statements::find()->andWhere(['predicate'=> 'http://www.w3.o
 
 
 
-
-
-
    //echo '<hr/>
    //echo '<br/>delivery id : ' . $result->delivery . '<br/>';
+
+
+
+
 
   }
 
