@@ -233,7 +233,8 @@ $result_rdf = $tao_model->modeluri . 'i'. $id;
       echo '<br/>=======================' . $result_statement->object;
      }
 
-     $items = "http://tao.ppsdm.com/ppsdm.rdf#i147080619178261339.item-3.0, http://tao.ppsdm.com/ppsdm.rdf#i147080619178261339.item-5.0, http://tao.ppsdm.com/ppsdm.rdf#i147080619178261339.item-8.0";
+     $items = ["http://tao.ppsdm.com/ppsdm.rdf#i147080619178261339.item-3.0", "http://tao.ppsdm.com/ppsdm.rdf#i147080619178261339.item-5.0", "http://tao.ppsdm.com/ppsdm.rdf#i147080619178261339.item-8.0"];
+     //$items = ['http://127.0.0.1:8090/tao/ppsdm.rdf#i147076498436978.item-3.0','http://127.0.0.1:8090/tao/ppsdm.rdf#i147076498436978.item-1.0'];
     //$result_vars = VariablesStorage::find()->andWhere(['results_result_id' => $result->result_id])->groupBy('item, identifier')->All();
     $result_vars = VariablesStorage::find()->andWhere(['results_result_id' => $result_rdf])
     ->andWhere(['in','call_id_item',$items])
