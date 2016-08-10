@@ -247,7 +247,7 @@ $result_rdf = $tao_model->modeluri . 'i'. $id;
       //  ->OrWhere(['identifier' => 'RESPONSE'])
     //->OrWhere(['identifier' => 'LtiOutcome'])
     ->All();
-
+    $score_array = [];
     foreach ($result_vars as $result_var) {
     //echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ';// . $result_var->value;
     if ($result_var->identifier == 'RESPONSE') {
@@ -285,6 +285,7 @@ $result_rdf = $tao_model->modeluri . 'i'. $id;
 
            $value = explode(':', $exploded_result_var[$index + 1])[2];
            echo '<br/>' . $result_var->call_id_item . ' = ' . base64_decode($value);
+           array_push($score_array, base64_decode($value));
        } else {
       //  echo '<br/>sasasa'. $singular_result_var;
        }
@@ -297,7 +298,9 @@ $result_rdf = $tao_model->modeluri . 'i'. $id;
 
 
     }
-
+    echo '<pre>';
+print_r($score_array);
+echo '</pre>';
 echo '<hr/>';
 //echo Url::to(['post/view', 'id' => 100]);
 echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-link']);
