@@ -224,7 +224,8 @@ class SiteController extends Controller
 
      $tao_model = Models::find()->andWhere(['modelid' => '1'])->One();
      $result_storage = ResultsStorage::find()->andWhere(['result_id' => $tao_model->modeluri . 'i'. $id])->One();
-     echo 'result id :' . $result_rdf = $tao_model->modeluri . 'i'. $id;
+$result_rdf = $tao_model->modeluri . 'i'. $id;
+     echo 'result id :' . $result_rdf;
      echo '<hr/>';
 
     $result_statements = Statements::find()->andWhere(['subject' => $id])->All();
@@ -233,31 +234,35 @@ class SiteController extends Controller
      }
 
     //$result_vars = VariablesStorage::find()->andWhere(['results_result_id' => $result->result_id])->groupBy('item, identifier')->All();
-    $result_vars = VariablesStorage::find()->andWhere(['results_result_id' => $id])
-    ->groupBy('item, identifier')
+    $result_vars = VariablesStorage::find()->andWhere(['results_result_id' => $result_rdf])
+    //->groupBy('item')
     //->OrWhere(['identifier' => 'SCORE'])
-        ->OrWhere(['identifier' => 'RESPONSE'])
+      //  ->OrWhere(['identifier' => 'RESPONSE'])
     //->OrWhere(['identifier' => 'LtiOutcome'])
     ->All();
 
     foreach ($result_vars as $result_var) {
-    //echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ' . $result_var->value;
+    echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ';// . $result_var->value;
 
     $strpos = strpos($result_var->value, '{');
    $valuestring = substr($result_var->value, $strpos);
     $exploded_result_var = explode(';',$valuestring);
-       $index = 0;
+  /*     $index = 0;
     foreach($exploded_result_var as $singular_result_var) {
 
        $ret = explode(':', $singular_result_var);
        if ((sizeof($ret) > 2) && ($ret[2] == '"candidateResponse"')) {
-           //echo '<br/>'. $singular_result_var;
+
            $value = explode(':', $exploded_result_var[$index + 1])[2];
            echo '<br/>' . $result_var->call_id_item . ' = ' . base64_decode($value);
+       } else {
+      //  echo '<br/>sasasa'. $singular_result_var;
        }
 
- $index++;
-    }
+         $index++;
+         }
+*/
+
     }
 
 echo '<hr/>';
