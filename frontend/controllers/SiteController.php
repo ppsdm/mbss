@@ -242,7 +242,7 @@ $result_rdf = $tao_model->modeluri . 'i'. $id;
     $result_vars = VariablesStorage::find()->andWhere(['results_result_id' => $result_rdf])
     //->andWhere(['in','call_id_item',$items])
     //->groupBy('item')
-    ->groupBy('item, identifier')
+    ->groupBy('item')
     //->OrWhere(['identifier' => 'SCORE'])
       //  ->OrWhere(['identifier' => 'RESPONSE'])
     //->OrWhere(['identifier' => 'LtiOutcome'])
