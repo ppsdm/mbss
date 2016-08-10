@@ -21,7 +21,7 @@ use Yii\helpers\Url;
 
  if(isset($user)) {
   //echo '<br/><br/><br/><br/><br/>User ID : ' . $user->subject . '<hr/>';
-  $results = ResultsStorage::find()->andWhere(['test_taker' => $user->subject])->groupBy('delivery')->orderBy('result_id ASC')->All();
+  $results = ResultsStorage::find()->andWhere(['test_taker' => $user->subject])->groupBy('delivery')->orderBy('result_id DESC')->All();
 
   foreach ($results as $result) {
 
