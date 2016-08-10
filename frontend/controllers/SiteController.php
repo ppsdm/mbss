@@ -263,7 +263,7 @@ $result_rdf = $tao_model->modeluri . 'i'. $id;
             if ((sizeof($ret) > 2) && ($ret[2] == '"candidateResponse"')) {
 
                 $value = explode(':', $exploded_result_var[$index + 1])[2];
-                echo '<br/>' . $result_var->call_id_item . ' = ' . base64_decode($value);
+                echo '<br/>' . $result_var->call_id_item .'('.$exploded_result_var[$index]. ') = ' . base64_decode($value);
             } else {
            //  echo '<br/>sasasa'. $singular_result_var;
             }
@@ -285,7 +285,7 @@ $result_rdf = $tao_model->modeluri . 'i'. $id;
        if ((sizeof($ret) > 2) && ($ret[2] == '"value"')) {
 
            $value = explode(':', $exploded_result_var[$index + 1])[2];
-           echo '<br/>' . $result_var->call_id_item . ' = ' . base64_decode($value);
+           echo '<br/>' . $result_var->call_id_item . '('.$exploded_result_var[$index]. ') = ' . base64_decode($value);
            array_push($score_array, base64_decode($value));
        } else {
       //  echo '<br/>sasasa'. $singular_result_var;
