@@ -249,8 +249,9 @@ $result_rdf = $tao_model->modeluri . 'i'. $id;
     ->All();
     $score_array = [];
     foreach ($result_vars as $result_var) {
+
     //echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ';// . $result_var->value;
-    if ($result_var->identifier == 'RESPONSE') {
+    if (strpos($result_var->identifier, 'RESPONSE') !== false) {
          //echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ';// . $result_var->value;
          $strpos = strpos($result_var->value, '{');
         $valuestring = substr($result_var->value, $strpos);
