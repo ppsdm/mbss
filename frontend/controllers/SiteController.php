@@ -674,7 +674,7 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
 
      ob_start();
       ob_end_clean();
-     return $this->render('psikotes', ['model'=>$model, 'cfit' => $total_cfit_scaled, 'pcas' => $pcas_aspect_array]);
+     return $this->render('psikotes', ['id'=>$id, 'model'=>$model, 'cfit' => $total_cfit_scaled, 'pcas' => $pcas_aspect_array]);
 
     }
 }
