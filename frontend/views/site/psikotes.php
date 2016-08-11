@@ -25,7 +25,7 @@
 */
 // Dummy Variable Data Diri
 $nama           = $model->firstname . ' ' . $model->lastname;
-$no             = $id;
+$no             = $cfit;
 $jabatanlamar   = $model->jabatan_dilamar;
 
 $ttl            = $model->tempat_lahir .', ' . $model->tanggal_lahir;
