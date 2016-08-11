@@ -18,7 +18,9 @@ use app\models\tao\Statements;
 use app\models\tao\Models;
 use app\models\core\PcasResponseMap;
 use app\models\core\PcasRangeMap;
+use app\models\core\PcasIpaRef;
 use app\models\core\ScaleRef;
+use app\models\core\PcasGrafikRef;
 use app\models\tao\ResultsStorage;
 use app\models\tao\VariablesStorage;
 use yii\helpers\Url;
@@ -406,6 +408,60 @@ echo '<br/>A - B = ' . ($pcas_aspect_array['a'] - $pcas_aspect_array['b']);
 echo '<br/>C - D = ' . ($pcas_aspect_array['c'] - $pcas_aspect_array['d']);
 echo '<br/>E - F = ' . ($pcas_aspect_array['e'] - $pcas_aspect_array['f']);
 echo '<br/>G - H = ' . ($pcas_aspect_array['g'] - $pcas_aspect_array['h']);
+
+echo '<hr/>';
+$disc1_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-d'])->andWhere(['unscaled' => $pcas_aspect_array['a']])->One();
+$disc2_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-d'])->andWhere(['unscaled' => $pcas_aspect_array['b']])->One();
+$disc3_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-d'])->andWhere(['unscaled' => ($pcas_aspect_array['a'] - $pcas_aspect_array['b'])])->One();
+
+$disc1_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-i'])->andWhere(['unscaled' => $pcas_aspect_array['c']])->One();
+$disc2_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-i'])->andWhere(['unscaled' => $pcas_aspect_array['d']])->One();
+$disc3_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-i'])->andWhere(['unscaled' => ($pcas_aspect_array['c'] - $pcas_aspect_array['d'])])->One();
+
+$disc1_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-s'])->andWhere(['unscaled' => $pcas_aspect_array['e']])->One();
+$disc2_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-s'])->andWhere(['unscaled' => $pcas_aspect_array['f']])->One();
+$disc3_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-s'])->andWhere(['unscaled' => ($pcas_aspect_array['e'] - $pcas_aspect_array['f'])])->One();
+
+$disc1_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-c'])->andWhere(['unscaled' => $pcas_aspect_array['g']])->One();
+$disc2_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-c'])->andWhere(['unscaled' => $pcas_aspect_array['h']])->One();
+$disc3_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-c'])->andWhere(['unscaled' => ($pcas_aspect_array['g'] - $pcas_aspect_array['h'])])->One();
+
+
+$di = '>';
+$ds = '>';
+$dc = '>';
+$is = '=';
+$ic = '>';
+$sc = '>';
+$d_pos =1;
+$i_pos =0;
+$s_pos=0;
+$c_pos=0;
+
+$grafik = PcasGrafikRef::find()->andWhere(['di' => $di])
+->andWhere(['ds' => $ds])
+->andWhere(['dc' => $dc])
+->andWhere(['is' => $is])
+->andWhere(['ic' => $ic])
+->andWhere(['sc' => $sc])
+->andWhere(['d-pos' => $d_pos])
+->andWhere(['i-pos' => $i_pos])
+->andWhere(['s-pos' => $s_pos])
+->andWhere(['c-pos' => $c_pos])->All();
+
+if(sizeof($grafik > 0)) {
+ echo '<br/># matching grafik : ' . sizeof($grafik) . ' ( ' .$grafik[0]->grafik.')';
+ $ipa_values = PcasIpaRef::findOne($grafik[0]->grafik);
+ print_r($ipa_values);
+} else {
+ echo 'TIDAK ADA MATCHING GRAFIK';
+}
+
+
+
+
+
+
 echo '</pre>';
 //echo Url::to(['post/view', 'id' => 100]);
 echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-link']);
@@ -666,7 +722,53 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
 
 
 
+     $disc1_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-d'])->andWhere(['unscaled' => $pcas_aspect_array['a']])->One();
+     $disc2_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-d'])->andWhere(['unscaled' => $pcas_aspect_array['b']])->One();
+     $disc3_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-d'])->andWhere(['unscaled' => ($pcas_aspect_array['a'] - $pcas_aspect_array['b'])])->One();
 
+     $disc1_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-i'])->andWhere(['unscaled' => $pcas_aspect_array['c']])->One();
+     $disc2_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-i'])->andWhere(['unscaled' => $pcas_aspect_array['d']])->One();
+     $disc3_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-i'])->andWhere(['unscaled' => ($pcas_aspect_array['c'] - $pcas_aspect_array['d'])])->One();
+
+     $disc1_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-s'])->andWhere(['unscaled' => $pcas_aspect_array['e']])->One();
+     $disc2_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-s'])->andWhere(['unscaled' => $pcas_aspect_array['f']])->One();
+     $disc3_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-s'])->andWhere(['unscaled' => ($pcas_aspect_array['e'] - $pcas_aspect_array['f'])])->One();
+
+     $disc1_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-c'])->andWhere(['unscaled' => $pcas_aspect_array['g']])->One();
+     $disc2_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-c'])->andWhere(['unscaled' => $pcas_aspect_array['h']])->One();
+     $disc3_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-c'])->andWhere(['unscaled' => ($pcas_aspect_array['g'] - $pcas_aspect_array['h'])])->One();
+
+
+     $di = '>';
+     $ds = '>';
+     $dc = '>';
+     $is = '=';
+     $ic = '>';
+     $sc = '>';
+     $d_pos =1;
+     $i_pos =0;
+     $s_pos=0;
+     $c_pos=1;
+
+     $grafik = PcasGrafikRef::find()->andWhere(['di' => $di])
+     ->andWhere(['ds' => $ds])
+     ->andWhere(['dc' => $dc])
+     ->andWhere(['is' => $is])
+     ->andWhere(['ic' => $ic])
+     ->andWhere(['sc' => $sc])
+     ->andWhere(['d-pos' => $d_pos])
+     ->andWhere(['i-pos' => $i_pos])
+     ->andWhere(['s-pos' => $s_pos])
+     ->andWhere(['c-pos' => $c_pos])->All();
+
+     if(sizeof($grafik) > 0) {
+    //  echo '<br/># matching grafik : ' . sizeof($grafik) . ' ( ' .$grafik[0]->grafik.')';
+      $ipa_values = PcasIpaRef::findOne($grafik[0]->grafik);
+      //print_r($ipa_values);
+     } else {
+      $ipa_values = new PcasIpaRef;
+      //echo 'TIDAK ADA MATCHING GRAFIK';
+     }
 
 
 
@@ -674,7 +776,7 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
 
      ob_start();
       ob_end_clean();
-     return $this->render('psikotes', ['id'=>$id, 'model'=>$model, 'cfit' => $total_cfit_scaled, 'pcas' => $pcas_aspect_array]);
+     return $this->render('psikotes', ['id'=>$id, 'model'=>$model, 'cfit' => $total_cfit_scaled, 'pcas' => $pcas_aspect_array, 'ipa_values' => $ipa_values]);
 
     }
 }

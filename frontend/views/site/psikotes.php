@@ -64,17 +64,17 @@ $total_max = $max1 + $max2 + $max3 + $max4 + $max5 + $max6 + $max7 + $max8 + $ma
 
 
 $rating1 = $cfit->scaled;
-$rating2 = 4;
-$rating3 = 4;
-$rating4 = 4;
-$rating5 = 4;
-$rating6 = 4;
-$rating7 = 4;
-$rating8 = 4;
-$rating9 = 4;
-$rating10 = 4;
+$rating2 = $ipa_values->trait_1;
+$rating3 = $ipa_values->trait_2;
+$rating4 = $ipa_values->trait_3;
+$rating5 = $ipa_values->trait_4;
+$rating6 = $ipa_values->trait_5;
+$rating7 = $ipa_values->trait_6;
+$rating8 = $ipa_values->trait_7;
+$rating9 = $ipa_values->trait_8;
+$rating10 = $ipa_values->trait_9;
 
-$pribadi1 = $rating1 * $bobot1 ;$pribadi2 = 120;$pribadi3 = 120;$pribadi4 = 120;$pribadi5 = 120;$pribadi6 = 120;$pribadi7 = 120;$pribadi8 = 120;$pribadi9 = 120;$pribadi10 = 120;
+$pribadi1 = $rating1 * $bobot1 ;$pribadi2 =  $rating2 * $bobot2;$pribadi3 =  $rating3 * $bobot3;$pribadi4 =  $rating4 * $bobot4;$pribadi5 =  $rating5 * $bobot5;$pribadi6 =  $rating6 * $bobot6;$pribadi7 =  $rating7 * $bobot7;$pribadi8 =  $rating8 * $bobot8;$pribadi9 =  $rating9 * $bobot9;$pribadi10 =  $rating10 * $bobot10;
 $total_pribadi = $pribadi1 + $pribadi2 + $pribadi3 + $pribadi4 + $pribadi5 + $pribadi6 + $pribadi7 + $pribadi8 + $pribadi9 + $pribadi10;
 if ($rating1 == 1 ){ $rat11 = "grey";} else { $rat11 = "";}
 if ($rating1 == 2 ){ $rat12 = "grey";} else { $rat12 = "";}
