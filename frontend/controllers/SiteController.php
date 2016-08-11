@@ -484,7 +484,7 @@ if(sizeof($grafik) == 1) {
  echo '<br/># matching grafik : ' . sizeof($grafik) . ' ( ' .$grafik[0]->grafik.')';
  $ipa_values = PcasIpaRef::findOne($grafik[0]->grafik);
  //print_r($ipa_values);
-} if(sizeof($grafik) > 1) {
+} else if(sizeof($grafik) > 1) {
  echo '<br/>MULTIPLE GRAFIK';
 } else {
  echo '<br/>TIDAK ADA MATCHING GRAFIK';
@@ -799,7 +799,7 @@ if($disc3_s->scaled > $disc3_c->scaled) {$sc = '>';} else if($disc3_s->scaled < 
       //echo '<br/># matching grafik : ' . sizeof($grafik) . ' ( ' .$grafik[0]->grafik.')';
       $ipa_values = PcasIpaRef::findOne($grafik[0]->grafik);
       //print_r($ipa_values);
-     } if(sizeof($grafik) > 1) {
+     } else if(sizeof($grafik) > 1) {
      // echo '<br/>MULTIPLE GRAFIK';
       $ipa_values = new PcasIpaRef;
      } else {
