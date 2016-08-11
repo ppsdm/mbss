@@ -34,7 +34,6 @@ $result_statement = Statements::find()->andWhere(['predicate'=> 'http://www.w3.o
      echo  '<div class="row"><a href="result/'.explode("#i",$result->result_id)[1].'">';
      echo yii\bootstrap\Button::widget([
       'options' => ['class' => 'btn-lg'],
-
       'label' => $result_statement->object
 
      ]);
