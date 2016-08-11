@@ -436,22 +436,37 @@ echo '<br/>scale-40 disc 3 i : ' . $disc3_i->scaled;
 echo '<br/>scale-40 disc 3 s : ' . $disc3_s->scaled;
 echo '<br/>scale-40 disc 3 c : ' . $disc3_c->scaled;
 
-if ($disc3_d->scaled > $disc3_i->scaled) {
 
-} else {
 
-}
+if($disc3_d->scaled > $disc3_i->scaled) {$di = '>';} else if($disc3_d->scaled < $disc3_i->scaled) {$di = '<';} else {$di = '=';}
 
-$di = '>';
-$ds = '>';
-$dc = '>';
-$is = '=';
-$ic = '>';
-$sc = '>';
-$d_pos =1;
-$i_pos =0;
-$s_pos=0;
-$c_pos=0;
+if($disc3_d->scaled > $disc3_s->scaled) {$ds = '>';} else if($disc3_d->scaled < $disc3_s->scaled) {$ds = '<';} else {$ds = '=';}
+
+if($disc3_d->scaled > $disc3_c->scaled) {$dc = '>';} else if($disc3_d->scaled < $disc3_c->scaled) {$dc = '<';} else {$dc = '=';}
+
+if($disc3_i->scaled > $disc3_s->scaled) {$is = '>';} else if($disc3_i->scaled < $disc3_s->scaled) {$is = '<';} else {$is = '=';}
+
+if($disc3_i->scaled > $disc3_c->scaled) {$ic = '>';} else if($disc3_i->scaled < $disc3_c->scaled) {$ic = '<';} else {$ic = '=';}
+
+if($disc3_s->scaled > $disc3_c->scaled) {$sc = '>';} else if($disc3_s->scaled < $disc3_c->scaled) {$sc = '<';} else {$sc = '=';}
+
+
+
+     //$di = '>';
+     //$ds = '>';
+     //$dc = '>';
+     //$is = '=';
+     //$ic = '>';
+     //$sc = '>';
+     $d_pos = ($disc3_d->scaled >= 20) ? '1':'0';
+     $i_pos = ($disc3_i->scaled >= 20) ? '1':'0';
+     $s_pos= ($disc3_s->scaled >= 20) ? '1':'0';
+     $c_pos= ($disc3_c->scaled >= 20) ? '1':'0';
+
+     echo '<br/>d pos : ' . $d_pos;
+     echo '<br/>i pos : ' . $i_pos;
+     echo '<br/>s pos : ' . $s_pos;
+     echo '<br/>c pos : ' . $c_pos;
 
 $grafik = PcasGrafikRef::find()->andWhere(['di' => $di])
 ->andWhere(['ds' => $ds])
@@ -464,16 +479,17 @@ $grafik = PcasGrafikRef::find()->andWhere(['di' => $di])
 ->andWhere(['s-pos' => $s_pos])
 ->andWhere(['c-pos' => $c_pos])->All();
 
-if(sizeof($grafik > 0)) {
+if(sizeof($grafik) == 1) {
+ echo 'size' .  sizeof($grafik);
  echo '<br/># matching grafik : ' . sizeof($grafik) . ' ( ' .$grafik[0]->grafik.')';
  $ipa_values = PcasIpaRef::findOne($grafik[0]->grafik);
  //print_r($ipa_values);
+} if(sizeof($grafik) > 1) {
+ echo '<br/>MULTIPLE GRAFIK';
 } else {
- echo 'TIDAK ADA MATCHING GRAFIK';
+ echo '<br/>TIDAK ADA MATCHING GRAFIK';
+ $ipa_values = new PcasIpaRef;
 }
-
-
-
 
 
 
@@ -726,21 +742,21 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
 
 
 
-     $disc1_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-d'])->andWhere(['unscaled' => $pcas_aspect_array['a']])->One();
-     $disc2_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-d'])->andWhere(['unscaled' => $pcas_aspect_array['b']])->One();
-     $disc3_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-d'])->andWhere(['unscaled' => ($pcas_aspect_array['a'] - $pcas_aspect_array['b'])])->One();
+     $disc1_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-d'])->andWhere(['<=','unscaled',$pcas_aspect_array['a']])->orderBy('unscaled DESC')->One();
+     $disc2_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-d'])->andWhere(['>=','unscaled',$pcas_aspect_array['b']])->orderBy('unscaled DESC')->One();
+     $disc3_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-d'])->andWhere(['<=','unscaled', ($pcas_aspect_array['a'] - $pcas_aspect_array['b'])])->orderBy('unscaled DESC')->One();
 
-     $disc1_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-i'])->andWhere(['unscaled' => $pcas_aspect_array['c']])->One();
-     $disc2_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-i'])->andWhere(['unscaled' => $pcas_aspect_array['d']])->One();
-     $disc3_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-i'])->andWhere(['unscaled' => ($pcas_aspect_array['c'] - $pcas_aspect_array['d'])])->One();
+     $disc1_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-i'])->andWhere(['<=','unscaled', $pcas_aspect_array['c']])->orderBy('unscaled DESC')->One();
+     $disc2_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-i'])->andWhere(['>=','unscaled', $pcas_aspect_array['d']])->orderBy('unscaled DESC')->One();
+     $disc3_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-i'])->andWhere(['<=','unscaled', ($pcas_aspect_array['c'] - $pcas_aspect_array['d'])])->orderBy('unscaled DESC')->One();
 
-     $disc1_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-s'])->andWhere(['unscaled' => $pcas_aspect_array['e']])->One();
-     $disc2_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-s'])->andWhere(['unscaled' => $pcas_aspect_array['f']])->One();
-     $disc3_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-s'])->andWhere(['unscaled' => ($pcas_aspect_array['e'] - $pcas_aspect_array['f'])])->One();
+     $disc1_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-s'])->andWhere(['<=','unscaled', $pcas_aspect_array['e']])->orderBy('unscaled DESC')->One();
+     $disc2_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-s'])->andWhere(['>=','unscaled', $pcas_aspect_array['f']])->orderBy('unscaled DESC')->One();
+     $disc3_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-s'])->andWhere(['<=','unscaled',($pcas_aspect_array['e'] - $pcas_aspect_array['f'])])->orderBy('unscaled DESC')->One();
 
-     $disc1_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-c'])->andWhere(['unscaled' => $pcas_aspect_array['g']])->One();
-     $disc2_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-c'])->andWhere(['unscaled' => $pcas_aspect_array['h']])->One();
-     $disc3_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-c'])->andWhere(['unscaled' => ($pcas_aspect_array['g'] - $pcas_aspect_array['h'])])->One();
+     $disc1_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-c'])->andWhere(['<=','unscaled', $pcas_aspect_array['g']])->orderBy('unscaled DESC')->One();
+     $disc2_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-c'])->andWhere(['>=','unscaled',$pcas_aspect_array['h']])->orderBy('unscaled DESC')->One();
+     $disc3_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-c'])->andWhere(['<=','unscaled',($pcas_aspect_array['g'] - $pcas_aspect_array['h'])])->orderBy('unscaled DESC')->One();
 
 if($disc3_d->scaled > $disc3_i->scaled) {$di = '>';} else if($disc3_d->scaled < $disc3_i->scaled) {$di = '<';} else {$di = '=';}
 
@@ -762,10 +778,10 @@ if($disc3_s->scaled > $disc3_c->scaled) {$sc = '>';} else if($disc3_s->scaled < 
      //$is = '=';
      //$ic = '>';
      //$sc = '>';
-     $d_pos =1;
-     $i_pos =0;
-     $s_pos=0;
-     $c_pos=0;
+     $d_pos = ($disc3_d->scaled >= 20) ? '1':'0';
+     $i_pos = ($disc3_i->scaled >= 20) ? '1':'0';
+     $s_pos= ($disc3_s->scaled >= 20) ? '1':'0';
+     $c_pos= ($disc3_c->scaled >= 20) ? '1':'0';
 
      $grafik = PcasGrafikRef::find()->andWhere(['di' => $di])
      ->andWhere(['ds' => $ds])
@@ -778,17 +794,18 @@ if($disc3_s->scaled > $disc3_c->scaled) {$sc = '>';} else if($disc3_s->scaled < 
      ->andWhere(['s-pos' => $s_pos])
      ->andWhere(['c-pos' => $c_pos])->All();
 
-     if(sizeof($grafik) > 0) {
-    //  echo '<br/># matching grafik : ' . sizeof($grafik) . ' ( ' .$grafik[0]->grafik.')';
+     if(sizeof($grafik) == 1) {
+      echo 'size' .  sizeof($grafik);
+      echo '<br/># matching grafik : ' . sizeof($grafik) . ' ( ' .$grafik[0]->grafik.')';
       $ipa_values = PcasIpaRef::findOne($grafik[0]->grafik);
       //print_r($ipa_values);
-     } else {
+     } if(sizeof($grafik) > 1) {
+      echo '<br/>MULTIPLE GRAFIK';
       $ipa_values = new PcasIpaRef;
-      //echo 'TIDAK ADA MATCHING GRAFIK';
+     } else {
+      echo '<br/>TIDAK ADA MATCHING GRAFIK';
+      $ipa_values = new PcasIpaRef;
      }
-
-
-
 
 
      ob_start();
