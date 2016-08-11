@@ -16,6 +16,9 @@ use frontend\models\ContactForm;
 use app\models\UserExt;
 use app\models\tao\Statements;
 use app\models\tao\Models;
+use app\models\core\PcasResponseMap;
+use app\models\core\PcasRangeMap;
+use app\models\core\ScaleRef;
 use app\models\tao\ResultsStorage;
 use app\models\tao\VariablesStorage;
 use yii\helpers\Url;
@@ -233,11 +236,8 @@ $result_rdf = $tao_model->modeluri . 'i'. $id;
       echo '<br/>=======================' . $result_statement->object;
      }
 
-     $items = ["http://tao.ppsdm.com/ppsdm.rdf#i147080619178261339.item-3.0", "http://tao.ppsdm.com/ppsdm.rdf#i147080619178261339.item-5.0",
-     "http://tao.ppsdm.com/ppsdm.rdf#i147080619178261339.item-8.0",
-    "http://tao.ppsdm.com/ppsdm.rdf#i147080619178261339.item-10.0"];
+     $items = [$result_rdf .".item-3.0",$result_rdf .".item-5.0",$result_rdf .".item-8.0",$result_rdf .".item-10.0"];
 
-   $pcas_item = ["http://tao.ppsdm.com/ppsdm.rdf#i147080619178261339.item-11.0"];
      //$items = ['http://127.0.0.1:8090/tao/ppsdm.rdf#i147076498436978.item-3.0','http://127.0.0.1:8090/tao/ppsdm.rdf#i147076498436978.item-1.0'];
     //$result_vars = VariablesStorage::find()->andWhere(['results_result_id' => $result->result_id])->groupBy('item, identifier')->All();
     $result_vars = VariablesStorage::find()->andWhere(['results_result_id' => $result_rdf])
@@ -249,7 +249,7 @@ $result_rdf = $tao_model->modeluri . 'i'. $id;
       //  ->OrWhere(['identifier' => 'RESPONSE'])
     //->OrWhere(['identifier' => 'LtiOutcome'])
     ->All();
-    $score_array = [];
+    $cfit_score_array = [];
     foreach ($result_vars as $result_var) {
 
     //echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ';// . $result_var->value;
@@ -266,8 +266,6 @@ $result_rdf = $tao_model->modeluri . 'i'. $id;
 
                 $value = explode(':', $exploded_result_var[$index + 1])[2];
                 echo '<br/>' . $result_var->call_id_item .'('.$result_var->identifier. ') = ' . base64_decode($value);
-            } else {
-           //  echo '<br/>sasasa'. $singular_result_var;
             }
 
               $index++;
@@ -288,9 +286,7 @@ $result_rdf = $tao_model->modeluri . 'i'. $id;
 
            $value = explode(':', $exploded_result_var[$index + 1])[2];
            echo '<br/>' . $result_var->call_id_item . '('.$exploded_result_var[$index]. ')  = ' . base64_decode($value);
-           array_push($score_array, base64_decode($value));
-       } else {
-      //  echo '<br/>sasasa'. $singular_result_var;
+           array_push($cfit_score_array, base64_decode($value));
        }
 
          $index++;
@@ -301,10 +297,122 @@ $result_rdf = $tao_model->modeluri . 'i'. $id;
 
 
     }
-    echo '<pre>';
-print_r($score_array);
-echo '</pre>';
+
+echo '</br>';
+    $pcas_item = [$result_rdf .".item-11.0"];
+      //$items = ['http://127.0.0.1:8090/tao/ppsdm.rdf#i147076498436978.item-3.0','http://127.0.0.1:8090/tao/ppsdm.rdf#i147076498436978.item-1.0'];
+     //$result_vars = VariablesStorage::find()->andWhere(['results_result_id' => $result->result_id])->groupBy('item, identifier')->All();
+     $pcas_results = VariablesStorage::find()->andWhere(['results_result_id' => $result_rdf])
+     ->andWhere(['in','call_id_item',$pcas_item])
+     //->groupBy('item')
+     ->groupBy('item, identifier')
+     ->orderBy('variable_id ASC')
+     //->OrWhere(['identifier' => 'SCORE'])
+       //  ->OrWhere(['identifier' => 'RESPONSE'])
+     //->OrWhere(['identifier' => 'LtiOutcome'])
+     ->All();
+     $pcas_score_array = [];
+     foreach ($pcas_results as $result_var) {
+
+     //echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ';// . $result_var->value;
+     if (strpos($result_var->identifier, 'RESPONSE') !== false) {
+          //echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ';// . $result_var->value;
+          $strpos = strpos($result_var->value, '{');
+         $valuestring = substr($result_var->value, $strpos);
+          $exploded_result_var = explode(';',$valuestring);
+             $index = 0;
+          foreach($exploded_result_var as $singular_result_var) {
+
+             $ret = explode(':', $singular_result_var);
+             if ((sizeof($ret) > 2) && ($ret[2] == '"candidateResponse"')) {
+
+                 $value = explode(':', $exploded_result_var[$index + 1])[2];
+                 echo '<br/>' . $result_var->call_id_item .'('.$result_var->identifier. ') = ' . base64_decode($value);
+                 if ($result_var->identifier != 'RESPONSE') {
+                  $trimmed = trim(base64_decode($value), "[]");
+                  $trimmed_items = explode(";", $trimmed);
+                  $trimmed_array = [];
+                  foreach($trimmed_items as $trimmed_item) {
+                   //echo '<br/>*****';
+                   $trimmed_trimmed = trim($trimmed_item, " ");
+                   $trimmed_trimmed_items = explode(" ", $trimmed_trimmed);
+                   //echo '='. $trimmed_trimmed;
+                   //echo '=>><br/>';
+                    //echo  $trimmed_trimmed_items[0];
+                    //echo sizeof($trimmed_trimmed_items);
+                   if (sizeof($trimmed_trimmed_items) > 1) {
+
+                   $trimmed_array[$trimmed_trimmed_items[0]] = $trimmed_trimmed_items[1];
+                   //echo $trimmed_trimmed_items[1];
+                   //echo '<br/>';
+                  }
+                   //print_r($trimmed_array);
+
+                  }
+                 array_push($pcas_score_array, $trimmed_array);
+                }
+             }
+
+               $index++;
+               }
+
+     }
+    }
+
+
+
+
+ //echo '<pre>PCAS <br/>';
+// print_r($pcas_score_array);
+
 echo '<hr/>';
+$pcas_aspect_array = [];
+$pcas_aspect_array['a'] = 0;
+$pcas_aspect_array['b'] = 0;
+$pcas_aspect_array['c'] = 0;
+$pcas_aspect_array['d'] = 0;
+$pcas_aspect_array['e'] = 0;
+$pcas_aspect_array['f'] = 0;
+$pcas_aspect_array['g'] = 0;
+$pcas_aspect_array['h'] = 0;
+$pcas_aspect_array['i'] = 0;
+$pcas_aspect_array['j'] = 0;
+
+
+
+foreach ($pcas_score_array as $pcas_score) {
+ //echo '<br/>';
+ if (sizeof($pcas_score) > 1) {
+ $first_row = PcasResponseMap::find()->andWHere(['item' => $pcas_score['choice_1']])->One();
+ $second_row = PcasResponseMap::find()->andWHere(['item' => $pcas_score['choice_2']])->One();
+ //print_r($first_row);
+ if (isset($pcas_aspect_array[$first_row->choice_1])) {
+  $pcas_aspect_array[$first_row->choice_1]++;
+ } else {
+  $pcas_aspect_array[$first_row->choice_1] = 1;
+ }
+ if (isset($pcas_aspect_array[$second_row->choice_2])) {
+  $pcas_aspect_array[$second_row->choice_2]++;
+ } else {
+  $pcas_aspect_array[$second_row->choice_2] = 1;
+ }
+} else {
+ echo '<br/>WARNING : ADA SOAL PCAS NOT ANSWERED';
+}
+}
+echo '<hr/>';
+echo '<pre>CFIT <br/>';
+print_r($cfit_score_array);
+
+
+echo '<br/>pcas aspect';
+
+print_r($pcas_aspect_array);
+echo '<br/>A - B = ' . ($pcas_aspect_array['a'] - $pcas_aspect_array['b']);
+echo '<br/>C - D = ' . ($pcas_aspect_array['c'] - $pcas_aspect_array['d']);
+echo '<br/>E - F = ' . ($pcas_aspect_array['e'] - $pcas_aspect_array['f']);
+echo '<br/>G - H = ' . ($pcas_aspect_array['g'] - $pcas_aspect_array['h']);
+echo '</pre>';
 //echo Url::to(['post/view', 'id' => 100]);
 echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-link']);
 
