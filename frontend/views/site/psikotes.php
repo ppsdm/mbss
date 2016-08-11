@@ -37,7 +37,7 @@ $ttd            = "Drs. Budiman Sanusi, MPsi.";
 $himpsi         = "0111891963";
 
 $namaaspek = "GENERAL INTELLIGENCE";
-
+$judul     = "PSIKOGRAM HASIL ASSESSMENT / PEMERIKSAAN PSIKOLOGIS";
 
 $bobot1 = 30;
 $bobot2 = 30;
@@ -203,7 +203,7 @@ $pdf->SetFont('helvetica', '', 7);
 $tbl = <<<EOD
 <table cellspacing="0" cellpadding="1" border="1">
 <tr>
-<td width="70%" align="LEFT"><H1><B><p>PSIKOGRAM HASIL ASSESSMENT / PEMERIKSAAN PSIKOLOGIS</p></B></H1></td>
+<td width="70%" align="LEFT"><H1><B><p>$judul</p></B></H1></td>
 <td width="25%" align="right"><H1><B><p>RAHASIA</p></B></H1></td>
 </tr>
 <table>
