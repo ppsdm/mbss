@@ -50,8 +50,17 @@ $bobot8 = 10;
 $bobot9 = 10;
 $bobot10 = 6;
 
+$total_bobot =  $bobot1 + $bobot2 + $bobot3+ $bobot4+ $bobot5+ $bobot6+ $bobot7+ $bobot8+ $bobot9+ $bobot10;
+
+$total_min = 0;
+$total_pribadi = 0;
+$total_max = 0;
+
 $min1 = 1 * $bobot1;$min2 = 1 * $bobot2;$min3 = 1 * $bobot3;$min4 = 1 * $bobot4;$min5 = 1 * $bobot5;$min6 = 1 * $bobot6;$min7 = 1 * $bobot7;$min8 = 1 * $bobot8;$min9 = 1 * $bobot9;$min10 = 1 * $bobot10;
 $max1 = 7 * $bobot1;$max2 = 7 * $bobot2;$max3 = 7 * $bobot3;$max4 = 7 * $bobot4;$max5 = 7 * $bobot5;$max6 = 7 * $bobot6;$max7 = 7 * $bobot7;$max8 = 7 * $bobot8;$max9 = 7 * $bobot9;$max10 = 7 * $bobot10;
+
+$total_min = $min1 + $min2 + $min3 + $min4 + $min5 + $min6 + $min7 + $min8 + $min9 + $min10;
+$total_max = $max1 + $max2 + $max3 + $max4 + $max5 + $max6 + $max7 + $max8 + $max9 + $max10;
 
 
 $rating1 = $cfit->scaled;
@@ -66,7 +75,7 @@ $rating9 = 4;
 $rating10 = 4;
 
 $pribadi1 = $rating1 * $bobot1 ;$pribadi2 = 120;$pribadi3 = 120;$pribadi4 = 120;$pribadi5 = 120;$pribadi6 = 120;$pribadi7 = 120;$pribadi8 = 120;$pribadi9 = 120;$pribadi10 = 120;
-
+$total_pribadi = $pribadi1 + $pribadi2 + $pribadi3 + $pribadi4 + $pribadi5 + $pribadi6 + $pribadi7 + $pribadi8 + $pribadi9 + $pribadi10;
 if ($rating1 == 1 ){ $rat11 = "grey";} else { $rat11 = "";}
 if ($rating1 == 2 ){ $rat12 = "grey";} else { $rat12 = "";}
 if ($rating1 == 3 ){ $rat13 = "grey";} else { $rat13 = "";}
@@ -659,11 +668,11 @@ $tbl = <<<EOD
 <table cellspacing="0" cellpadding="1" border="1">
     <tr>
 
-        <td  align="right" width="71%">100</td>
+        <td  align="right" width="71%">$total_bobot</td>
         <td  align="center" width="14%"><h3><B>Nilai Total</B></h3></td>
-        <td  align="center" width="5%"><h3><B>400</B></h3></td>
-        <td  align="center" width="5%"><h3><B>0</B></h3></td>
-        <td  align="center" width="5%"><h3><B>700</B></h3></td>
+        <td  align="center" width="5%"><h3><B>$total_min</B></h3></td>
+        <td  align="center" width="5%"><h3><B>$total_pribadi</B></h3></td>
+        <td  align="center" width="5%"><h3><B>$total_max</B></h3></td>
     </tr>
 
 </table>
