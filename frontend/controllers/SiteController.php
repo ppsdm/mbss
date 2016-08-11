@@ -374,15 +374,15 @@ $pcas_aspect_array['h'] = 0;
 $pcas_aspect_array['i'] = 0;
 $pcas_aspect_array['j'] = 0;
 
-
+print_r($pcas_score_array);
 
 foreach ($pcas_score_array as $pcas_score) {
  //echo '<br/>';
  if (sizeof($pcas_score) > 1) {
 
 $response_val = PcasResponseMap::find()->andWHere(['item' => $result_var->identifier])->One();
-echo $result_var->identifier;
-echo 'size: ' . sizeof($response_val);
+//echo $result_var->identifier;
+//echo 'size: ' . sizeof($response_val);
   /*
  $first_row = PcasResponseMap::find()->andWHere(['item' => $pcas_score['choice_1']])->One();
  $second_row = PcasResponseMap::find()->andWHere(['item' => $pcas_score['choice_2']])->One();
