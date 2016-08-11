@@ -795,15 +795,15 @@ if($disc3_s->scaled > $disc3_c->scaled) {$sc = '>';} else if($disc3_s->scaled < 
      ->andWhere(['c-pos' => $c_pos])->All();
 
      if(sizeof($grafik) == 1) {
-      echo 'size' .  sizeof($grafik);
-      echo '<br/># matching grafik : ' . sizeof($grafik) . ' ( ' .$grafik[0]->grafik.')';
+      //echo 'size' .  sizeof($grafik);
+      //echo '<br/># matching grafik : ' . sizeof($grafik) . ' ( ' .$grafik[0]->grafik.')';
       $ipa_values = PcasIpaRef::findOne($grafik[0]->grafik);
       //print_r($ipa_values);
      } if(sizeof($grafik) > 1) {
-      echo '<br/>MULTIPLE GRAFIK';
+     // echo '<br/>MULTIPLE GRAFIK';
       $ipa_values = new PcasIpaRef;
      } else {
-      echo '<br/>TIDAK ADA MATCHING GRAFIK';
+     // echo '<br/>TIDAK ADA MATCHING GRAFIK';
       $ipa_values = new PcasIpaRef;
      }
 
