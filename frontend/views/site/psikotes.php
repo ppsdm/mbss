@@ -39,22 +39,22 @@ $himpsi         = "0111891963";
 $namaaspek = "GENERAL INTELLIGENCE";
 $judul     = "PSIKOGRAM HASIL ASSESSMENT / PEMERIKSAAN PSIKOLOGIS";
 
-$bobot1 = 30;
-$bobot2 = 30;
-$bobot3 = 30;
-$bobot4 = 30;
-$bobot5 = 30;
-$bobot6 = 30;
-$bobot7 = 30;
-$bobot8 = 30;
-$bobot9 = 30;
-$bobot10 = 30;
+$bobot1 = 24;
+$bobot2 = 8;
+$bobot3 = 8;
+$bobot4 = 10;
+$bobot5 = 6;
+$bobot6 = 8;
+$bobot7 = 10;
+$bobot8 = 10;
+$bobot9 = 10;
+$bobot10 = 6;
 
-$min1 = 120;$min2 = 120;$min3 = 120;$min4 = 120;$min5 = 120;$min6 = 120;$min7 = 120;$min8 = 120;$min9 = 120;$min10 = 120;
-$max1 = 210;$max2 = 210;$max3 = 210;$max4 = 210;$max5 = 210;$max6 = 210;$max7 = 210;$max8 = 210;$max9 = 210;$max10 = 210;
-$pribadi1 = 120;$pribadi2 = 120;$pribadi3 = 120;$pribadi4 = 120;$pribadi5 = 120;$pribadi6 = 120;$pribadi7 = 120;$pribadi8 = 120;$pribadi9 = 120;$pribadi10 = 120;
+$min1 = 1 * $bobot1;$min2 = 1 * $bobot2;$min3 = 1 * $bobot3;$min4 = 1 * $bobot4;$min5 = 1 * $bobot5;$min6 = 1 * $bobot6;$min7 = 1 * $bobot7;$min8 = 1 * $bobot8;$min9 = 1 * $bobot9;$min10 = 1 * $bobot10;
+$max1 = 7 * $bobot1;$max2 = 7 * $bobot2;$max3 = 7 * $bobot3;$max4 = 7 * $bobot4;$max5 = 7 * $bobot5;$max6 = 7 * $bobot6;$max7 = 7 * $bobot7;$max8 = 7 * $bobot8;$max9 = 7 * $bobot9;$max10 = 7 * $bobot10;
 
-$rating1 = 4;
+
+$rating1 = $cfit->scaled;
 $rating2 = 4;
 $rating3 = 4;
 $rating4 = 4;
@@ -64,6 +64,8 @@ $rating7 = 4;
 $rating8 = 4;
 $rating9 = 4;
 $rating10 = 4;
+
+$pribadi1 = $rating1 * $bobot1 ;$pribadi2 = 120;$pribadi3 = 120;$pribadi4 = 120;$pribadi5 = 120;$pribadi6 = 120;$pribadi7 = 120;$pribadi8 = 120;$pribadi9 = 120;$pribadi10 = 120;
 
 if ($rating1 == 1 ){ $rat11 = "grey";} else { $rat11 = "";}
 if ($rating1 == 2 ){ $rat12 = "grey";} else { $rat12 = "";}
@@ -146,15 +148,15 @@ if ($rating10 == 6 ){ $rat106 = "grey";} else { $rat106 = "";}
 if ($rating10 == 7 ){ $rat107 = "grey";} else { $rat107 = "";}
 
 $namaaspek1 = "<B>GENERAL INTELLIGENCE</B><BR> Kemampuan dalam menangkap, mengolah, mencerna informasi,mengolah, mencerna informasi,mengolah, mencerna informasi, kemudian memakai atau menggunakannya sesuai dengan kebutuhan.";
-$namaaspek2 = "<B>GENERAL INTELLIGENCE</B><BR> Kemampuan dalam menangkap, mengolah, mencerna informasi, kemudian memakai atau menggunakannya sesuai dengan kebutuhan.";
-$namaaspek3 = "<B>GENERAL INTELLIGENCE</B><BR> Kemampuan dalam menangkap, mengolah, mencerna informasi, kemudian memakai atau menggunakannya sesuai dengan kebutuhan.";
-$namaaspek4 = "<B>GENERAL INTELLIGENCE</B><BR> Kemampuan dalam menangkap, mengolah, mencerna informasi, kemudian memakai atau menggunakannya sesuai dengan kebutuhan.";
-$namaaspek5 = "<B>GENERAL INTELLIGENCE</B><BR> Kemampuan dalam menangkap, mengolah, mencerna informasi, kemudian memakai atau menggunakannya sesuai dengan kebutuhan.";
-$namaaspek6 = "<B>GENERAL INTELLIGENCE</B><BR> Kemampuan dalam menangkap, mengolah, mencerna informasi, kemudian memakai atau menggunakannya sesuai dengan kebutuhan.";
-$namaaspek7 = "<B>GENERAL INTELLIGENCE</B><BR> Kemampuan dalam menangkap, mengolah, mencerna informasi, kemudian memakai atau menggunakannya sesuai dengan kebutuhan.";
-$namaaspek8 = "<B>GENERAL INTELLIGENCE</B><BR> Kemampuan dalam menangkap, mengolah, mencerna informasi, kemudian memakai atau menggunakannya sesuai dengan kebutuhan.";
-$namaaspek9 = "<B>GENERAL INTELLIGENCE</B><BR> Kemampuan dalam menangkap, mengolah, mencerna informasi, kemudian memakai atau menggunakannya sesuai dengan kebutuhan.";
-$namaaspek10 = "<B>GENERAL INTELLIGENCE</B><BR> Kemampuan dalam menangkap, mengolah, mencerna informasi, kemudian memakai atau menggunakannya sesuai dengan kebutuhan.";
+$namaaspek2 = "<B>ACHIEVEMENT MOTIVATION</B><BR> Keinginan atau kekuatan yang mendorong diri untuk selalu berprestasi tinggi dan tidak cepat merasa puas dengan apa yang sudah dihasilkan.";
+$namaaspek3 = "<B>INTERPERSONAL UNDERSTANDING</B><BR> Kepekaan memahami permasalahan dan kondisi orang lain. Serta kemampuan menghadapi orang secara efektif dalam berbagai situasi.";
+$namaaspek4 = "<B>STABILITAS EMOSI</B><BR> Kematangan pribadi, mampu mengendalikan emosi, tidak mudah marah serta mampu menyesuaikan emosi dengan situasi.";
+$namaaspek5 = "<B>PENGAMBILAN RESIKO</B><BR> Kesiapan diri untuk menghadapai kegagalan dengan tetap menampilkan respon yang positif atas keputusan dan tindakan yang dipilih/diambil.";
+$namaaspek6 = "<B>KEPERCAYAAN DIRI</B><BR> Sikap optimis dan rasa percaya diri terhadap seluruh kondisi dan potensi yang dimiliki.";
+$namaaspek7 = "<B>INISIATIF</B><BR> Kemampuan individu untuk bertindak melebihi tuntutan tugas untuk meningkatkan hasil serta menghindari masalah serta menemukan kesempatan-2 baru.";
+$namaaspek8 = "<B>KERJASAMA</B><BR> Kemampuan bekerja dalam kelompok dan aktif berpartisipasi dalam pencapaian tujuan kelompok.";
+$namaaspek9 = "<B>KETEKUNAN</B><BR> Daya tahan menghadapi dan menyelesaikan tugas sampai tuntas dalam waktu relatif lama dengan mencapai hasil yang optimal.";
+$namaaspek10 = "<B>KEMANDIRIAN</B><BR> KKemampuan untuk tetap bertahan menampilkan perilaku yang konstruktif/positif, meskipun dalam lingkungan/suasana yang tidak kondusif.";
 
 $rekomendasi = "Memperhatikan seluruh gambaran aspek Psikologi yang dimiliki, dikaitkan dengan kemungkinan keberhasilannya untuk bekerja memikul beban tugas dan tanggung jawab kerja yang lebih besar, maka potensi psikologinya secara umum tergolong :";
 // Include the main TCPDF library (search for installation path).
@@ -201,7 +203,7 @@ $pdf->SetFont('helvetica', '', 9);
 // -----------------------------------------------------------------------------
 
 $tbl = <<<EOD
-<BR><BR><BR><BR><BR><BR>
+<BR><BR><BR><BR>
 <table cellspacing="0" cellpadding="1" border="2">
 <tr>
 <td bgcolor="#bebebe" colspan="2" align="center"><H1><B>PSIKOGRAM</B></H1></td>
@@ -214,9 +216,9 @@ $tbl = <<<EOD
 <BR>
 <BR>
 <table cellspacing="0" cellpadding="1" border="2">
-    
+
     <tr>
-       
+
        <td>
        <table cellspacing="0" cellpadding="1" border="0">
             <tr>
@@ -253,8 +255,8 @@ $tbl = <<<EOD
             </tr>
        </table>
        </td>
-       
-       
+
+
     </tr>
 
 </table>
@@ -271,12 +273,12 @@ $tbl = <<<EOD
 <tr>
 <td width="100%" >
 
-<table cellspacing="0" cellpadding="1" border="1">  
+<table cellspacing="0" cellpadding="1" border="1">
     <tr>
         <td  bgcolor="#bebebe" rowspan="2" align="CENTER" width="66%"><h3><B>ASPEK - ASPEK PENILAIAN</B></h3></td>
         <td  bgcolor="#bebebe" rowspan="2"align="center" width="5%"><B>Bobot</B></td>
-        <td  bgcolor="#bebebe" rowspan="2" align="center" width="14%"><h3><B>RATING</B></h3></td> 
-        <td  bgcolor="#bebebe" colspan="3" align="center" width="15%"><h3><B>SKOR</B></h3></td> 
+        <td  bgcolor="#bebebe" rowspan="2" align="center" width="14%"><h3><B>RATING</B></h3></td>
+        <td  bgcolor="#bebebe" colspan="3" align="center" width="15%"><h3><B>SKOR</B></h3></td>
     </tr>
     <tr>
         <td  bgcolor="#bebebe" align="center"><B>MIN</B></td>
@@ -285,20 +287,20 @@ $tbl = <<<EOD
     </tr>
 </table>
 
-<table border="1">  
+<table border="1">
     <tr>
         <td  rowspan="4" align="left" width="66%"><h3><B>A. ASPEK KECERDASAN</B></h3></td>
         <td  align="center" width="5%"><h3><B></B></h3></td>
-        <td  align="center" width="14%"><h3><B></B></h3></td> 
-        <td  align="center" width="15%"><h3><B></B></h3></td> 
+        <td  align="center" width="14%"><h3><B></B></h3></td>
+        <td  align="center" width="15%"><h3><B></B></h3></td>
     </tr>
 </table>
 
-<table cellspacing="0" cellpadding="1" border="1">  
+<table cellspacing="0" cellpadding="1" border="1">
     <tr>
         <td rowspan="3" align="center" width="5%"><BR><BR>1</td>
-        <td rowspan="3" align="left" width="61%">$namaaspek1</td> 
-        <td rowspan="3" align="left" width="5%" align="center"><B><BR>$bobot1</B></td> 
+        <td rowspan="3" align="left" width="61%">$namaaspek1</td>
+        <td rowspan="3" align="left" width="5%" align="center"><B><BR>$bobot1</B></td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">3</td>
@@ -307,8 +309,8 @@ $tbl = <<<EOD
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min1</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi1</B></td> 
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max1</B></td> 
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi1</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max1</B></td>
     </tr>
     <tr>
     <td  align="left" width="2%" align="center" bgcolor="$rat11"></td>
@@ -330,11 +332,11 @@ $tbl = <<<EOD
     </tr>
 </table>
 
-<table cellspacing="0" cellpadding="1" border="1">  
+<table cellspacing="0" cellpadding="1" border="1">
     <tr>
         <td rowspan="3" align="center" width="5%"><BR><BR>2</td>
-        <td rowspan="3" align="left" width="61%">$namaaspek2</td> 
-        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot2</B></td> 
+        <td rowspan="3" align="left" width="61%">$namaaspek2</td>
+        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot2</B></td>
         <td bgcolor="#bebebe" bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">3</td>
@@ -343,8 +345,8 @@ $tbl = <<<EOD
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min2</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi2</B></td> 
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max2</B></td> 
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi2</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max2</B></td>
     </tr>
     <tr>
     <td  align="left" width="2%" align="center" bgcolor="$rat21"></td>
@@ -366,11 +368,11 @@ $tbl = <<<EOD
     </tr>
 </table>
 
-<table cellspacing="0" cellpadding="1" border="1">  
+<table cellspacing="0" cellpadding="1" border="1">
     <tr>
         <td rowspan="3" align="center" width="5%"><BR><BR>3</td>
-        <td rowspan="3" align="left" width="61%">$namaaspek3</td> 
-        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot3</B></td> 
+        <td rowspan="3" align="left" width="61%">$namaaspek3</td>
+        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot3</B></td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">3</td>
@@ -379,8 +381,8 @@ $tbl = <<<EOD
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min3</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi3</B></td> 
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max3</B></td> 
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi3</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max3</B></td>
     </tr>
     <tr>
    <td  align="left" width="2%" align="center" bgcolor="$rat31"></td>
@@ -402,11 +404,11 @@ $tbl = <<<EOD
     </tr>
 </table>
 
-<table cellspacing="0" cellpadding="1" border="1">  
+<table cellspacing="0" cellpadding="1" border="1">
     <tr>
         <td rowspan="3" align="center" width="5%"><BR><BR>4</td>
-        <td rowspan="3" align="left" width="61%">$namaaspek4</td> 
-        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot4</B></td> 
+        <td rowspan="3" align="left" width="61%">$namaaspek4</td>
+        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot4</B></td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
         <td  bgcolor="#bebebe" align="left" width="2%" align="center">2</td>
         <td  bgcolor="#bebebe" align="left" width="2%" align="center">3</td>
@@ -415,8 +417,8 @@ $tbl = <<<EOD
         <td  bgcolor="#bebebe" align="left" width="2%" align="center">6</td>
         <td  bgcolor="#bebebe" align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min4</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi4</B></td> 
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max4</B></td> 
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi4</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max4</B></td>
     </tr>
     <tr>
     <td  align="left" width="2%" align="center" bgcolor="$rat41"></td>
@@ -438,11 +440,11 @@ $tbl = <<<EOD
     </tr>
 </table>
 
-<table cellspacing="0" cellpadding="1" border="1">  
+<table cellspacing="0" cellpadding="1" border="1">
     <tr>
         <td rowspan="3" align="center" width="5%"><BR><BR>5</td>
-        <td rowspan="3" align="left" width="61%">$namaaspek5</td> 
-        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot5</B></td> 
+        <td rowspan="3" align="left" width="61%">$namaaspek5</td>
+        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot5</B></td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">3</td>
@@ -451,8 +453,8 @@ $tbl = <<<EOD
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min5</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi5</B></td> 
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max5</B></td> 
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi5</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max5</B></td>
     </tr>
     <tr>
     <td  align="left" width="2%" align="center" bgcolor="$rat51"></td>
@@ -474,11 +476,11 @@ $tbl = <<<EOD
     </tr>
 </table>
 
-<table cellspacing="0" cellpadding="1" border="1">  
+<table cellspacing="0" cellpadding="1" border="1">
     <tr>
         <td rowspan="3" align="center" width="5%"><BR><BR>6</td>
-        <td rowspan="3" align="left" width="61%">$namaaspek6</td> 
-        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot6</B></td> 
+        <td rowspan="3" align="left" width="61%">$namaaspek6</td>
+        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot6</B></td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">3</td>
@@ -487,8 +489,8 @@ $tbl = <<<EOD
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min6</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi6</B></td> 
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max6</B></td> 
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi6</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max6</B></td>
     </tr>
     <tr>
     <td  align="left" width="2%" align="center" bgcolor="$rat61"></td>
@@ -510,11 +512,11 @@ $tbl = <<<EOD
     </tr>
 </table>
 
-<table cellspacing="0" cellpadding="1" border="1">  
+<table cellspacing="0" cellpadding="1" border="1">
     <tr>
         <td rowspan="3" align="center" width="5%"><BR><BR>7</td>
-        <td rowspan="3" align="left" width="61%">$namaaspek7</td> 
-        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot7</B></td> 
+        <td rowspan="3" align="left" width="61%">$namaaspek7</td>
+        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot7</B></td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">3</td>
@@ -523,8 +525,8 @@ $tbl = <<<EOD
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min7</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi7</B></td> 
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max7</B></td> 
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi7</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max7</B></td>
     </tr>
     <tr>
     <td  align="left" width="2%" align="center" bgcolor="$rat71"></td>
@@ -546,11 +548,11 @@ $tbl = <<<EOD
     </tr>
 </table>
 
-<table cellspacing="0" cellpadding="1" border="1">  
+<table cellspacing="0" cellpadding="1" border="1">
     <tr>
         <td rowspan="3" align="center" width="5%"><BR><BR>8</td>
-        <td rowspan="3" align="left" width="61%">$namaaspek8</td> 
-        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot8</B></td> 
+        <td rowspan="3" align="left" width="61%">$namaaspek8</td>
+        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot8</B></td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">3</td>
@@ -559,8 +561,8 @@ $tbl = <<<EOD
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min8</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi8</B></td> 
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max8</B></td> 
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi8</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max8</B></td>
     </tr>
     <tr>
     <td  align="left" width="2%" align="center" bgcolor="$rat81"></td>
@@ -582,11 +584,11 @@ $tbl = <<<EOD
     </tr>
 </table>
 
-<table cellspacing="0" cellpadding="1" border="1">  
+<table cellspacing="0" cellpadding="1" border="1">
     <tr>
         <td rowspan="3" align="center" width="5%"><BR><BR>9</td>
-        <td rowspan="3" align="left" width="61%">$namaaspek9</td> 
-        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot9</B></td> 
+        <td rowspan="3" align="left" width="61%">$namaaspek9</td>
+        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot9</B></td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">3</td>
@@ -595,8 +597,8 @@ $tbl = <<<EOD
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min9</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi9</B></td> 
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max9</B></td> 
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi9</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max9</B></td>
     </tr>
     <tr>
     <td  align="left" width="2%" align="center" bgcolor="$rat91"></td>
@@ -618,11 +620,11 @@ $tbl = <<<EOD
     </tr>
 </table>
 
-<table cellspacing="0" cellpadding="1" border="1">  
+<table cellspacing="0" cellpadding="1" border="1">
     <tr>
         <td rowspan="3" align="center" width="5%"><BR><BR>10</td>
-        <td rowspan="3" align="left" width="61%">$namaaspek10</td> 
-        <td rowspan="3" align="left" width="5%" align="center"><B><BR>$bobot10</B></td> 
+        <td rowspan="3" align="left" width="61%">$namaaspek10</td>
+        <td rowspan="3" align="left" width="5%" align="center"><B><BR>$bobot10</B></td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">3</td>
@@ -631,8 +633,8 @@ $tbl = <<<EOD
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min10</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi10</B></td> 
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max10</B></td> 
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi10</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max10</B></td>
     </tr>
     <tr>
     <td  align="left" width="2%" align="center" bgcolor="$rat101"></td>
@@ -654,16 +656,16 @@ $tbl = <<<EOD
     </tr>
 </table>
 
-<table cellspacing="0" cellpadding="1" border="1">  
+<table cellspacing="0" cellpadding="1" border="1">
     <tr>
-       
+
         <td  align="right" width="71%">100</td>
-        <td  align="center" width="14%"><h3><B>Nilai Total</B></h3></td> 
-        <td  align="center" width="5%"><h3><B>400</B></h3></td> 
-        <td  align="center" width="5%"><h3><B>0</B></h3></td> 
-        <td  align="center" width="5%"><h3><B>700</B></h3></td> 
+        <td  align="center" width="14%"><h3><B>Nilai Total</B></h3></td>
+        <td  align="center" width="5%"><h3><B>400</B></h3></td>
+        <td  align="center" width="5%"><h3><B>0</B></h3></td>
+        <td  align="center" width="5%"><h3><B>700</B></h3></td>
     </tr>
-  
+
 </table>
 
 </td>
@@ -683,15 +685,15 @@ $tbl = <<<EOD
 
 <table cellspacing="0" cellpadding="0" border="0">
     <tr>
-        <td colspan="3" align="center" height="15px"><B></B></td>    
+        <td colspan="3" align="center" height="15px"><B></B></td>
     </tr>
     <tr>
        <td width="71%">
-       
+
        <table border="1">
             <tr>
                 <td  colspan="3" align="left"><B>REKOMENDASI :</B>$rekomendasi</td>
-                
+
             </tr>
             <tr>
                 <td bgcolor="#bebebe" colspan="2" align="center" width="30%"><B>KUALIFIKASI</B></td>
@@ -723,17 +725,17 @@ $tbl = <<<EOD
                 <td width="20%" align="center">299 - Ke bawah</td>
             </tr>
        </table>
-       
+
        <br><br>
-       
-       
-       
+
+
+
        </td>
-       
+
        <td width="2%"></td>
-       
+
        <td width="27%">
-            
+
             <table>
             <tr>
             <td align="center">$tempattes, $tgltes</td>
@@ -752,7 +754,7 @@ $tbl = <<<EOD
             </tr>
             </table>
        </td>
-       
+
     </tr>
 
 </table>
