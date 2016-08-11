@@ -235,7 +235,7 @@ $result_rdf = $tao_model->modeluri . 'i'. $id;
 
      $items = ["http://tao.ppsdm.com/ppsdm.rdf#i147080619178261339.item-3.0", "http://tao.ppsdm.com/ppsdm.rdf#i147080619178261339.item-5.0",
      "http://tao.ppsdm.com/ppsdm.rdf#i147080619178261339.item-8.0",
-    "http://tao.ppsdm.com/ppsdm.rdf#i147080619178261339.item-10.0";]
+    "http://tao.ppsdm.com/ppsdm.rdf#i147080619178261339.item-10.0"];
 
    $pcas_item = []"http://tao.ppsdm.com/ppsdm.rdf#i147080619178261339.item-11.0"];
      //$items = ['http://127.0.0.1:8090/tao/ppsdm.rdf#i147076498436978.item-3.0','http://127.0.0.1:8090/tao/ppsdm.rdf#i147076498436978.item-1.0'];
