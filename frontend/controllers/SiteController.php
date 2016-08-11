@@ -483,13 +483,6 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
     public function actionPrint($id)
     {
 
-     $user = Statements::find()->andWhere(['predicate' => 'http://www.tao.lu/Ontologies/generis.rdf#login'])
-     ->andWhere(['subject' => $result_storage->test_taker])
-     ->One();
-     $model = UserExt::find()->andWhere(['username' => $user->object])->One();
-     if(!isset($model)) {
-      $model = new UserExt;
-     }
 
 
 
@@ -506,6 +499,13 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
      $result_rdf = $tao_model->modeluri . 'i'. $id;
 
      $result_statements = Statements::find()->andWhere(['subject' => $id])->All();
+     $user = Statements::find()->andWhere(['predicate' => 'http://www.tao.lu/Ontologies/generis.rdf#login'])
+     ->andWhere(['subject' => $result_storage->test_taker])
+     ->One();
+     $model = UserExt::find()->andWhere(['username' => $user->object])->One();
+     if(!isset($model)) {
+      $model = new UserExt;
+     }
 
      $items = [$result_rdf .".item-3.0",$result_rdf .".item-5.0",$result_rdf .".item-8.0",$result_rdf .".item-10.0"];
 
