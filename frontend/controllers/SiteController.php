@@ -427,9 +427,9 @@ $disc1_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-c'])->andWhere(['
 $disc2_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-c'])->andWhere(['unscaled' => $pcas_aspect_array['h']])->One();
 $disc3_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-c'])->andWhere(['unscaled' => ($pcas_aspect_array['g'] - $pcas_aspect_array['h'])])->One();
 
-echo '<br/>disc 1 d : ' . $disc1_d->scaled;
-echo '<br/>disc 1 i : ' . $disc1_i->scaled;
-echo '<br/>disc 1 s : ' . $disc1_s->scaled;
+//echo '<br/>disc 1 d : ' . $disc1_d->scaled;
+//echo '<br/>disc 1 i : ' . $disc1_i->scaled;
+//echo '<br/>disc 1 s : ' . $disc1_s->scaled;
 $di = '>';
 $ds = '>';
 $dc = '>';
