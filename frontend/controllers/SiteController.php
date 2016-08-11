@@ -398,7 +398,7 @@ foreach ($pcas_score_array as $pcas_score) {
 }
 echo '<hr/>';
 $total_cfit_scaled = ScaleRef::find()->andWhere(['scale_name' => 'cfit-to-6'])->andWhere(['unscaled' => $total_cfit])->One();
-echo '<pre>CFIT total unscaled = '.$total_cfit.'<br/>scaled = ' . $total_cfit_scaled->scaled . '<br/>';
+echo '<pre>CFIT total unscaled = '.$total_cfit.'<br/>scaled = ';// . $total_cfit_scaled->scaled . '<br/>';
 print_r($cfit_score_array);
 
 
