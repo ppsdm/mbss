@@ -505,7 +505,7 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
 
      ob_start();
       ob_end_clean();
-     //return $this->render('psikotes', ['model'=>$model]);
+     return $this->render('psikotes', ['model'=>$model]);
 
     }
 }
