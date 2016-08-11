@@ -411,7 +411,11 @@ echo '<br/>E - F = ' . ($pcas_aspect_array['e'] - $pcas_aspect_array['f']);
 echo '<br/>G - H = ' . ($pcas_aspect_array['g'] - $pcas_aspect_array['h']);
 
 echo '<hr/>';
-$disc1_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-d'])->andWhere(['unscaled' => $pcas_aspect_array['a']])->One();
+
+//select * from scale_ref where scale_name = 'pcas-1-d' AND unscaled <= '8' order by unscaled desc LIMIT 1
+
+
+$disc1_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-d'])->andWhere(['<=','unscaled',$pcas_aspect_array['a']])->orderBy('unscaled DESC')->One();
 $disc2_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-d'])->andWhere(['unscaled' => $pcas_aspect_array['b']])->One();
 $disc3_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-d'])->andWhere(['unscaled' => ($pcas_aspect_array['a'] - $pcas_aspect_array['b'])])->One();
 
@@ -427,7 +431,7 @@ $disc1_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-c'])->andWhere(['
 $disc2_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-c'])->andWhere(['unscaled' => $pcas_aspect_array['h']])->One();
 $disc3_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-c'])->andWhere(['unscaled' => ($pcas_aspect_array['g'] - $pcas_aspect_array['h'])])->One();
 
-//echo '<br/>disc 1 d : ' . $disc1_d->scaled;
+echo '<br/>disc 1 d : ' . $disc1_d->scaled;
 //echo '<br/>disc 1 i : ' . $disc1_i->scaled;
 //echo '<br/>disc 1 s : ' . $disc1_s->scaled;
 $di = '>';
