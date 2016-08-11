@@ -279,6 +279,7 @@ $result_rdf = $tao_model->modeluri . 'i'. $id;
    $valuestring = substr($result_var->value, $strpos);
     $exploded_result_var = explode(';',$valuestring);
        $index = 0;
+       $total_cfit = 0;
     foreach($exploded_result_var as $singular_result_var) {
 
        $ret = explode(':', $singular_result_var);
@@ -286,6 +287,7 @@ $result_rdf = $tao_model->modeluri . 'i'. $id;
 
            $value = explode(':', $exploded_result_var[$index + 1])[2];
            echo '<br/>' . $result_var->call_id_item . '('.$exploded_result_var[$index]. ')  = ' . base64_decode($value);
+           $total_cfit = $total_cfit + base64_decode($value);
            array_push($cfit_score_array, base64_decode($value));
        }
 
@@ -401,7 +403,8 @@ foreach ($pcas_score_array as $pcas_score) {
 }
 }
 echo '<hr/>';
-echo '<pre>CFIT <br/>';
+$total_cfit_scaled = ScaleRef::find()->andWhere(['scale_name' => 'cfit-to-6'])->andWhere(['unscaled' => $total_cfit])->One();
+echo '<pre>CFIT total unscaled = '.$total_cfit.'<br/>scaled = ' . $total_cfit_scaled->scaled . '<br/>';
 print_r($cfit_score_array);
 
 
