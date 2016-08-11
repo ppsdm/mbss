@@ -436,6 +436,12 @@ echo '<br/>scale-40 disc 3 i : ' . $disc3_i->scaled;
 echo '<br/>scale-40 disc 3 s : ' . $disc3_s->scaled;
 echo '<br/>scale-40 disc 3 c : ' . $disc3_c->scaled;
 
+if ($disc3_d->scaled > $disc3_i->scaled) {
+
+} else {
+
+}
+
 $di = '>';
 $ds = '>';
 $dc = '>';
@@ -785,7 +791,7 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
 
      ob_start();
       ob_end_clean();
-     return $this->render('psikotes', ['id'=>$id, 'model'=>$model, 'cfit' => $total_cfit_scaled, 'pcas' => $pcas_aspect_array, 'ipa_values' => $ipa_values]);
+     return $this->render('psikotes', ['id'=>$id, 'model'=>$model, 'cfit' => $total_cfit, 'pcas' => $pcas_aspect_array, 'ipa_values' => $ipa_values]);
 
     }
 }
