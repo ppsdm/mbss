@@ -350,7 +350,8 @@ echo '</br>';
                    //print_r($trimmed_array);
 
                   }
-                 array_push($pcas_score_array, $trimmed_array);
+                // array_push($pcas_score_array, $trimmed_array);
+                $pcas_score_array[$result_var->identifier] = $trimmed_array;
                 }
              }
 
@@ -374,7 +375,7 @@ $pcas_aspect_array['h'] = 0;
 $pcas_aspect_array['i'] = 0;
 $pcas_aspect_array['j'] = 0;
 
-print_r($pcas_score_array);
+//print_r($pcas_score_array);
 
 foreach ($pcas_score_array as $pcas_score) {
  //echo '<br/>';
