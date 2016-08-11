@@ -379,6 +379,10 @@ $pcas_aspect_array['j'] = 0;
 foreach ($pcas_score_array as $pcas_score) {
  //echo '<br/>';
  if (sizeof($pcas_score) > 1) {
+
+$response_val = PcasResponseMap::find()->andWHere(['item' => $result_var->identifier])->One();
+echo $response_val->choice_1;
+  /*
  $first_row = PcasResponseMap::find()->andWHere(['item' => $pcas_score['choice_1']])->One();
  $second_row = PcasResponseMap::find()->andWHere(['item' => $pcas_score['choice_2']])->One();
  //print_r($first_row);
@@ -392,13 +396,14 @@ foreach ($pcas_score_array as $pcas_score) {
  } else {
   $pcas_aspect_array[$second_row->choice_2] = 1;
  }
+ */
 } else {
  echo '<br/>WARNING : ADA SOAL PCAS NOT ANSWERED';
 }
 }
 echo '<hr/>';
 $total_cfit_scaled = ScaleRef::find()->andWhere(['scale_name' => 'cfit-to-6'])->andWhere(['unscaled' => $total_cfit])->One();
-echo '<pre>CFIT total unscaled = '.$total_cfit.'<br/>scaled = ';// . $total_cfit_scaled->scaled . '<br/>';
+echo '<pre>CFIT total unscaled = '.$total_cfit.'<br/>scaled = ' . $total_cfit_scaled->scaled . '<br/>';
 print_r($cfit_score_array);
 
 
