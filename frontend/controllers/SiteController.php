@@ -452,7 +452,7 @@ $grafik = PcasGrafikRef::find()->andWhere(['di' => $di])
 if(sizeof($grafik > 0)) {
  echo '<br/># matching grafik : ' . sizeof($grafik) . ' ( ' .$grafik[0]->grafik.')';
  $ipa_values = PcasIpaRef::findOne($grafik[0]->grafik);
- print_r($ipa_values);
+ //print_r($ipa_values);
 } else {
  echo 'TIDAK ADA MATCHING GRAFIK';
 }
@@ -748,7 +748,7 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
      $d_pos =1;
      $i_pos =0;
      $s_pos=0;
-     $c_pos=1;
+     $c_pos=0;
 
      $grafik = PcasGrafikRef::find()->andWhere(['di' => $di])
      ->andWhere(['ds' => $ds])
