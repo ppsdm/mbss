@@ -554,17 +554,6 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
     public function actionPrint($id)
     {
 
-
-
-
-
-
-
-
-
-
-
-
      $tao_model = Models::find()->andWhere(['modelid' => '1'])->One();
      $result_storage = ResultsStorage::find()->andWhere(['result_id' => $tao_model->modeluri . 'i'. $id])->One();
      $result_rdf = $tao_model->modeluri . 'i'. $id;
@@ -577,7 +566,7 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
      if(!isset($model)) {
       $model = new UserExt;
      }
-
+       $total_cfit = 0;
      $items = [$result_rdf .".item-3.0",$result_rdf .".item-5.0",$result_rdf .".item-8.0",$result_rdf .".item-10.0"];
 
      //$items = ['http://127.0.0.1:8090/tao/ppsdm.rdf#i147076498436978.item-3.0','http://127.0.0.1:8090/tao/ppsdm.rdf#i147076498436978.item-1.0'];
@@ -621,7 +610,7 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
      $valuestring = substr($result_var->value, $strpos);
      $exploded_result_var = explode(';',$valuestring);
        $index = 0;
-       $total_cfit = 0;
+
      foreach($exploded_result_var as $singular_result_var) {
 
        $ret = explode(':', $singular_result_var);
