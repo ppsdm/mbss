@@ -742,13 +742,26 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
      $disc2_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-c'])->andWhere(['unscaled' => $pcas_aspect_array['h']])->One();
      $disc3_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-c'])->andWhere(['unscaled' => ($pcas_aspect_array['g'] - $pcas_aspect_array['h'])])->One();
 
+if($disc3_d->scaled > $disc3_i->scaled) {$di = '>';} else if($disc3_d->scaled < $disc3_i->scaled) {$di = '<';} else {$di = '=';}
 
-     $di = '>';
-     $ds = '>';
-     $dc = '>';
-     $is = '=';
-     $ic = '>';
-     $sc = '>';
+if($disc3_d->scaled > $disc3_s->scaled) {$ds = '>';} else if($disc3_d->scaled < $disc3_s->scaled) {$ds = '<';} else {$ds = '=';}
+
+if($disc3_d->scaled > $disc3_c->scaled) {$dc = '>';} else if($disc3_d->scaled < $disc3_c->scaled) {$dc = '<';} else {$dc = '=';}
+
+if($disc3_i->scaled > $disc3_s->scaled) {$is = '>';} else if($disc3_i->scaled < $disc3_s->scaled) {$is = '<';} else {$is = '=';}
+
+if($disc3_i->scaled > $disc3_c->scaled) {$ic = '>';} else if($disc3_i->scaled < $disc3_c->scaled) {$ic = '<';} else {$ic = '=';}
+
+if($disc3_s->scaled > $disc3_c->scaled) {$sc = '>';} else if($disc3_s->scaled < $disc3_c->scaled) {$sc = '<';} else {$sc = '=';}
+
+
+
+     //$di = '>';
+     //$ds = '>';
+     //$dc = '>';
+     //$is = '=';
+     //$ic = '>';
+     //$sc = '>';
      $d_pos =1;
      $i_pos =0;
      $s_pos=0;
