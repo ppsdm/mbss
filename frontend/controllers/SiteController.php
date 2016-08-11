@@ -375,18 +375,38 @@ $pcas_aspect_array['h'] = 0;
 $pcas_aspect_array['i'] = 0;
 $pcas_aspect_array['j'] = 0;
 
+echo '<pre>';
 print_r($pcas_score_array);
 
-foreach ($pcas_score_array as $pcas_score) {
+foreach ($pcas_score_array as $key => $item) {
  //echo '<br/>';
- if (sizeof($pcas_score) > 1) {
+ //print_r($key);
+ if (sizeof($item) > 1) {
 
-$response_val = PcasResponseMap::find()->andWHere(['item' => $result_var->identifier])->One();
-//echo $result_var->identifier;
-//echo 'size: ' . sizeof($response_val);
-  /*
- $first_row = PcasResponseMap::find()->andWHere(['item' => $pcas_score['choice_1']])->One();
- $second_row = PcasResponseMap::find()->andWHere(['item' => $pcas_score['choice_2']])->One();
+$response_val = PcasResponseMap::find()->andWHere(['item' => $key])->One();
+//echo $pcas_score;
+echo '<br/>' .$key.' size: ' . sizeof($response_val);
+
+ $mapping = PcasResponseMap::find()->andWHere(['item' => $key])->One();
+ //$second_row = PcasResponseMap::find()->andWHere(['item' => $item['choice_2']])->One();
+//echo '<br/>first row options = ' . $mapping->choice_1;
+//echo '<br/>second row options = ' . $mapping->choice_2;
+//echo '<br/>first row value = ' . $item['choice_1'];
+//echo '<br/>second row value = ' . $item['choice_2'];
+
+$first_row_selection = (str_replace('choice_','',$item['choice_1'])) - 3;
+$second_row_selection =  (str_replace('choice_','',$item['choice_2'])) - 3;
+
+$first_row_disc_value = explode(',',$mapping->choice_1)[$first_row_selection];
+$second_row_disc_value = explode(',',$mapping->choice_2)[$second_row_selection];
+
+//echo '<br/>first row : ' . $first_row_disc_value;
+//echo '<br/>second row : ' . $second_row_disc_value;
+ $pcas_aspect_array[$first_row_disc_value]++;
+  $pcas_aspect_array[$second_row_disc_value]++;
+
+
+ /*
  //print_r($first_row);
  if (isset($pcas_aspect_array[$first_row->choice_1])) {
   $pcas_aspect_array[$first_row->choice_1]++;
@@ -403,6 +423,7 @@ $response_val = PcasResponseMap::find()->andWHere(['item' => $result_var->identi
  echo '<br/>WARNING : ADA SOAL PCAS NOT ANSWERED';
 }
 }
+echo 'sasafdadadsa</pre>';
 echo '<hr/>';
 $total_cfit_scaled = ScaleRef::find()->andWhere(['scale_name' => 'cfit-to-6'])->andWhere(['unscaled' => $total_cfit])->One();
 echo '<pre>CFIT total unscaled = '.$total_cfit.'<br/>scaled = ' . $total_cfit_scaled->scaled . '<br/>';
