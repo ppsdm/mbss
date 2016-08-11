@@ -381,7 +381,8 @@ foreach ($pcas_score_array as $pcas_score) {
  if (sizeof($pcas_score) > 1) {
 
 $response_val = PcasResponseMap::find()->andWHere(['item' => $result_var->identifier])->One();
-echo $response_val->choice_1;
+echo $result_var->identifier;
+echo 'size: ' . sizeof($response_val);
   /*
  $first_row = PcasResponseMap::find()->andWHere(['item' => $pcas_score['choice_1']])->One();
  $second_row = PcasResponseMap::find()->andWHere(['item' => $pcas_score['choice_2']])->One();
