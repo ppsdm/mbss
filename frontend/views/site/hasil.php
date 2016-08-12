@@ -31,7 +31,7 @@ use Yii\helpers\Url;
   foreach ($results as $result) {
 
 $result_statement = Statements::find()->andWhere(['predicate'=> 'http://www.w3.org/2000/01/rdf-schema#label'])->andWhere(['subject' => $result->result_id ])->One();
-     echo  '<div class="row"><a href="result/'.explode("#i",$result->result_id)[1].'">';
+     echo  '<div class="row"><a href="print/'.explode("#i",$result->result_id)[1].'">';
      echo yii\bootstrap\Button::widget([
       'options' => ['class' => 'btn-lg'],
       'label' => $result_statement->object
