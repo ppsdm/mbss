@@ -315,9 +315,7 @@ echo '</br>';
      $pcas_score_array = [];
      foreach ($pcas_results as $result_var) {
 
-     //echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ';// . $result_var->value;
      if (strpos($result_var->identifier, 'RESPONSE') !== false) {
-          //echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ';// . $result_var->value;
           $strpos = strpos($result_var->value, '{');
          $valuestring = substr($result_var->value, $strpos);
           $exploded_result_var = explode(';',$valuestring);
@@ -334,23 +332,13 @@ echo '</br>';
                   $trimmed_items = explode(";", $trimmed);
                   $trimmed_array = [];
                   foreach($trimmed_items as $trimmed_item) {
-                   //echo '<br/>*****';
                    $trimmed_trimmed = trim($trimmed_item, " ");
                    $trimmed_trimmed_items = explode(" ", $trimmed_trimmed);
-                   //echo '='. $trimmed_trimmed;
-                   //echo '=>><br/>';
-                    //echo  $trimmed_trimmed_items[0];
-                    //echo sizeof($trimmed_trimmed_items);
                    if (sizeof($trimmed_trimmed_items) > 1) {
-
                    $trimmed_array[$trimmed_trimmed_items[0]] = $trimmed_trimmed_items[1];
-                   //echo $trimmed_trimmed_items[1];
-                   //echo '<br/>';
                   }
-                   //print_r($trimmed_array);
+                  }
 
-                  }
-                // array_push($pcas_score_array, $trimmed_array);
                 $pcas_score_array[$result_var->identifier] = $trimmed_array;
                 }
              }
@@ -360,7 +348,6 @@ echo '</br>';
 
      }
     }
-
 
 echo '<hr/>';
 $pcas_aspect_array = [];
@@ -447,25 +434,13 @@ echo '<br/>scale-40 disc 3 c : ' . $disc3_c->scaled;
 
 
 if($disc3_d->scaled > $disc3_i->scaled) {$di = '>';} else if($disc3_d->scaled < $disc3_i->scaled) {$di = '<';} else {$di = '=';}
-
 if($disc3_d->scaled > $disc3_s->scaled) {$ds = '>';} else if($disc3_d->scaled < $disc3_s->scaled) {$ds = '<';} else {$ds = '=';}
-
 if($disc3_d->scaled > $disc3_c->scaled) {$dc = '>';} else if($disc3_d->scaled < $disc3_c->scaled) {$dc = '<';} else {$dc = '=';}
-
 if($disc3_i->scaled > $disc3_s->scaled) {$is = '>';} else if($disc3_i->scaled < $disc3_s->scaled) {$is = '<';} else {$is = '=';}
-
 if($disc3_i->scaled > $disc3_c->scaled) {$ic = '>';} else if($disc3_i->scaled < $disc3_c->scaled) {$ic = '<';} else {$ic = '=';}
-
 if($disc3_s->scaled > $disc3_c->scaled) {$sc = '>';} else if($disc3_s->scaled < $disc3_c->scaled) {$sc = '<';} else {$sc = '=';}
 
 
-
-     //$di = '>';
-     //$ds = '>';
-     //$dc = '>';
-     //$is = '=';
-     //$ic = '>';
-     //$sc = '>';
      $d_pos = ($disc3_d->scaled >= 20) ? '1':'0';
      $i_pos = ($disc3_i->scaled >= 20) ? '1':'0';
      $s_pos= ($disc3_s->scaled >= 20) ? '1':'0';
@@ -498,7 +473,6 @@ if(sizeof($grafik) == 1) {
  echo '<br/>TIDAK ADA MATCHING GRAFIK';
  $ipa_values = new PcasIpaRef;
 }
-
 
 
 echo '</pre>';
@@ -562,16 +536,10 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
                         print_r($model2->getErrors());
                        }
 
-
           //    echo '</pre>';
              } else {
              }
-
-
      return $this->render('datapeserta', ['model' => $model, 'model2' => $model2]);
-
-
-
     }
 
 
@@ -648,28 +616,22 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
          $index++;
          }
      }
-
      }
 
-
      $pcas_item = [$result_rdf .".item-11.0"];
-      //$items = ['http://127.0.0.1:8090/tao/ppsdm.rdf#i147076498436978.item-3.0','http://127.0.0.1:8090/tao/ppsdm.rdf#i147076498436978.item-1.0'];
-     //$result_vars = VariablesStorage::find()->andWhere(['results_result_id' => $result->result_id])->groupBy('item, identifier')->All();
+
      $pcas_results = VariablesStorage::find()->andWhere(['results_result_id' => $result_rdf])
      ->andWhere(['in','call_id_item',$pcas_item])
      //->groupBy('item')
      ->groupBy('item, identifier')
      ->orderBy('variable_id ASC')
-     //->OrWhere(['identifier' => 'SCORE'])
-       //  ->OrWhere(['identifier' => 'RESPONSE'])
-     //->OrWhere(['identifier' => 'LtiOutcome'])
      ->All();
+
+
      $pcas_score_array = [];
      foreach ($pcas_results as $result_var) {
 
-     //echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ';// . $result_var->value;
      if (strpos($result_var->identifier, 'RESPONSE') !== false) {
-          //echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ';// . $result_var->value;
           $strpos = strpos($result_var->value, '{');
          $valuestring = substr($result_var->value, $strpos);
           $exploded_result_var = explode(';',$valuestring);
@@ -680,26 +642,20 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
              if ((sizeof($ret) > 2) && ($ret[2] == '"candidateResponse"')) {
 
                  $value = explode(':', $exploded_result_var[$index + 1])[2];
-
+              //   echo '<br/>' . $result_var->call_id_item .'('.$result_var->identifier. ') = ' . base64_decode($value);
                  if ($result_var->identifier != 'RESPONSE') {
                   $trimmed = trim(base64_decode($value), "[]");
                   $trimmed_items = explode(";", $trimmed);
                   $trimmed_array = [];
                   foreach($trimmed_items as $trimmed_item) {
-                   //echo '<br/>*****';
                    $trimmed_trimmed = trim($trimmed_item, " ");
                    $trimmed_trimmed_items = explode(" ", $trimmed_trimmed);
-
                    if (sizeof($trimmed_trimmed_items) > 1) {
-
                    $trimmed_array[$trimmed_trimmed_items[0]] = $trimmed_trimmed_items[1];
-                   //echo $trimmed_trimmed_items[1];
-                   //echo '<br/>';
                   }
-                   //print_r($trimmed_array);
+                  }
 
-                  }
-                 array_push($pcas_score_array, $trimmed_array);
+                $pcas_score_array[$result_var->identifier] = $trimmed_array;
                 }
              }
 
@@ -707,7 +663,8 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
                }
 
      }
-     }
+    }
+
 
      $pcas_aspect_array = [];
      $pcas_aspect_array['a'] = 0;
@@ -722,35 +679,34 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
      $pcas_aspect_array['j'] = 0;
 
      foreach ($pcas_score_array as $key => $item) {
-      //echo '<br/>';
-      //print_r($key);
+
       if (sizeof($item) > 1) {
 
+
      $response_val = PcasResponseMap::find()->andWHere(['item' => $key])->One();
-     //echo $pcas_score;
-     echo '<br/>' .$key.' size: ' . sizeof($response_val);
+   //  echo '<br/>' .$key.' size: ' . sizeof($response_val);
 
       $mapping = PcasResponseMap::find()->andWHere(['item' => $key])->One();
+
 
 
      $first_row_selection = (str_replace('choice_','',$item['choice_1'])) - 3;
      $second_row_selection =  (str_replace('choice_','',$item['choice_2'])) - 3;
 
+
      $first_row_disc_value = explode(',',$mapping->choice_1)[$first_row_selection];
-     $second_row_disc_value = explode(',',$mapping->choice_2)[$second_row_selection];
+   $second_row_disc_value = explode(',',$mapping->choice_2)[$second_row_selection];
 
       $pcas_aspect_array[$first_row_disc_value]++;
        $pcas_aspect_array[$second_row_disc_value]++;
 
+
      } else {
-      echo '<br/>WARNING : ADA SOAL PCAS NOT ANSWERED';
+    //  echo '<br/>WARNING : ADA SOAL PCAS NOT ANSWERED';
      }
      }
 
      $total_cfit_scaled = ScaleRef::find()->andWhere(['scale_name' => 'cfit-to-6'])->andWhere(['unscaled' => $total_cfit])->One();
-
-
-
 
 
      $disc1_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-d'])->andWhere(['<=','unscaled',$pcas_aspect_array['a']])->orderBy('unscaled DESC')->One();
@@ -770,25 +726,13 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
      $disc3_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-c'])->andWhere(['<=','unscaled',($pcas_aspect_array['g'] - $pcas_aspect_array['h'])])->orderBy('unscaled DESC')->One();
 
 if($disc3_d->scaled > $disc3_i->scaled) {$di = '>';} else if($disc3_d->scaled < $disc3_i->scaled) {$di = '<';} else {$di = '=';}
-
 if($disc3_d->scaled > $disc3_s->scaled) {$ds = '>';} else if($disc3_d->scaled < $disc3_s->scaled) {$ds = '<';} else {$ds = '=';}
-
 if($disc3_d->scaled > $disc3_c->scaled) {$dc = '>';} else if($disc3_d->scaled < $disc3_c->scaled) {$dc = '<';} else {$dc = '=';}
-
 if($disc3_i->scaled > $disc3_s->scaled) {$is = '>';} else if($disc3_i->scaled < $disc3_s->scaled) {$is = '<';} else {$is = '=';}
-
 if($disc3_i->scaled > $disc3_c->scaled) {$ic = '>';} else if($disc3_i->scaled < $disc3_c->scaled) {$ic = '<';} else {$ic = '=';}
-
 if($disc3_s->scaled > $disc3_c->scaled) {$sc = '>';} else if($disc3_s->scaled < $disc3_c->scaled) {$sc = '<';} else {$sc = '=';}
 
 
-
-     //$di = '>';
-     //$ds = '>';
-     //$dc = '>';
-     //$is = '=';
-     //$ic = '>';
-     //$sc = '>';
      $d_pos = ($disc3_d->scaled >= 20) ? '1':'0';
      $i_pos = ($disc3_i->scaled >= 20) ? '1':'0';
      $s_pos= ($disc3_s->scaled >= 20) ? '1':'0';
@@ -806,8 +750,7 @@ if($disc3_s->scaled > $disc3_c->scaled) {$sc = '>';} else if($disc3_s->scaled < 
      ->andWhere(['c-pos' => $c_pos])->All();
 
      if(sizeof($grafik) == 1) {
-      //echo 'size' .  sizeof($grafik);
-      //echo '<br/># matching grafik : ' . sizeof($grafik) . ' ( ' .$grafik[0]->grafik.')';
+
       $ipa_values = PcasIpaRef::findOne($grafik[0]->grafik);
       //print_r($ipa_values);
      } else if(sizeof($grafik) > 1) {
