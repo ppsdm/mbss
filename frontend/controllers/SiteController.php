@@ -168,7 +168,7 @@ class SiteController extends Controller
                     //return $this->goHome();
                     $this->redirect(
 
-                    'http://127.0.0.1:8090/ppsdm/tao/tao/Users/ppsdmAdd?' . http_build_query(['param' => $model])
+                    'http://127.0.0.1:8090/ppsdm/tao/tao/Users/ppsdmAdd?' . http_build_query(['user' => $user])
 
                     /*, [
                     'data'=>[
