@@ -491,9 +491,11 @@ foreach($grafik as $graf) {
 
  array_push($grafs, $graf->grafik);
 }
- //$grafs = ['139', '139.a'];
+ $grafs2 = ['139', '139.a'];
 
  print_r($grafs);
+ echo '<br/>';
+  print_r($grafs2);
 
 
   $ranged_grafik = PcasRangeMap::find()
