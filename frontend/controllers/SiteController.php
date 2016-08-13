@@ -486,12 +486,20 @@ if(sizeof($grafik) == 1) {
 } else if(sizeof($grafik) > 1) {
  echo '<br/>MULTIPLE GRAFIK<br/>';
 
- $grafs = ['139.1', '139'];
+ $grafs = ['139', '139.a'];
 
 
   $ranged_grafik = PcasRangeMap::find()
   ->andWhere(['in', 'grafik', $grafs])
- // ->andWhere(['between', $disc3_d->scaled, 'dmin', 'dmax'])
+  ->andWhere(['>', 'dmin', $disc3_d->scaled])
+    ->andWhere(['<', 'dmax', $disc3_d->scaled])
+    ->andWhere(['>', 'imin', $disc3_i->scaled])
+      ->andWhere(['<', 'imax', $disc3_i->scaled])
+      ->andWhere(['>', 'smin', $disc3_s->scaled])
+        ->andWhere(['<', 'smax', $disc3_s->scaled])
+        ->andWhere(['>', 'cmin', $disc3_c->scaled])
+          ->andWhere(['<', 'cmax', $disc3_c->scaled])
+
    // ->andWhere(['between', $disc3_i->scaled, 'imin', 'imax'])
      // ->andWhere(['between', $disc3_s->scaled, 'smin', 'smax'])
        // ->andWhere(['between', $disc3_c->scaled, 'cmin', 'cmax'])
