@@ -165,22 +165,9 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
-                    //return $this->goHome();
-                    $this->redirect(
-
-                    'http://127.0.0.1:8090/ppsdm/tao/tao/Users/ppsdmAdd?' . http_build_query(['user' => $user])
-
-                    /*, [
-                    'data'=>[
-                    'method' => 'post',
-                    'confirm' => 'Are you sure?',
-                    'params'=>['MyParam1'=>'100', 'MyParam2'=>true],
-                    ]
-
-                   ]
-*/
-
-                   );
+                    return $this->goHome();
+                    //print_r($user);
+                    //$this->redirect('http://127.0.0.1:8090/ppsdm/tao/tao/Users/ppsdmAdd?' . http_build_query(['param' => $user]));
 
                 }
             }
