@@ -806,12 +806,52 @@ if($disc3_s->scaled > $disc3_c->scaled) {$sc = '>';} else if($disc3_s->scaled < 
      ->andWhere(['c-pos' => $c_pos])->All();
 
      if(sizeof($grafik) == 1) {
-
+   //   echo 'size' .  sizeof($grafik);
+     // echo '<br/># matching grafik : ' . sizeof($grafik) . ' ( ' .$grafik[0]->grafik.')';
       $ipa_values = PcasIpaRef::findOne($grafik[0]->grafik);
       //print_r($ipa_values);
      } else if(sizeof($grafik) > 1) {
-     // echo '<br/>MULTIPLE GRAFIK';
-      $ipa_values = new PcasIpaRef;
+      //echo '<br/>MULTIPLE GRAFIK<br/>';
+
+     $grafs = [];
+     foreach($grafik as $graf) {
+
+      array_push($grafs, $graf->grafik);
+     }
+     /*
+      $grafs2 = ['139', '139.a'];
+
+      print_r($grafs);
+      echo '<br/>';
+       print_r($grafs2);
+       */
+
+
+       $ranged_grafik = PcasRangeMap::find()
+       ->andWhere(['in', 'grafik', $grafs])
+       ->andWhere(['<', 'dmin', $disc3_d->scaled])
+         ->andWhere(['>', 'dmax', $disc3_d->scaled])
+         ->andWhere(['<', 'imin', $disc3_i->scaled])
+           ->andWhere(['>', 'imax', $disc3_i->scaled])
+           ->andWhere(['<', 'smin', $disc3_s->scaled])
+             ->andWhere(['>', 'smax', $disc3_s->scaled])
+             ->andWhere(['<', 'cmin', $disc3_c->scaled])
+               ->andWhere(['>', 'cmax', $disc3_c->scaled])
+
+
+       ->All();
+     if(sizeof($ranged_grafik) == 1) {
+      //echo '<br/># matching grafik :  ' .$ranged_grafik[0]->grafik.')';
+      $ipa_values = PcasIpaRef::findOne($ranged_grafik[0]->grafik);
+     } else if(sizeof($ranged_grafik) > 1) {
+      //echo '<br/>MULTIPLE RANGE GRAFIK<br/>';
+     } else {
+      //echo '<br/>TIDAK ADA MATCHING RANGE GRAFIK';
+
+
+     }
+     //print_r($ranged_grafik);
+
      } else {
      // echo '<br/>TIDAK ADA MATCHING GRAFIK';
       $ipa_values = new PcasIpaRef;
