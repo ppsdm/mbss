@@ -491,11 +491,13 @@ foreach($grafik as $graf) {
 
  array_push($grafs, $graf->grafik);
 }
+/*
  $grafs2 = ['139', '139.a'];
 
  print_r($grafs);
  echo '<br/>';
   print_r($grafs2);
+  */
 
 
   $ranged_grafik = PcasRangeMap::find()
@@ -512,7 +514,8 @@ foreach($grafik as $graf) {
 
   ->All();
 if(sizeof($ranged_grafik) == 1) {
-
+ echo '<br/># matching grafik :  ' .$ranged_grafik[0]->grafik.')';
+ $ipa_values = PcasIpaRef::findOne($ranged_grafik[0]->grafik);
 } else if(sizeof($ranged_grafik) > 1) {
  echo '<br/>MULTIPLE RANGE GRAFIK<br/>';
 } else {
