@@ -486,7 +486,12 @@ if(sizeof($grafik) == 1) {
 } else if(sizeof($grafik) > 1) {
  echo '<br/>MULTIPLE GRAFIK<br/>';
 
- $grafs = ['139', '139.a'];
+$grafs = [];
+foreach($grafik as $graf) {
+
+ array_push($grafs, $graf->grafik);
+}
+ //$grafs = ['139', '139.a']; 
 
 
   $ranged_grafik = PcasRangeMap::find()
@@ -500,12 +505,18 @@ if(sizeof($grafik) == 1) {
         ->andWhere(['<', 'cmin', $disc3_c->scaled])
           ->andWhere(['>', 'cmax', $disc3_c->scaled])
 
-   // ->andWhere(['between', $disc3_i->scaled, 'imin', 'imax'])
-     // ->andWhere(['between', $disc3_s->scaled, 'smin', 'smax'])
-       // ->andWhere(['between', $disc3_c->scaled, 'cmin', 'cmax'])
-  ->All();
 
-print_r($ranged_grafik);
+  ->All();
+if(sizeof($ranged_grafik) == 1) {
+
+} else if(sizeof($ranged_grafik) > 1) {
+ echo '<br/>MULTIPLE RANGE GRAFIK<br/>';
+} else {
+ echo '<br/>TIDAK ADA MATCHING RANGE GRAFIK';
+
+
+}
+//print_r($ranged_grafik);
 
 } else {
  echo '<br/>TIDAK ADA MATCHING GRAFIK';
