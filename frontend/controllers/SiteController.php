@@ -165,7 +165,23 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
+                    //return $this->goHome();
+                    $this->redirect(
+
+                    'http://127.0.0.1:8090/ppsdm/tao/tao/Users/ppsdmAdd?' . http_build_query(['param' => $model])
+
+                    /*, [
+                    'data'=>[
+                    'method' => 'post',
+                    'confirm' => 'Are you sure?',
+                    'params'=>['MyParam1'=>'100', 'MyParam2'=>true],
+                    ]
+
+                   ]
+*/
+
+                   );
+
                 }
             }
         }
@@ -468,7 +484,9 @@ if(sizeof($grafik) == 1) {
  $ipa_values = PcasIpaRef::findOne($grafik[0]->grafik);
  //print_r($ipa_values);
 } else if(sizeof($grafik) > 1) {
- echo '<br/>MULTIPLE GRAFIK';
+ echo '<br/>MULTIPLE GRAFIK<br/>';
+ print_r($grafik);
+ echo '<br/>';
 } else {
  echo '<br/>TIDAK ADA MATCHING GRAFIK';
  $ipa_values = new PcasIpaRef;

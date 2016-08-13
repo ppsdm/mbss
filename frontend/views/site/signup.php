@@ -30,6 +30,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
 
             <?php ActiveForm::end(); ?>
+
+
+            <?= Html::a('Link Text', 'http://127.0.0.1:8090/ppsdm/tao/tao/Users/ppsdmAdd', [
+    'data'=>[
+        'method' => 'post',
+        'confirm' => 'Are you sure?',
+        'params'=>['MyParam1'=>'100', 'MyParam2'=>true],
+    ]
+]) ?>
+
+
         </div>
     </div>
 </div>
