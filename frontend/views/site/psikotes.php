@@ -156,6 +156,12 @@ if ($rating10 == 5 ){ $rat105 = "grey";} else { $rat105 = "";}
 if ($rating10 == 6 ){ $rat106 = "grey";} else { $rat106 = "";}
 if ($rating10 == 7 ){ $rat107 = "grey";} else { $rat107 = "";}
 
+if ($total_pribadi > 399 ){ $bcg1 = "grey";} else { $bcg1 = "";}
+if ($total_pribadi > 349 && $total_pribadi < 400 ){ $bcg2 = "grey";} else { $bcg2 = "";}
+if ($total_pribadi > 300 && $total_pribadi < 350 ){ $bcg3 = "grey";} else { $bcg3 = "";}
+if ($total_pribadi < 300 ){ $bcg4 = "grey";} else { $bcg4 = "";}
+
+
 $namaaspek1 = "<B>GENERAL INTELLIGENCE</B><BR> Kemampuan dalam menangkap, mengolah, mencerna informasi,mengolah, mencerna informasi,mengolah, mencerna informasi, kemudian memakai atau menggunakannya sesuai dengan kebutuhan.";
 $namaaspek2 = "<B>ACHIEVEMENT MOTIVATION</B><BR> Keinginan atau kekuatan yang mendorong diri untuk selalu berprestasi tinggi dan tidak cepat merasa puas dengan apa yang sudah dihasilkan.";
 $namaaspek3 = "<B>INTERPERSONAL UNDERSTANDING</B><BR> Kepekaan memahami permasalahan dan kondisi orang lain. Serta kemampuan menghadapi orang secara efektif dalam berbagai situasi.";
@@ -710,28 +716,28 @@ $tbl = <<<EOD
                 <td bgcolor="#bebebe"  align="center" width="20%"><B>SKALA</B></td>
             </tr>
             <tr>
-                <td width="10%" align="center">K-2</td>
-                <td align="left" width="20%">BAIK</td>
-                <td width="50%">Dapat Disarankan</td>
-                <td width="20%" align="center">400 - 449</td>
+                <td bgcolor="$bcg1" width="10%" align="center">K-2</td>
+                <td bgcolor="$bcg1" align="left" width="20%">BAIK</td>
+                <td bgcolor="$bcg1" width="50%">Dapat Disarankan</td>
+                <td bgcolor="$bcg1" width="20%" align="center">400 - 449</td>
             </tr>
            <tr>
-                <td width="10%" align="center">K-3</td>
-                <td align="left" width="20%">CUKUP</td>
-                <td width="50%">Masih Dapat Disarankan</td>
-                <td width="20%" align="center">350 - 399</td>
+                <td bgcolor="$bcg2" width="10%" align="center">K-3</td>
+                <td bgcolor="$bcg2" align="left" width="20%">CUKUP</td>
+                <td bgcolor="$bcg2" width="50%">Masih Dapat Disarankan</td>
+                <td bgcolor="$bcg2" width="20%" align="center">350 - 399</td>
             </tr>
             <tr>
-                <td width="10%" align="center">K-4</td>
-                <td align="left" width="20%">KURANG</td>
-                <td width="50%">Kurang Dapat Disarankan</td>
-                <td width="20%" align="center">300 - 349</td>
+                <td bgcolor="$bcg3" width="10%" align="center">K-4</td>
+                <td bgcolor="$bcg3" align="left" width="20%">KURANG</td>
+                <td bgcolor="$bcg3" width="50%">Kurang Dapat Disarankan</td>
+                <td bgcolor="$bcg3" width="20%" align="center">300 - 349</td>
             </tr>
             <tr>
-                <td width="10%" align="center">K-5</td>
-                <td align="left" width="20%">BURUK</td>
-                <td width="50%">Tidak Dapat Disarankan</td>
-                <td width="20%" align="center">299 - Ke bawah</td>
+                <td bgcolor="$bcg4" width="10%" align="center">K-5</td>
+                <td bgcolor="$bcg4" align="left" width="20%">BURUK</td>
+                <td bgcolor="$bcg4" width="50%">Tidak Dapat Disarankan</td>
+                <td bgcolor="$bcg4" width="20%" align="center">299 - Ke bawah</td>
             </tr>
        </table>
 
