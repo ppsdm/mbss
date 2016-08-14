@@ -26,6 +26,10 @@ use app\models\tao\VariablesStorage;
 use yii\helpers\Url;
 use yii\helpers\Html;
 
+use linslin\yii2\curl;
+
+
+
 /**
  * Site controller
  */
@@ -161,21 +165,35 @@ class SiteController extends Controller
      */
     public function actionSignup()
     {
+
+     $user = [];
+     $user['user'] = 'reno';
+
+
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
+
+                              $this->redirect('http://127.0.0.1:8090/ppsdm/tao/tao/Users/ppsdmAdd?' . http_build_query(['param' => $model]));
+         /*echo '<pre>';
+         print_r($model);
+         echo '</pre>';
+
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
                     return $this->goHome();
+
                     //print_r($user);
-                    //$this->redirect('http://127.0.0.1:8090/ppsdm/tao/tao/Users/ppsdmAdd?' . http_build_query(['param' => $user]));
+
 
                 }
             }
+            */
         }
 
         return $this->render('signup', [
             'model' => $model,
         ]);
+
     }
 
     /**
