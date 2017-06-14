@@ -167,16 +167,16 @@ class SiteController extends Controller
     {
 
      $user = [];
-     $user['user'] = 'reno';
+     //$user['user'] = 'reno';
 
 
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
 
-                              $this->redirect('http://127.0.0.1:8090/ppsdm/tao/tao/Users/ppsdmAdd?' . http_build_query(['param' => $model]));
-         /*echo '<pre>';
-         print_r($model);
-         echo '</pre>';
+                        //      $this->redirect('http://127.0.0.1:8090/ppsdm/tao/tao/Users/ppsdmAdd?' . http_build_query(['param' => $model]));
+         //echo '<pre>';
+         //print_r($model);
+         //echo '</pre>';
 
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
@@ -187,7 +187,7 @@ class SiteController extends Controller
 
                 }
             }
-            */
+
         }
 
         return $this->render('signup', [
@@ -347,6 +347,7 @@ echo '</br>';
              if ((sizeof($ret) > 2) && ($ret[2] == '"candidateResponse"')) {
 
                  $value = explode(':', $exploded_result_var[$index + 1])[2];
+
                  echo '<br/>' . $result_var->call_id_item .'('.$result_var->identifier. ') = ' . base64_decode($value);
                  if ($result_var->identifier != 'RESPONSE') {
                   $trimmed = trim(base64_decode($value), "[]");
@@ -357,10 +358,25 @@ echo '</br>';
                    $trimmed_trimmed_items = explode(" ", $trimmed_trimmed);
                    if (sizeof($trimmed_trimmed_items) > 1) {
                    $trimmed_array[$trimmed_trimmed_items[0]] = $trimmed_trimmed_items[1];
+                   //  $trimmed_array[$trimmed_trimmed_items[1]] = $trimmed_trimmed_items[1];
                   }
                   }
 
                 $pcas_score_array[$result_var->identifier] = $trimmed_array;
+                $mapping = PcasResponseMap::find()->andWHere(['item' => $result_var->identifier])->One();
+                $satu_row_selection = (str_replace('choice_','',$trimmed_array['choice_1'])) - 3;
+                $dua_row_selection =  (str_replace('choice_','',$trimmed_array['choice_2'])) - 3;
+
+                echo '============>';
+                //print_r($mapping);
+                //echo '>>';
+                //print_r($trimmed_array);
+                //echo $satu_row_selection;
+                //echo '<<';
+                //echo $dua_row_selection;
+                echo explode(',',$mapping->choice_1)[$satu_row_selection];
+                echo ' : ';
+                 echo explode(',',$mapping->choice_2)[$dua_row_selection];
                 }
              }
 
@@ -411,7 +427,7 @@ $second_row_disc_value = explode(',',$mapping->choice_2)[$second_row_selection];
  echo '<br/>WARNING : ADA SOAL PCAS NOT ANSWERED';
 }
 }
-echo 'sasafdadadsa</pre>';
+echo '</pre>';
 echo '<hr/>';
 $total_cfit_scaled = ScaleRef::find()->andWhere(['scale_name' => 'cfit-to-6'])->andWhere(['unscaled' => $total_cfit])->One();
 echo '<pre>CFIT total unscaled = '.$total_cfit.'<br/>scaled = ' . $total_cfit_scaled->scaled . '<br/>';
@@ -493,7 +509,7 @@ if(sizeof($grafik) == 1) {
 
 $grafs = [];
 foreach($grafik as $graf) {
-
+echo $graf->grafik . ' <br/>';
  array_push($grafs, $graf->grafik);
 }
 /*
@@ -507,14 +523,14 @@ foreach($grafik as $graf) {
 
   $ranged_grafik = PcasRangeMap::find()
   ->andWhere(['in', 'grafik', $grafs])
-  ->andWhere(['<', 'dmin', $disc3_d->scaled])
-    ->andWhere(['>', 'dmax', $disc3_d->scaled])
-    ->andWhere(['<', 'imin', $disc3_i->scaled])
-      ->andWhere(['>', 'imax', $disc3_i->scaled])
-      ->andWhere(['<', 'smin', $disc3_s->scaled])
-        ->andWhere(['>', 'smax', $disc3_s->scaled])
-        ->andWhere(['<', 'cmin', $disc3_c->scaled])
-          ->andWhere(['>', 'cmax', $disc3_c->scaled])
+  ->andWhere(['<=', 'dmin', $disc3_d->scaled])
+    ->andWhere(['>=', 'dmax', $disc3_d->scaled])
+    ->andWhere(['<=', 'imin', $disc3_i->scaled])
+      ->andWhere(['>=', 'imax', $disc3_i->scaled])
+      ->andWhere(['<=', 'smin', $disc3_s->scaled])
+        ->andWhere(['>=', 'smax', $disc3_s->scaled])
+        ->andWhere(['<=', 'cmin', $disc3_c->scaled])
+          ->andWhere(['>=', 'cmax', $disc3_c->scaled])
 
 
   ->All();
@@ -523,9 +539,14 @@ if(sizeof($ranged_grafik) == 1) {
  $ipa_values = PcasIpaRef::findOne($ranged_grafik[0]->grafik);
 } else if(sizeof($ranged_grafik) > 1) {
  echo '<br/>MULTIPLE RANGE GRAFIK<br/>';
-} else {
+ $ipa_values = new PcasIpaRef;
+ foreach($ranged_grafik as $graf) {
+ echo $graf->grafik . ' <br/>';
+  //array_push($grafs, $graf->grafik);
+ }
+}  else {
  echo '<br/>TIDAK ADA MATCHING RANGE GRAFIK';
-
+$ipa_values = new PcasIpaRef;
 
 }
 //print_r($ranged_grafik);
@@ -850,7 +871,9 @@ if($disc3_s->scaled > $disc3_c->scaled) {$sc = '>';} else if($disc3_s->scaled < 
       $ipa_values = PcasIpaRef::findOne($ranged_grafik[0]->grafik);
      } else if(sizeof($ranged_grafik) > 1) {
       //echo '<br/>MULTIPLE RANGE GRAFIK<br/>';
+         $ipa_values = new PcasIpaRef;
      } else {
+         $ipa_values = new PcasIpaRef;
       //echo '<br/>TIDAK ADA MATCHING RANGE GRAFIK';
 
 
