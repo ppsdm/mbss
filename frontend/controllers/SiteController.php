@@ -246,6 +246,735 @@ class SiteController extends Controller
     }
 
 
+    public function actionPrintmbssmanager($id)
+    {
+  $tao_model = Models::find()->andWhere(['modelid' => '1'])->One();
+     $result_storage = ResultsStorage::find()->andWhere(['result_id' => $tao_model->modeluri . 'i'. $id])->One();
+     $result_rdf = $tao_model->modeluri . 'i'. $id;
+
+     /*$result_statements = Statements::find()->andWhere(['subject' => $id])->All();*/
+     $user = Statements::find()->andWhere(['predicate' => 'http://www.tao.lu/Ontologies/generis.rdf#login'])
+     ->andWhere(['subject' => $result_storage->test_taker])
+     ->One();
+     $model = UserExt::find()->andWhere(['username' => $user->object])->One();
+     if(!isset($model)) {
+      $model = new UserExt;
+     }
+       $total_cfit = 0;
+   //  $items = [$result_rdf .".item-3.0",$result_rdf .".item-5.0",$result_rdf .".item-8.0",$result_rdf .".item-10.0"];
+
+     $items = ['APM-', 'Papikostik-', 'DISC-'];
+     $pengolah_1 = ['APM-'];
+     $pengolah_2 = ['Papikostik-'];
+     $pengolah_3 = ['DISC-'];
+
+     //$items = ['http://127.0.0.1:8090/tao/ppsdm.rdf#i147076498436978.item-3.0','http://127.0.0.1:8090/tao/ppsdm.rdf#i147076498436978.item-1.0'];
+     //$result_vars = VariablesStorage::find()->andWhere(['results_result_id' => $result->result_id])->groupBy('item, identifier')->All();
+     $result_vars = VariablesStorage::find()->andWhere(['results_result_id' => $result_rdf])
+     //->andWhere(['like','call_id_item',$items])
+     //->groupBy('item')
+     ->groupBy('item, identifier')
+     ->orderBy('variable_id ASC')
+     //->OrWhere(['identifier' => 'SCORE'])
+      //  ->OrWhere(['identifier' => 'RESPONSE'])
+     //->OrWhere(['identifier' => 'LtiOutcome'])
+     ->All();
+     $cfit_score_array = [];
+     $PM_SCORE=0;
+     $SCORE_ARRAY=[];
+     $PAPIKOSTIK_ARRAY=[];
+          $PAPIKOSTIK_ARRAY_SCALED=[];
+          $pcas_score_array = [];
+
+
+
+
+        foreach ($result_vars as $result_var) {
+
+$exist = false;
+$match = false;
+            foreach ($items as $key => $value) {
+                 if(strpos($result_var->call_id_item, $value)) {
+                    $exist = true;
+                    $match = $value;
+                 }
+            }
+
+           
+                if ($match) {
+                //     if (true) {
+         //   echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ';// . $result_var->value;
+                    //echo $match . ' ++++++++++++++++++++';
+
+  if (in_array($match,$pengolah_1)) {
+            if (strpos($result_var->identifier, 'RESPONSE') !== false) {
+                
+                 //echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ';// . $result_var->value;
+                 $strpos = strpos($result_var->value, '{');
+                $valuestring = substr($result_var->value, $strpos);
+                 $exploded_result_var = explode(';',$valuestring);
+                    $index = 0;
+                 foreach($exploded_result_var as $singular_result_var) {
+
+                    $ret = explode(':', $singular_result_var);
+                    if ((sizeof($ret) > 2) && ($ret[2] == '"candidateResponse"')) {
+
+                        $value = explode(':', $exploded_result_var[$index + 1])[2];
+                  //      echo '<br/>' . $result_var->call_id_item .'('.$result_var->identifier. ') = ' . base64_decode($value);
+                        $SCORE_ARRAY[$result_var->call_id_item]['RESPONSE'] = base64_decode($value);
+                    }
+
+                      $index++;
+                      }
+
+            }
+
+            if ($result_var->identifier == 'SCORE') {
+        //    echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ' . $result_var->value;
+
+            $strpos = strpos($result_var->value, '{');
+           $valuestring = substr($result_var->value, $strpos);
+            $exploded_result_var = explode(';',$valuestring);
+               $index = 0;
+
+            foreach($exploded_result_var as $singular_result_var) {
+
+               $ret = explode(':', $singular_result_var);
+               if ((sizeof($ret) > 2) && ($ret[2] == '"value"')) {
+
+                   $value = explode(':', $exploded_result_var[$index + 1])[2];
+            //       echo '<br/>' . $result_var->call_id_item . '('.$exploded_result_var[$index]. ')  = ' . base64_decode($value);
+                   $total_cfit = $total_cfit + base64_decode($value);
+                   array_push($cfit_score_array, base64_decode($value));
+                              $SCORE_ARRAY[$result_var->call_id_item]['SCORE'] = base64_decode($value);
+                              $PM_SCORE = $PM_SCORE + base64_decode($value);
+               }
+                 $index++;
+                 }
+            }
+            }
+
+
+            if (in_array($match,$pengolah_2)) {
+
+            if (strpos($result_var->identifier, 'KOSTIK') !== false) {
+                
+                 //echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ';// . $result_var->value;
+                 $strpos = strpos($result_var->value, '{');
+                $valuestring = substr($result_var->value, $strpos);
+                 $exploded_result_var = explode(';',$valuestring);
+                    $index = 0;
+                 foreach($exploded_result_var as $singular_result_var) {
+
+                    $ret = explode(':', $singular_result_var);
+                    if ((sizeof($ret) > 2) && ($ret[2] == '"candidateResponse"')) {
+
+                        $value = explode(':', $exploded_result_var[$index + 1])[2];
+                     //   echo '<br/>' . $result_var->call_id_item .'('.$result_var->identifier. ') = ' . base64_decode($value);
+                        $SCORE_ARRAY[$result_var->call_id_item]['RESPONSE'][$result_var->identifier] = base64_decode($value);
+                        if(isset($PAPIKOSTIK_ARRAY[strtolower(base64_decode($value)[0])]))
+                            $PAPIKOSTIK_ARRAY[strtolower(base64_decode($value)[0])] = $PAPIKOSTIK_ARRAY[strtolower(base64_decode($value)[0])] + 1;
+                        else
+                            $PAPIKOSTIK_ARRAY[strtolower(base64_decode($value)[0])] = 1;
+                    }
+
+                      $index++;
+                      }
+
+            }     
+
+            }
+
+  if (in_array($match,$pengolah_3)) {
+     if (strpos($result_var->identifier, 'RESPONSE') !== false) {
+          $strpos = strpos($result_var->value, '{');
+         $valuestring = substr($result_var->value, $strpos);
+          $exploded_result_var = explode(';',$valuestring);
+             $index = 0;
+          foreach($exploded_result_var as $singular_result_var) {
+
+             $ret = explode(':', $singular_result_var);
+             if ((sizeof($ret) > 2) && ($ret[2] == '"candidateResponse"')) {
+
+                 $value = explode(':', $exploded_result_var[$index + 1])[2];
+              //   echo '<br/>' . $result_var->call_id_item .'('.$result_var->identifier. ') = ' . base64_decode($value);
+                 if ($result_var->identifier != 'RESPONSE') {
+                  $trimmed = trim(base64_decode($value), "[]");
+                  $trimmed_items = explode(";", $trimmed);
+                  $trimmed_array = [];
+                  foreach($trimmed_items as $trimmed_item) {
+                   $trimmed_trimmed = trim($trimmed_item, " ");
+                   $trimmed_trimmed_items = explode(" ", $trimmed_trimmed);
+                   if (sizeof($trimmed_trimmed_items) > 1) {
+                   $trimmed_array[$trimmed_trimmed_items[0]] = $trimmed_trimmed_items[1];
+                  }
+                  }
+
+                $pcas_score_array[$result_var->identifier] = $trimmed_array;
+                }
+             }
+
+               $index++;
+               }
+
+     }
+  }
+
+            } //if($match)) 
+
+            } //foreach ($result_vars as $result_var)
+
+
+
+
+
+     $pcas_aspect_array = [];
+     $pcas_aspect_array['a'] = 0;
+     $pcas_aspect_array['b'] = 0;
+     $pcas_aspect_array['c'] = 0;
+     $pcas_aspect_array['d'] = 0;
+     $pcas_aspect_array['e'] = 0;
+     $pcas_aspect_array['f'] = 0;
+     $pcas_aspect_array['g'] = 0;
+     $pcas_aspect_array['h'] = 0;
+     $pcas_aspect_array['i'] = 0;
+     $pcas_aspect_array['j'] = 0;
+
+     foreach ($pcas_score_array as $key => $item) {
+
+      if (sizeof($item) > 1) {
+
+
+     $response_val = PcasResponseMap::find()->andWHere(['item' => $key])->One();
+   //  echo '<br/>' .$key.' size: ' . sizeof($response_val);
+
+      $mapping = PcasResponseMap::find()->andWHere(['item' => $key])->One();
+     $first_row_selection = (str_replace('choice_','',$item['choice_1'])) - 3;
+     $second_row_selection =  (str_replace('choice_','',$item['choice_2'])) - 3;
+
+
+     $first_row_disc_value = explode(',',$mapping->choice_1)[$first_row_selection];
+   $second_row_disc_value = explode(',',$mapping->choice_2)[$second_row_selection];
+
+      $pcas_aspect_array[$first_row_disc_value]++;
+       $pcas_aspect_array[$second_row_disc_value]++;
+
+
+     } else {
+    //  echo '<br/>WARNING : ADA SOAL PCAS NOT ANSWERED';
+     }
+     }
+
+
+
+     //$total_cfit_scaled = ScaleRef::find()->andWhere(['scale_name' => 'cfit-to-6'])->andWhere(['unscaled' => $total_cfit])->One();
+          $total_cfit_scaled = ScaleRef::find()->andWhere(['scale_name' => 'apm'])->andWhere(['unscaled' => $PM_SCORE])->One();
+
+     $disc1_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-d'])->andWhere(['<=','unscaled',$pcas_aspect_array['a']])->orderBy('unscaled DESC')->One();
+     $disc2_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-d'])->andWhere(['>=','unscaled',$pcas_aspect_array['b']])->orderBy('unscaled DESC')->One();
+     $disc3_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-d'])->andWhere(['<=','unscaled', ($pcas_aspect_array['a'] - $pcas_aspect_array['b'])])->orderBy('unscaled DESC')->One();
+
+     $disc1_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-i'])->andWhere(['<=','unscaled', $pcas_aspect_array['c']])->orderBy('unscaled DESC')->One();
+     $disc2_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-i'])->andWhere(['>=','unscaled', $pcas_aspect_array['d']])->orderBy('unscaled DESC')->One();
+     $disc3_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-i'])->andWhere(['<=','unscaled', ($pcas_aspect_array['c'] - $pcas_aspect_array['d'])])->orderBy('unscaled DESC')->One();
+
+     $disc1_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-s'])->andWhere(['<=','unscaled', $pcas_aspect_array['e']])->orderBy('unscaled DESC')->One();
+     $disc2_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-s'])->andWhere(['>=','unscaled', $pcas_aspect_array['f']])->orderBy('unscaled DESC')->One();
+     $disc3_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-s'])->andWhere(['<=','unscaled',($pcas_aspect_array['e'] - $pcas_aspect_array['f'])])->orderBy('unscaled DESC')->One();
+
+     $disc1_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-c'])->andWhere(['<=','unscaled', $pcas_aspect_array['g']])->orderBy('unscaled DESC')->One();
+     $disc2_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-c'])->andWhere(['>=','unscaled',$pcas_aspect_array['h']])->orderBy('unscaled DESC')->One();
+     $disc3_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-c'])->andWhere(['<=','unscaled',($pcas_aspect_array['g'] - $pcas_aspect_array['h'])])->orderBy('unscaled DESC')->One();
+
+if($disc3_d->scaled > $disc3_i->scaled) {$di = '>';} else if($disc3_d->scaled < $disc3_i->scaled) {$di = '<';} else {$di = '=';}
+if($disc3_d->scaled > $disc3_s->scaled) {$ds = '>';} else if($disc3_d->scaled < $disc3_s->scaled) {$ds = '<';} else {$ds = '=';}
+if($disc3_d->scaled > $disc3_c->scaled) {$dc = '>';} else if($disc3_d->scaled < $disc3_c->scaled) {$dc = '<';} else {$dc = '=';}
+if($disc3_i->scaled > $disc3_s->scaled) {$is = '>';} else if($disc3_i->scaled < $disc3_s->scaled) {$is = '<';} else {$is = '=';}
+if($disc3_i->scaled > $disc3_c->scaled) {$ic = '>';} else if($disc3_i->scaled < $disc3_c->scaled) {$ic = '<';} else {$ic = '=';}
+if($disc3_s->scaled > $disc3_c->scaled) {$sc = '>';} else if($disc3_s->scaled < $disc3_c->scaled) {$sc = '<';} else {$sc = '=';}
+
+
+     $d_pos = ($disc3_d->scaled >= 20) ? '1':'0';
+     $i_pos = ($disc3_i->scaled >= 20) ? '1':'0';
+     $s_pos= ($disc3_s->scaled >= 20) ? '1':'0';
+     $c_pos= ($disc3_c->scaled >= 20) ? '1':'0';
+
+     $grafik = PcasGrafikRef::find()->andWhere(['di' => $di])
+     ->andWhere(['ds' => $ds])
+     ->andWhere(['dc' => $dc])
+     ->andWhere(['is' => $is])
+     ->andWhere(['ic' => $ic])
+     ->andWhere(['sc' => $sc])
+     ->andWhere(['d-pos' => $d_pos])
+     ->andWhere(['i-pos' => $i_pos])
+     ->andWhere(['s-pos' => $s_pos])
+     ->andWhere(['c-pos' => $c_pos])->All();
+
+     if(sizeof($grafik) == 1) {
+   //   echo 'size' .  sizeof($grafik);
+     // echo '<br/># matching grafik : ' . sizeof($grafik) . ' ( ' .$grafik[0]->grafik.')';
+      $ipa_values = PcasIpaRef::findOne($grafik[0]->grafik);
+      //print_r($ipa_values);
+     } else if(sizeof($grafik) > 1) {
+      //echo '<br/>MULTIPLE GRAFIK<br/>';
+
+     $grafs = [];
+     foreach($grafik as $graf) {
+
+      array_push($grafs, $graf->grafik);
+     }
+     /*
+      $grafs2 = ['139', '139.a'];
+
+      print_r($grafs);
+      echo '<br/>';
+       print_r($grafs2);
+       */
+
+
+       $ranged_grafik = PcasRangeMap::find()
+       ->andWhere(['in', 'grafik', $grafs])
+       ->andWhere(['<', 'dmin', $disc3_d->scaled])
+         ->andWhere(['>', 'dmax', $disc3_d->scaled])
+         ->andWhere(['<', 'imin', $disc3_i->scaled])
+           ->andWhere(['>', 'imax', $disc3_i->scaled])
+           ->andWhere(['<', 'smin', $disc3_s->scaled])
+             ->andWhere(['>', 'smax', $disc3_s->scaled])
+             ->andWhere(['<', 'cmin', $disc3_c->scaled])
+               ->andWhere(['>', 'cmax', $disc3_c->scaled])
+
+
+       ->All();
+     if(sizeof($ranged_grafik) == 1) {
+      //echo '<br/># matching grafik :  ' .$ranged_grafik[0]->grafik.')';
+      $ipa_values = PcasIpaRef::findOne($ranged_grafik[0]->grafik);
+     } else if(sizeof($ranged_grafik) > 1) {
+      //echo '<br/>MULTIPLE RANGE GRAFIK<br/>';
+         $ipa_values = new PcasIpaRef;
+     } else {
+         $ipa_values = new PcasIpaRef;
+      //echo '<br/>TIDAK ADA MATCHING RANGE GRAFIK';
+
+
+     }
+     //print_r($ranged_grafik);
+
+     } else {
+     // echo '<br/>TIDAK ADA MATCHING GRAFIK';
+      $ipa_values = new PcasIpaRef;
+     }
+
+
+
+
+foreach ($PAPIKOSTIK_ARRAY as $papikostik_key => $papikostik_value) {
+              
+              if($papikostik_key == 'z' || $papikostik_key == 'k') {
+  $papikostik_scaled_int = ScaleRef::find()->andWhere(['scale_name' => 'papikostik_'.$papikostik_key])->andWhere(['unscaled' => $papikostik_value])->One();
+  $papikostik_scaled = ScaleRef::find()->andWhere(['scale_name' => 'papikostik'])->andWhere(['unscaled' => $papikostik_scaled_int->scaled])->One();
+              } else {
+                  $papikostik_scaled = ScaleRef::find()->andWhere(['scale_name' => 'papikostik'])->andWhere(['unscaled' => $papikostik_value])->One();
+              }
+      
+        if (null !== $papikostik_scaled)
+            $PAPIKOSTIK_ARRAY_SCALED[$papikostik_key] = $papikostik_scaled->scaled;
+        else
+            $PAPIKOSTIK_ARRAY_SCALED[$papikostik_key] = 99999;
+}
+
+
+     ob_start();
+      ob_end_clean();
+     return $this->render('mbss_manager', ['id'=>$id, 'model'=>$model, 'cfit' => $total_cfit_scaled, 'pcas' => $pcas_aspect_array, 'ipa_values' => $ipa_values, 'papikostik' => $PAPIKOSTIK_ARRAY_SCALED]);
+
+
+
+/*
+echo '<pre>';
+
+//print_r($result_vars);
+print_r($SCORE_ARRAY);
+            echo '<hr/><hr/>SUMMARY<hr/>';
+echo '<hr/>APM Score = ';
+echo $PM_SCORE;
+echo '<hr/>APM SCALED Score = ';
+echo $total_cfit_scaled->scaled;
+echo '<hr/>PAPIKOSTIK<br/>';
+print_r($PAPIKOSTIK_ARRAY);
+echo '<hr/>PAPIKOSTIK SCALED<br/>';
+print_r($PAPIKOSTIK_ARRAY_SCALED);
+echo '<hr/>PCAS<br/>';
+print_r($pcas_aspect_array);
+echo '</pre>';
+*/
+    }
+
+
+
+    public function actionRawresult($id)
+    {
+     $tao_model = Models::find()->andWhere(['modelid' => '1'])->One();
+     $result_storage = ResultsStorage::find()->andWhere(['result_id' => $tao_model->modeluri . 'i'. $id])->One();
+     $result_rdf = $tao_model->modeluri . 'i'. $id;
+
+     /*$result_statements = Statements::find()->andWhere(['subject' => $id])->All();*/
+     $user = Statements::find()->andWhere(['predicate' => 'http://www.tao.lu/Ontologies/generis.rdf#login'])
+     ->andWhere(['subject' => $result_storage->test_taker])
+     ->One();
+     $model = UserExt::find()->andWhere(['username' => $user->object])->One();
+     if(!isset($model)) {
+      $model = new UserExt;
+     }
+       $total_cfit = 0;
+   //  $items = [$result_rdf .".item-3.0",$result_rdf .".item-5.0",$result_rdf .".item-8.0",$result_rdf .".item-10.0"];
+
+     $items = ['APM-', 'Papikostik-', 'DISC-'];
+     $pengolah_1 = ['APM-'];
+     $pengolah_2 = ['Papikostik-'];
+     $pengolah_3 = ['DISC-'];
+
+     //$items = ['http://127.0.0.1:8090/tao/ppsdm.rdf#i147076498436978.item-3.0','http://127.0.0.1:8090/tao/ppsdm.rdf#i147076498436978.item-1.0'];
+     //$result_vars = VariablesStorage::find()->andWhere(['results_result_id' => $result->result_id])->groupBy('item, identifier')->All();
+     $result_vars = VariablesStorage::find()->andWhere(['results_result_id' => $result_rdf])
+     //->andWhere(['like','call_id_item',$items])
+     //->groupBy('item')
+     ->groupBy('item, identifier')
+     ->orderBy('variable_id ASC')
+     //->OrWhere(['identifier' => 'SCORE'])
+      //  ->OrWhere(['identifier' => 'RESPONSE'])
+     //->OrWhere(['identifier' => 'LtiOutcome'])
+     ->All();
+     $cfit_score_array = [];
+     $PM_SCORE=0;
+     $SCORE_ARRAY=[];
+     $PAPIKOSTIK_ARRAY=[];
+          $PAPIKOSTIK_ARRAY_SCALED=[];
+          $pcas_score_array = [];
+
+
+
+
+        foreach ($result_vars as $result_var) {
+
+$exist = false;
+$match = false;
+            foreach ($items as $key => $value) {
+                 if(strpos($result_var->call_id_item, $value)) {
+                    $exist = true;
+                    $match = $value;
+                 }
+            }
+
+           
+                if ($match) {
+                //     if (true) {
+         //   echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ';// . $result_var->value;
+                    //echo $match . ' ++++++++++++++++++++';
+
+  if (in_array($match,$pengolah_1)) {
+            if (strpos($result_var->identifier, 'RESPONSE') !== false) {
+                
+                 //echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ';// . $result_var->value;
+                 $strpos = strpos($result_var->value, '{');
+                $valuestring = substr($result_var->value, $strpos);
+                 $exploded_result_var = explode(';',$valuestring);
+                    $index = 0;
+                 foreach($exploded_result_var as $singular_result_var) {
+
+                    $ret = explode(':', $singular_result_var);
+                    if ((sizeof($ret) > 2) && ($ret[2] == '"candidateResponse"')) {
+
+                        $value = explode(':', $exploded_result_var[$index + 1])[2];
+                  //      echo '<br/>' . $result_var->call_id_item .'('.$result_var->identifier. ') = ' . base64_decode($value);
+                        $SCORE_ARRAY[$result_var->call_id_item]['RESPONSE'] = base64_decode($value);
+                    }
+
+                      $index++;
+                      }
+
+            }
+
+            if ($result_var->identifier == 'SCORE') {
+        //    echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ' . $result_var->value;
+
+            $strpos = strpos($result_var->value, '{');
+           $valuestring = substr($result_var->value, $strpos);
+            $exploded_result_var = explode(';',$valuestring);
+               $index = 0;
+
+            foreach($exploded_result_var as $singular_result_var) {
+
+               $ret = explode(':', $singular_result_var);
+               if ((sizeof($ret) > 2) && ($ret[2] == '"value"')) {
+
+                   $value = explode(':', $exploded_result_var[$index + 1])[2];
+            //       echo '<br/>' . $result_var->call_id_item . '('.$exploded_result_var[$index]. ')  = ' . base64_decode($value);
+                   $total_cfit = $total_cfit + base64_decode($value);
+                   array_push($cfit_score_array, base64_decode($value));
+                              $SCORE_ARRAY[$result_var->call_id_item]['SCORE'] = base64_decode($value);
+                              $PM_SCORE = $PM_SCORE + base64_decode($value);
+               }
+                 $index++;
+                 }
+            }
+            }
+
+
+            if (in_array($match,$pengolah_2)) {
+
+            if (strpos($result_var->identifier, 'KOSTIK') !== false) {
+                
+                 //echo '<br/>_____' . $result_var->call_id_item . ' (' . $result_var->identifier . ') : ';// . $result_var->value;
+                 $strpos = strpos($result_var->value, '{');
+                $valuestring = substr($result_var->value, $strpos);
+                 $exploded_result_var = explode(';',$valuestring);
+                    $index = 0;
+                 foreach($exploded_result_var as $singular_result_var) {
+
+                    $ret = explode(':', $singular_result_var);
+                    if ((sizeof($ret) > 2) && ($ret[2] == '"candidateResponse"')) {
+
+                        $value = explode(':', $exploded_result_var[$index + 1])[2];
+                     //   echo '<br/>' . $result_var->call_id_item .'('.$result_var->identifier. ') = ' . base64_decode($value);
+                        $SCORE_ARRAY[$result_var->call_id_item]['RESPONSE'][$result_var->identifier] = base64_decode($value);
+                        if(isset($PAPIKOSTIK_ARRAY[strtolower(base64_decode($value)[0])]))
+                            $PAPIKOSTIK_ARRAY[strtolower(base64_decode($value)[0])] = $PAPIKOSTIK_ARRAY[strtolower(base64_decode($value)[0])] + 1;
+                        else
+                            $PAPIKOSTIK_ARRAY[strtolower(base64_decode($value)[0])] = 1;
+                    }
+
+                      $index++;
+                      }
+
+            }     
+
+            }
+
+  if (in_array($match,$pengolah_3)) {
+     if (strpos($result_var->identifier, 'RESPONSE') !== false) {
+          $strpos = strpos($result_var->value, '{');
+         $valuestring = substr($result_var->value, $strpos);
+          $exploded_result_var = explode(';',$valuestring);
+             $index = 0;
+          foreach($exploded_result_var as $singular_result_var) {
+
+             $ret = explode(':', $singular_result_var);
+             if ((sizeof($ret) > 2) && ($ret[2] == '"candidateResponse"')) {
+
+                 $value = explode(':', $exploded_result_var[$index + 1])[2];
+              //   echo '<br/>' . $result_var->call_id_item .'('.$result_var->identifier. ') = ' . base64_decode($value);
+                 if ($result_var->identifier != 'RESPONSE') {
+                  $trimmed = trim(base64_decode($value), "[]");
+                  $trimmed_items = explode(";", $trimmed);
+                  $trimmed_array = [];
+                  foreach($trimmed_items as $trimmed_item) {
+                   $trimmed_trimmed = trim($trimmed_item, " ");
+                   $trimmed_trimmed_items = explode(" ", $trimmed_trimmed);
+                   if (sizeof($trimmed_trimmed_items) > 1) {
+                   $trimmed_array[$trimmed_trimmed_items[0]] = $trimmed_trimmed_items[1];
+                  }
+                  }
+
+                $pcas_score_array[$result_var->identifier] = $trimmed_array;
+                }
+             }
+
+               $index++;
+               }
+
+     }
+  }
+
+            } //if($match)) 
+
+            } //foreach ($result_vars as $result_var)
+
+
+
+
+
+     $pcas_aspect_array = [];
+     $pcas_aspect_array['a'] = 0;
+     $pcas_aspect_array['b'] = 0;
+     $pcas_aspect_array['c'] = 0;
+     $pcas_aspect_array['d'] = 0;
+     $pcas_aspect_array['e'] = 0;
+     $pcas_aspect_array['f'] = 0;
+     $pcas_aspect_array['g'] = 0;
+     $pcas_aspect_array['h'] = 0;
+     $pcas_aspect_array['i'] = 0;
+     $pcas_aspect_array['j'] = 0;
+
+     foreach ($pcas_score_array as $key => $item) {
+
+      if (sizeof($item) > 1) {
+
+
+     $response_val = PcasResponseMap::find()->andWHere(['item' => $key])->One();
+   //  echo '<br/>' .$key.' size: ' . sizeof($response_val);
+
+      $mapping = PcasResponseMap::find()->andWHere(['item' => $key])->One();
+     $first_row_selection = (str_replace('choice_','',$item['choice_1'])) - 3;
+     $second_row_selection =  (str_replace('choice_','',$item['choice_2'])) - 3;
+
+
+     $first_row_disc_value = explode(',',$mapping->choice_1)[$first_row_selection];
+   $second_row_disc_value = explode(',',$mapping->choice_2)[$second_row_selection];
+
+      $pcas_aspect_array[$first_row_disc_value]++;
+       $pcas_aspect_array[$second_row_disc_value]++;
+
+
+     } else {
+    //  echo '<br/>WARNING : ADA SOAL PCAS NOT ANSWERED';
+     }
+     }
+
+
+
+     //$total_cfit_scaled = ScaleRef::find()->andWhere(['scale_name' => 'cfit-to-6'])->andWhere(['unscaled' => $total_cfit])->One();
+          $total_cfit_scaled = ScaleRef::find()->andWhere(['scale_name' => 'apm'])->andWhere(['unscaled' => $PM_SCORE])->One();
+
+     $disc1_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-d'])->andWhere(['<=','unscaled',$pcas_aspect_array['a']])->orderBy('unscaled DESC')->One();
+     $disc2_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-d'])->andWhere(['>=','unscaled',$pcas_aspect_array['b']])->orderBy('unscaled DESC')->One();
+     $disc3_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-d'])->andWhere(['<=','unscaled', ($pcas_aspect_array['a'] - $pcas_aspect_array['b'])])->orderBy('unscaled DESC')->One();
+
+     $disc1_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-i'])->andWhere(['<=','unscaled', $pcas_aspect_array['c']])->orderBy('unscaled DESC')->One();
+     $disc2_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-i'])->andWhere(['>=','unscaled', $pcas_aspect_array['d']])->orderBy('unscaled DESC')->One();
+     $disc3_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-i'])->andWhere(['<=','unscaled', ($pcas_aspect_array['c'] - $pcas_aspect_array['d'])])->orderBy('unscaled DESC')->One();
+
+     $disc1_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-s'])->andWhere(['<=','unscaled', $pcas_aspect_array['e']])->orderBy('unscaled DESC')->One();
+     $disc2_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-s'])->andWhere(['>=','unscaled', $pcas_aspect_array['f']])->orderBy('unscaled DESC')->One();
+     $disc3_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-s'])->andWhere(['<=','unscaled',($pcas_aspect_array['e'] - $pcas_aspect_array['f'])])->orderBy('unscaled DESC')->One();
+
+     $disc1_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-c'])->andWhere(['<=','unscaled', $pcas_aspect_array['g']])->orderBy('unscaled DESC')->One();
+     $disc2_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-c'])->andWhere(['>=','unscaled',$pcas_aspect_array['h']])->orderBy('unscaled DESC')->One();
+     $disc3_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-c'])->andWhere(['<=','unscaled',($pcas_aspect_array['g'] - $pcas_aspect_array['h'])])->orderBy('unscaled DESC')->One();
+
+if($disc3_d->scaled > $disc3_i->scaled) {$di = '>';} else if($disc3_d->scaled < $disc3_i->scaled) {$di = '<';} else {$di = '=';}
+if($disc3_d->scaled > $disc3_s->scaled) {$ds = '>';} else if($disc3_d->scaled < $disc3_s->scaled) {$ds = '<';} else {$ds = '=';}
+if($disc3_d->scaled > $disc3_c->scaled) {$dc = '>';} else if($disc3_d->scaled < $disc3_c->scaled) {$dc = '<';} else {$dc = '=';}
+if($disc3_i->scaled > $disc3_s->scaled) {$is = '>';} else if($disc3_i->scaled < $disc3_s->scaled) {$is = '<';} else {$is = '=';}
+if($disc3_i->scaled > $disc3_c->scaled) {$ic = '>';} else if($disc3_i->scaled < $disc3_c->scaled) {$ic = '<';} else {$ic = '=';}
+if($disc3_s->scaled > $disc3_c->scaled) {$sc = '>';} else if($disc3_s->scaled < $disc3_c->scaled) {$sc = '<';} else {$sc = '=';}
+
+
+     $d_pos = ($disc3_d->scaled >= 20) ? '1':'0';
+     $i_pos = ($disc3_i->scaled >= 20) ? '1':'0';
+     $s_pos= ($disc3_s->scaled >= 20) ? '1':'0';
+     $c_pos= ($disc3_c->scaled >= 20) ? '1':'0';
+
+     $grafik = PcasGrafikRef::find()->andWhere(['di' => $di])
+     ->andWhere(['ds' => $ds])
+     ->andWhere(['dc' => $dc])
+     ->andWhere(['is' => $is])
+     ->andWhere(['ic' => $ic])
+     ->andWhere(['sc' => $sc])
+     ->andWhere(['d-pos' => $d_pos])
+     ->andWhere(['i-pos' => $i_pos])
+     ->andWhere(['s-pos' => $s_pos])
+     ->andWhere(['c-pos' => $c_pos])->All();
+
+     if(sizeof($grafik) == 1) {
+   //   echo 'size' .  sizeof($grafik);
+     // echo '<br/># matching grafik : ' . sizeof($grafik) . ' ( ' .$grafik[0]->grafik.')';
+      $ipa_values = PcasIpaRef::findOne($grafik[0]->grafik);
+      //print_r($ipa_values);
+     } else if(sizeof($grafik) > 1) {
+      //echo '<br/>MULTIPLE GRAFIK<br/>';
+
+     $grafs = [];
+     foreach($grafik as $graf) {
+
+      array_push($grafs, $graf->grafik);
+     }
+     /*
+      $grafs2 = ['139', '139.a'];
+
+      print_r($grafs);
+      echo '<br/>';
+       print_r($grafs2);
+       */
+
+
+       $ranged_grafik = PcasRangeMap::find()
+       ->andWhere(['in', 'grafik', $grafs])
+       ->andWhere(['<', 'dmin', $disc3_d->scaled])
+         ->andWhere(['>', 'dmax', $disc3_d->scaled])
+         ->andWhere(['<', 'imin', $disc3_i->scaled])
+           ->andWhere(['>', 'imax', $disc3_i->scaled])
+           ->andWhere(['<', 'smin', $disc3_s->scaled])
+             ->andWhere(['>', 'smax', $disc3_s->scaled])
+             ->andWhere(['<', 'cmin', $disc3_c->scaled])
+               ->andWhere(['>', 'cmax', $disc3_c->scaled])
+
+
+       ->All();
+     if(sizeof($ranged_grafik) == 1) {
+      //echo '<br/># matching grafik :  ' .$ranged_grafik[0]->grafik.')';
+      $ipa_values = PcasIpaRef::findOne($ranged_grafik[0]->grafik);
+     } else if(sizeof($ranged_grafik) > 1) {
+      //echo '<br/>MULTIPLE RANGE GRAFIK<br/>';
+         $ipa_values = new PcasIpaRef;
+     } else {
+         $ipa_values = new PcasIpaRef;
+      //echo '<br/>TIDAK ADA MATCHING RANGE GRAFIK';
+
+
+     }
+     //print_r($ranged_grafik);
+
+     } else {
+     // echo '<br/>TIDAK ADA MATCHING GRAFIK';
+      $ipa_values = new PcasIpaRef;
+     }
+
+
+   /*  ob_start();
+      ob_end_clean();
+     return $this->render('mbss_manager', ['id'=>$id, 'model'=>$model, 'cfit' => $total_cfit_scaled, 'pcas' => $pcas_aspect_array, 'ipa_values' => $ipa_values]);
+*/
+
+foreach ($PAPIKOSTIK_ARRAY as $papikostik_key => $papikostik_value) {
+              
+              if($papikostik_key == 'z' || $papikostik_key == 'k') {
+ $papikostik_scaled_int = ScaleRef::find()->andWhere(['scale_name' => 'papikostik_'.$papikostik_key])->andWhere(['unscaled' => $papikostik_value])->One();
+  $papikostik_scaled = ScaleRef::find()->andWhere(['scale_name' => 'papikostik'])->andWhere(['unscaled' => $papikostik_scaled_int->scaled])->One();
+              } else {
+                  $papikostik_scaled = ScaleRef::find()->andWhere(['scale_name' => 'papikostik'])->andWhere(['unscaled' => $papikostik_value])->One();
+              }
+      
+        if (null !== $papikostik_scaled)
+            $PAPIKOSTIK_ARRAY_SCALED[$papikostik_key] = $papikostik_scaled->scaled;
+        else
+            $PAPIKOSTIK_ARRAY_SCALED[$papikostik_key] = 99999;
+}
+
+echo '<pre>';
+
+//print_r($result_vars);
+print_r($SCORE_ARRAY);
+            echo '<hr/><hr/>SUMMARY<hr/>';
+echo '<hr/>APM Score = ';
+echo $PM_SCORE;
+echo '<hr/>APM SCALED Score = ';
+echo $total_cfit_scaled->scaled;
+echo '<hr/>PAPIKOSTIK<br/>';
+print_r($PAPIKOSTIK_ARRAY);
+echo '<hr/>PAPIKOSTIK SCALED<br/>';
+print_r($PAPIKOSTIK_ARRAY_SCALED);
+echo '<hr/>PCAS<br/>';
+print_r($pcas_aspect_array);
+echo '</pre>';
+
+    }
+
+
+
+
+
+
+
     public function actionResult($id) {
 
      $tao_model = Models::find()->andWhere(['modelid' => '1'])->One();
@@ -254,11 +983,11 @@ $result_rdf = $tao_model->modeluri . 'i'. $id;
      echo 'result id :' . $result_rdf;
      echo '<hr/>';
 
-    $result_statements = Statements::find()->andWhere(['subject' => $id])->All();
+  /*  $result_statements = Statements::find()->andWhere(['subject' => $id])->All();
      foreach ($result_statements as $result_statement) {
       echo '<br/>=======================' . $result_statement->object;
      }
-
+*/
      $items = [$result_rdf .".item-3.0",$result_rdf .".item-5.0",$result_rdf .".item-8.0",$result_rdf .".item-10.0"];
 
      //$items = ['http://127.0.0.1:8090/tao/ppsdm.rdf#i147076498436978.item-3.0','http://127.0.0.1:8090/tao/ppsdm.rdf#i147076498436978.item-1.0'];
@@ -632,7 +1361,7 @@ echo Html::a('Print Result', ['site/print', 'id' => $id], ['class' => 'profile-l
      $result_storage = ResultsStorage::find()->andWhere(['result_id' => $tao_model->modeluri . 'i'. $id])->One();
      $result_rdf = $tao_model->modeluri . 'i'. $id;
 
-     $result_statements = Statements::find()->andWhere(['subject' => $id])->All();
+     /*$result_statements = Statements::find()->andWhere(['subject' => $id])->All();*/
      $user = Statements::find()->andWhere(['predicate' => 'http://www.tao.lu/Ontologies/generis.rdf#login'])
      ->andWhere(['subject' => $result_storage->test_taker])
      ->One();

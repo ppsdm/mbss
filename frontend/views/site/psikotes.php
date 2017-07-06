@@ -84,7 +84,7 @@ if(null !== $rating1_adj) {
     $rating1 = $rating1_adj->value;
 }
 $rating2_adj = Adjustment::find()->andWhere(['test_id' => $id])->andWhere(['key' => 'rating2'])->One();
-if(null !== $rating1_adj) {
+if(null !== $rating2_adj) {
     $rating2 = $rating2_adj->value;
 }
 $rating3_adj = Adjustment::find()->andWhere(['test_id' => $id])->andWhere(['key' => 'rating3'])->One();
@@ -266,17 +266,17 @@ $pdf->SetFont('helvetica', '', 9);
 
 $tbl = <<<EOD
 <style>
-   
+
     table.first {
-        
+
         border: 3px solid #2f318b;
-        
+
     }
     td.blue {
         border: 2px solid #2f318b;
-        
+
     }
-</style>   
+</style>
 
 <table cellspacing="1" cellpadding="1" class="first">
 <tr>
@@ -343,21 +343,21 @@ $pdf->SetFont('helvetica', '', 7);
 
 $tbl = <<<EOD
 <style>
-   
+
     table.first {
-        
+
         border: 3px solid #2f318b;
-        
+
     }
     td {
         border: 2px solid #2f318b;
-        
+
     }
     td.put {
         border: 2px solid white;
-        
+
     }
-</style>  
+</style>
 </BR>
 
 <table>
@@ -414,46 +414,23 @@ $tbl = <<<EOD
     </tr>
     <tr>
     <td colspan="7" align="left" align="center"></td>
-        
-        
+
+
+    </tr>
+</table>
+
+<table class="first">
+    <tr>
+        <td  rowspan="4" align="left" width="66%"><h3><B>B. ASPEK KEPRIBADIAN</B></h3></td>
+        <td  align="center" width="5%"><h3><B></B></h3></td>
+        <td  align="center" width="14%"><h3><B></B></h3></td>
+        <td  align="center" width="15%"><h3><B></B></h3></td>
     </tr>
 </table>
 
 <table cellspacing="0" cellpadding="1" class="first">
     <tr>
-        <td rowspan="3" align="center" width="5%"><BR><BR>2</td>
-        <td rowspan="3" align="left" width="61%">$namaaspek2</td>
-        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot2</B></td>
-        <td bgcolor="#bebebe" bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">3</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">4</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">5</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$min2</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi2</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max2</B></td>
-    </tr>
-    <tr>
-    <td  align="left" width="2%" align="center" bgcolor="$rat21"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat22"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat23"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat24"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat25"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat26"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat27"></td>
-    </tr>
-    <tr>
-    <td colspan="7" align="left" align="center"></td>
-        
-        
-    </tr>
-</table>
-
-<table cellspacing="0" cellpadding="1" class="first">
-    <tr>
-        <td rowspan="3" align="center" width="5%"><BR><BR>3</td>
+        <td rowspan="3" align="center" width="5%"><BR><BR>1</td>
         <td rowspan="3" align="left" width="61%">$namaaspek3</td>
         <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot3</B></td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
@@ -478,14 +455,14 @@ $tbl = <<<EOD
     </tr>
     <tr>
     <td colspan="7" align="left" align="center"></td>
-        
-        
+
+
     </tr>
 </table>
 
 <table cellspacing="0" cellpadding="1" class="first">
     <tr>
-        <td rowspan="3" align="center" width="5%"><BR><BR>4</td>
+        <td rowspan="3" align="center" width="5%"><BR><BR>2</td>
         <td rowspan="3" align="left" width="61%">$namaaspek4</td>
         <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot4</B></td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
@@ -510,46 +487,14 @@ $tbl = <<<EOD
     </tr>
     <tr>
     <td colspan="7" align="left" align="center"></td>
-        
-        
+
+
     </tr>
 </table>
 
 <table cellspacing="0" cellpadding="1" class="first">
     <tr>
-        <td rowspan="3" align="center" width="5%"><BR><BR>5</td>
-        <td rowspan="3" align="left" width="61%">$namaaspek5</td>
-        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot5</B></td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">3</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">4</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">5</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$min5</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi5</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max5</B></td>
-    </tr>
-    <tr>
-    <td  align="left" width="2%" align="center" bgcolor="$rat51"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat52"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat53"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat54"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat55"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat56"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat57"></td>
-    </tr>
-    <tr>
-    <td colspan="7" align="left" align="center"></td>
-        
-        
-    </tr>
-</table>
-
-<table cellspacing="0" cellpadding="1" class="first">
-    <tr>
-        <td rowspan="3" align="center" width="5%"><BR><BR>6</td>
+        <td rowspan="3" align="center" width="5%"><BR><BR>3</td>
         <td rowspan="3" align="left" width="61%">$namaaspek6</td>
         <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot6</B></td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
@@ -574,110 +519,14 @@ $tbl = <<<EOD
     </tr>
     <tr>
     <td colspan="7" align="left" align="center"></td>
-        
-        
+
+
     </tr>
 </table>
 
 <table cellspacing="0" cellpadding="1" class="first">
     <tr>
-        <td rowspan="3" align="center" width="5%"><BR><BR>7</td>
-        <td rowspan="3" align="left" width="61%">$namaaspek7</td>
-        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot7</B></td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">3</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">4</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">5</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$min7</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi7</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max7</B></td>
-    </tr>
-    <tr>
-    <td  align="left" width="2%" align="center" bgcolor="$rat71"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat72"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat73"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat74"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat75"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat76"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat77"></td>
-    </tr>
-    <tr>
-    <td colspan="7" align="left" align="center"></td>
-        
-        
-    </tr>
-</table>
-
-<table cellspacing="0" cellpadding="1" class="first">
-    <tr>
-        <td rowspan="3" align="center" width="5%"><BR><BR>8</td>
-        <td rowspan="3" align="left" width="61%">$namaaspek8</td>
-        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot8</B></td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">3</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">4</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">5</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$min8</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi8</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max8</B></td>
-    </tr>
-    <tr>
-    <td  align="left" width="2%" align="center" bgcolor="$rat81"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat82"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat83"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat84"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat85"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat86"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat87"></td>
-    </tr>
-    <tr>
-    <td colspan="7" align="left" align="center"></td>
-        
-        
-    </tr>
-</table>
-
-<table cellspacing="0" cellpadding="1" class="first">
-    <tr>
-        <td rowspan="3" align="center" width="5%"><BR><BR>9</td>
-        <td rowspan="3" align="left" width="61%">$namaaspek9</td>
-        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot9</B></td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">3</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">4</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">5</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
-        <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$min9</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi9</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max9</B></td>
-    </tr>
-    <tr>
-    <td  align="left" width="2%" align="center" bgcolor="$rat91"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat92"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat93"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat94"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat95"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat96"></td>
-        <td  align="left" width="2%" align="center" bgcolor="$rat97"></td>
-    </tr>
-    <tr>
-    <td colspan="7" align="left" align="center"></td>
-        
-        
-    </tr>
-</table>
-
-<table cellspacing="0" cellpadding="1" class="first">
-    <tr>
-        <td rowspan="3" align="center" width="5%"><BR><BR>10</td>
+        <td rowspan="3" align="center" width="5%"><BR><BR>4</td>
         <td rowspan="3" align="left" width="61%">$namaaspek10</td>
         <td rowspan="3" align="left" width="5%" align="center"><B><BR>$bobot10</B></td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
@@ -702,8 +551,177 @@ $tbl = <<<EOD
     </tr>
     <tr>
     <td colspan="7" align="left" align="center"></td>
-        
-        
+
+
+    </tr>
+</table>
+
+<table class="first">
+    <tr>
+        <td  rowspan="4" align="left" width="66%"><h3><B>C. ASPEK SIKAP KERJA</B></h3></td>
+        <td  align="center" width="5%"><h3><B></B></h3></td>
+        <td  align="center" width="14%"><h3><B></B></h3></td>
+        <td  align="center" width="15%"><h3><B></B></h3></td>
+    </tr>
+</table>
+
+<table cellspacing="0" cellpadding="1" class="first">
+    <tr>
+        <td rowspan="3" align="center" width="5%"><BR><BR>1</td>
+        <td rowspan="3" align="left" width="61%">$namaaspek2</td>
+        <td rowspan="3" align="left" width="5%" align="center"><B><BR>$bobot2</B></td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">3</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">4</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">5</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$min2</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi2</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max2</B></td>
+    </tr>
+    <tr>
+    <td  align="left" width="2%" align="center" bgcolor="$rat11"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat22"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat23"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat24"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat25"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat26"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat27"></td>
+    </tr>
+    <tr>
+    <td colspan="7" align="left" align="center"></td>
+
+
+    </tr>
+</table>
+
+<table cellspacing="0" cellpadding="1" class="first">
+    <tr>
+        <td rowspan="3" align="center" width="5%"><BR><BR>2</td>
+        <td rowspan="3" align="left" width="61%">$namaaspek5</td>
+        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot5</B></td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">3</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">4</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">5</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$min5</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi5</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max5</B></td>
+    </tr>
+    <tr>
+    <td  align="left" width="2%" align="center" bgcolor="$rat51"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat52"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat53"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat54"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat55"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat56"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat57"></td>
+    </tr>
+    <tr>
+    <td colspan="7" align="left" align="center"></td>
+
+
+    </tr>
+</table>
+
+<table cellspacing="0" cellpadding="1" class="first">
+    <tr>
+        <td rowspan="3" align="center" width="5%"><BR><BR>3</td>
+        <td rowspan="3" align="left" width="61%">$namaaspek7</td>
+        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot7</B></td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">3</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">4</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">5</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$min7</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi7</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max7</B></td>
+    </tr>
+    <tr>
+    <td  align="left" width="2%" align="center" bgcolor="$rat71"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat72"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat73"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat74"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat75"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat76"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat77"></td>
+    </tr>
+    <tr>
+    <td colspan="7" align="left" align="center"></td>
+
+
+    </tr>
+</table>
+
+<table cellspacing="0" cellpadding="1" class="first">
+    <tr>
+        <td rowspan="3" align="center" width="5%"><BR><BR>4</td>
+        <td rowspan="3" align="left" width="61%">$namaaspek8</td>
+        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot8</B></td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">3</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">4</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">5</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$min8</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi8</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max8</B></td>
+    </tr>
+    <tr>
+    <td  align="left" width="2%" align="center" bgcolor="$rat81"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat82"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat83"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat84"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat85"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat86"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat87"></td>
+    </tr>
+    <tr>
+    <td colspan="7" align="left" align="center"></td>
+
+
+    </tr>
+</table>
+
+<table cellspacing="0" cellpadding="1" class="first">
+    <tr>
+        <td rowspan="3" align="center" width="5%"><BR><BR>5</td>
+        <td rowspan="3" align="left" width="61%">$namaaspek9</td>
+        <td rowspan="3" align="left" width="5%" align="center"><BR><BR><B>$bobot9</B></td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">3</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">4</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">5</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
+        <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$min9</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi9</B></td>
+        <td rowspan="3" align="center" width="5%"><BR><BR><B>$max9</B></td>
+    </tr>
+    <tr>
+    <td  align="left" width="2%" align="center" bgcolor="$rat91"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat92"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat93"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat94"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat95"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat96"></td>
+        <td  align="left" width="2%" align="center" bgcolor="$rat97"></td>
+    </tr>
+    <tr>
+    <td colspan="7" align="left" align="center"></td>
+
+
     </tr>
 </table>
 
@@ -724,6 +742,7 @@ $tbl = <<<EOD
 </tr>
 </table>
 
+
 EOD;
 
 $pdf->writeHTML($tbl, true, false, false, false, '');
@@ -734,19 +753,19 @@ $pdf->SetFont('helvetica', '', 9);
 
 $tbl = <<<EOD
 <style>
-   
+
     table.first {
-        
+
         border: 3px solid #2f318b;
-        
+
     }
     td.blue {
         border: 2px solid #2f318b;
-        
+
     }
     td.put {
         border: 2px solid white;
-        
+
     }
 </style>
 <table cellspacing="0" cellpadding="0" border="0">
@@ -810,7 +829,7 @@ $tbl = <<<EOD
             <td align="center">A.n. Psikolog Pemeriksa</td>
             </tr>
             <tr>
-            <td align="center"><BR><BR>TTD<BR></td>
+            <td align="center"><img src="http://mbss.report.ppsdm.com/images/ttd_budiman.jpg" width="150px"></td>
             </tr>
             <tr>
             <td align="center">$ttd</td>
