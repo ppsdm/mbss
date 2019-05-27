@@ -42,16 +42,18 @@ $himpsi         = "0111891963";
 $namaaspek = "GENERAL INTELLIGENCE";
 $judul     = "PSIKOGRAM HASIL ASSESSMENT / PEMERIKSAAN PSIKOLOGIS";
 
-$bobot1 = 24;
-$bobot2 = 8;
-$bobot3 = 8;
-$bobot4 = 10;
-$bobot5 = 6;
-$bobot6 = 8;
-$bobot7 = 10;
-$bobot8 = 10;
-$bobot9 = 10;
-$bobot10 = 6;
+$bobot1 = 19; // General Intelligence
+
+$bobot3 = 9; // Interpersonal Understanding
+$bobot4 = 9; // Stabilitas Emosi
+$bobot6 = 9; // Kepercayaan diri
+$bobot10 = 9; // Kemandirian bobot
+
+$bobot2 = 9; // Achievement motivation
+$bobot5 = 9; // Pengambilan resiko
+$bobot7 = 9; // Inisiatif
+$bobot8 = 9; // Kerjasama
+$bobot9 = 9; // Ketekunan
 
 $total_bobot =  $bobot1 + $bobot2 + $bobot3+ $bobot4+ $bobot5+ $bobot6+ $bobot7+ $bobot8+ $bobot9+ $bobot10;
 
@@ -66,11 +68,8 @@ $total_min = $min1 + $min2 + $min3 + $min4 + $min5 + $min6 + $min7 + $min8 + $mi
 $total_max = $max1 + $max2 + $max3 + $max4 + $max5 + $max6 + $max7 + $max8 + $max9 + $max10;
 
 
-/*
-DISINI KALAU MAU DI OVERRIDE
-*/
-$rating1 = $cfit->scaled;
 
+$rating1 = $cfit->scaled;
 $rating2 = $ipa_values->trait_1;
 $rating3 = $ipa_values->trait_2;
 $rating4 = $ipa_values->trait_3;
@@ -80,7 +79,6 @@ $rating7 = $ipa_values->trait_6;
 $rating8 = $ipa_values->trait_7;
 $rating9 = $ipa_values->trait_8;
 $rating10 = $ipa_values->trait_9;
-
 
 if(isset($adjustments['general_intelligence'])){
     $rating1 = $adjustments['general_intelligence'];
@@ -112,6 +110,12 @@ if(isset($adjustments['kerjasama'])){
 if(isset($adjustments['ketekunan'])){
     $rating9 = $adjustments['ketekunan'];
 }
+
+if(isset($adjustments['kepemimpinan'])){
+    $rating11 = $adjustments['kepemimpinan'];
+}
+
+
 
 
 $rating1_adj = Adjustment::find()->andWhere(['test_id' => $id])->andWhere(['key' => 'rating1'])->One();
@@ -238,10 +242,10 @@ if ($rating10 == 5 ){ $rat105 = "grey";} else { $rat105 = "";}
 if ($rating10 == 6 ){ $rat106 = "grey";} else { $rat106 = "";}
 if ($rating10 == 7 ){ $rat107 = "grey";} else { $rat107 = "";}
 
-if ($total_pribadi > 449 ){ $bcg1 = "grey";} else { $bcg1 = "";}
-if ($total_pribadi > 399 && $total_pribadi < 450 ){ $bcg2 = "grey";} else { $bcg2 = "";}
-if ($total_pribadi > 349 && $total_pribadi < 400 ){ $bcg3 = "grey";} else { $bcg3 = "";}
-if ($total_pribadi < 350 ){ $bcg4 = "grey";} else { $bcg4 = "";}
+if ($total_pribadi > 449 ){ $bcg1 = "yellow";} else { $bcg1 = "";}
+if ($total_pribadi > 399 && $total_pribadi < 450 ){ $bcg2 = "yellow";} else { $bcg2 = "";}
+if ($total_pribadi > 349 && $total_pribadi < 400 ){ $bcg3 = "yellow";} else { $bcg3 = "";}
+if ($total_pribadi < 350 ){ $bcg4 = "yellow";} else { $bcg4 = "";}
 
 
 $namaaspek1 = "<B>GENERAL INTELLIGENCE</B><BR>Kemampuan dalam menangkap, mengolah, mencerna informasi,mengolah, mencerna informasi,mengolah, mencerna informasi, kemudian memakai atau menggunakannya sesuai dengan kebutuhan.";
@@ -276,7 +280,8 @@ $pdf->SetPrintFooter(false);
 // set default monospaced font
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
-
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP - 10, PDF_MARGIN_RIGHT);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
 // set auto page breaks
@@ -304,22 +309,22 @@ $tbl = <<<EOD
 
     table.first {
 
-        border: 3px solid #2f318b;
+        border: 3px solid #000000;
 
     }
-    td.blue {
-        border: 2px solid #2f318b;
-
+    td.black {
+        border: 2px solid #000000;
     }
 </style>
 
 <table cellspacing="1" cellpadding="1" class="first">
 <tr>
-<td colspan="2" align="center" class="blue"><H1><B>PSIKOGRAM</B></H1></td>
+<td width="66%" align="center" class="black"><H1><B>PSIKOGRAM</B></H1></td>
+<td bgcolor="#00AFEF" width="34%" align="center" class="black"><H1><B><font>RAHASIA</font></B></H1></td>
 </tr>
 <tr>
-<td width="80%" align="center" class="blue"><H1><B>HASIL ASSESSMENT/PEMERIKSAAN PSIKOLOGIS</B></H1></td>
-<td bgcolor="#2f318b" width="20%" align="center" class="blue"><H1><B><font color="white">RAHASIA</font></B></H1></td>
+<td width="66%" align="center" class="black"><H4><B>HASIL ASSESSMENT/PEMERIKSAAN PSIKOLOGIS</B></H4></td>
+<td bgcolor="#FFFF00" width="34%" align="center" class="black"><H4><B><font>LEVEL STAFF</font></B></H4></td>
 </tr>
 </table>
 
@@ -328,13 +333,17 @@ $tbl = <<<EOD
 <table cellspacing="0" cellpadding="1" class="first">
 
     <tr>
+        <td width="66%" align="center" class="black"><H1><B>IDENTITAS PESERTA</B></H1></td>
+        <td width="34%" align="center" class="black"><H1><B>KETERANGAN</B></H1></td>
+    </tr>
+    <tr>
 
        <td>
        <table cellspacing="0" cellpadding="1" border="0">
             <tr>
-                <td width="20%">No. Tes</td>
+                <td width="30%">No. Tes</td>
                 <td width="3%">:</td>
-                <td width="77%">$no</td>
+                <td width="67%">$no</td>
             </tr>
             <tr>
                 <td>Nama Lengkap</td>
@@ -365,7 +374,17 @@ $tbl = <<<EOD
             </tr>
        </table>
        </td>
-
+        <td class="black">
+           <ol>
+                <li>Jauh di bawah rata-rata</li>
+                <li>Di bawah rata-rata</li>
+                <li>Rata-rata batas bawah</li>
+                <li>Rata-rata</li>
+                <li>Rata-rata batas atas</li>
+                <li>Di atas rata-rata</li>
+                <li>Jauh di atas rata-rata</li>
+            </ol>
+        </td>
 
     </tr>
 
@@ -381,15 +400,15 @@ $tbl = <<<EOD
 
     table.first {
 
-        border: 3px solid #2f318b;
+        border: 3px solid #000000;
 
     }
     td {
-        border: 2px solid #2f318b;
+        border: 2px solid #000000;
 
     }
     td.put {
-        border: 2px solid white;
+        border: 2px solid black;
 
     }
 </style>
@@ -401,15 +420,15 @@ $tbl = <<<EOD
 
 <table cellspacing="0" cellpadding="1"  class="first">
     <tr>
-        <td  class="blue" bgcolor="#2f318b" rowspan="2" align="CENTER" width="66%"><h3><B><font color="white">ASPEK - ASPEK PENILAIAN</font></B></h3></td>
-        <td class="blue" bgcolor="#2f318b" rowspan="2"align="center" width="5%"><B><font color="white">Bobot</font></B></td>
-        <td class="blue" bgcolor="#2f318b" rowspan="2" align="center" width="14%"><h3><B><font color="white">RATING</font></B></h3></td>
-        <td class="blue" bgcolor="#2f318b" colspan="3" align="center" width="15%"><h3><B><font color="white">SKOR</font></B></h3></td>
+        <td  class="black" rowspan="2" align="CENTER" width="66%"><h3><B>ASPEK - ASPEK PENILAIAN</B></h3></td>
+        <td class="black" rowspan="2"align="center" width="5%"><B>Bobot</B></td>
+        <td class="black" rowspan="2" align="center" width="14%"><h3><B>RATING</B></h3></td>
+        <td class="black" colspan="3" align="center" width="15%"><h3><B>SKOR</B></h3></td>
     </tr>
     <tr>
-        <td class="blue" bgcolor="#2f318b" align="center"><B><font color="white">MIN</font></B></td>
-        <td class="blue" bgcolor="#2f318b" align="center"><B><font color="white">PRBDI</font></B></td>
-        <td class="blue" bgcolor="#2f318b" align="center"><B><font color="white">MAKS</font></B></td>
+        <td class="black" align="center"><B>MIN</B></td>
+        <td class="black" align="center"><B>PRBDI</B></td>
+        <td class="black" align="center"><B>MAKS</B></td>
     </tr>
 </table>
 
@@ -424,8 +443,7 @@ $tbl = <<<EOD
 
 <table cellspacing="0" cellpadding="1" class="first">
     <tr>
-        <td rowspan="3" align="center" width="5%"><BR><BR>1</td>
-        <td rowspan="3" align="left" width="61%">$namaaspek1</td>
+        <td rowspan="3" align="left" width="66%">$namaaspek1</td>
         <td rowspan="3" align="left" width="5%" align="center"><B><BR>$bobot1</B></td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">1</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">2</td>
@@ -435,7 +453,7 @@ $tbl = <<<EOD
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min1</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi1</B></td>
+        <td bgcolor="yellow" rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi1</B></td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$max1</B></td>
     </tr>
     <tr>
@@ -476,7 +494,7 @@ $tbl = <<<EOD
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min3</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi3</B></td>
+        <td bgcolor="yellow" rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi3</B></td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$max3</B></td>
     </tr>
     <tr>
@@ -508,7 +526,7 @@ $tbl = <<<EOD
         <td  bgcolor="#bebebe" align="left" width="2%" align="center">6</td>
         <td  bgcolor="#bebebe" align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min4</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi4</B></td>
+        <td bgcolor="yellow" rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi4</B></td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$max4</B></td>
     </tr>
     <tr>
@@ -540,7 +558,7 @@ $tbl = <<<EOD
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min6</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi6</B></td>
+        <td bgcolor="yellow" rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi6</B></td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$max6</B></td>
     </tr>
     <tr>
@@ -572,7 +590,7 @@ $tbl = <<<EOD
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min10</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi10</B></td>
+        <td bgcolor="yellow" rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi10</B></td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$max10</B></td>
     </tr>
     <tr>
@@ -613,7 +631,7 @@ $tbl = <<<EOD
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min2</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi2</B></td>
+        <td bgcolor="yellow" rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi2</B></td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$max2</B></td>
     </tr>
     <tr>
@@ -645,7 +663,7 @@ $tbl = <<<EOD
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min5</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi5</B></td>
+        <td bgcolor="yellow" rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi5</B></td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$max5</B></td>
     </tr>
     <tr>
@@ -677,7 +695,7 @@ $tbl = <<<EOD
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min7</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi7</B></td>
+        <td bgcolor="yellow" rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi7</B></td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$max7</B></td>
     </tr>
     <tr>
@@ -709,7 +727,7 @@ $tbl = <<<EOD
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min8</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi8</B></td>
+        <td bgcolor="yellow" rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi8</B></td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$max8</B></td>
     </tr>
     <tr>
@@ -741,7 +759,7 @@ $tbl = <<<EOD
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">6</td>
         <td bgcolor="#bebebe"  align="left" width="2%" align="center">7</td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$min9</B></td>
-        <td rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi9</B></td>
+        <td bgcolor="yellow" rowspan="3" align="center" width="5%"><BR><BR><B>$pribadi9</B></td>
         <td rowspan="3" align="center" width="5%"><BR><BR><B>$max9</B></td>
     </tr>
     <tr>
@@ -766,7 +784,7 @@ $tbl = <<<EOD
         <td  align="right" width="71%"><h3><B>$total_bobot</B></h3></td>
         <td  align="center" width="14%"><h3><B>Nilai Total</B></h3></td>
         <td  align="center" width="5%"><h3><B>$total_min</B></h3></td>
-        <td  align="center" width="5%"><h3><B>$total_pribadi</B></h3></td>
+        <td  bgcolor="yellow" align="center" width="5%"><h3><B>$total_pribadi</B></h3></td>
         <td  align="center" width="5%"><h3><B>$total_max</B></h3></td>
     </tr>
 
@@ -791,11 +809,11 @@ $tbl = <<<EOD
 
     table.first {
 
-        border: 3px solid #2f318b;
+        border: 3px solid #000000;
 
     }
-    td.blue {
-        border: 2px solid #2f318b;
+    td.black {
+        border: 2px solid #000000;
 
     }
     td.put {
@@ -812,37 +830,37 @@ $tbl = <<<EOD
 
        <table class="first">
             <tr>
-                <td class="blue" colspan="3" align="left"><B>REKOMENDASI :</B>$rekomendasi</td>
+                <td class="black" colspan="3" align="left"><B>REKOMENDASI :</B>$rekomendasi</td>
 
             </tr>
             <tr>
-                <td class="blue" bgcolor="#bebebe" colspan="2" align="center" width="30%"><B>KUALIFIKASI</B></td>
-                <td  class="blue"bgcolor="#bebebe"  align="center" width="50%"><B>REKOMENDASI</B></td>
-                <td class="blue" bgcolor="#bebebe"  align="center" width="20%"><B>SKALA</B></td>
+                <td class="black" bgcolor="#bebebe" colspan="2" align="center" width="30%"><B>KUALIFIKASI</B></td>
+                <td  class="black"bgcolor="#bebebe"  align="center" width="50%"><B>REKOMENDASI</B></td>
+                <td class="black" bgcolor="#bebebe"  align="center" width="20%"><B>SKALA</B></td>
             </tr>
             <tr>
-                <td  class="blue" bgcolor="$bcg1" width="10%" align="center">K-1</td>
-                <td class="blue" bgcolor="$bcg1" align="left" width="20%">BAIK</td>
-                <td class="blue" bgcolor="$bcg1" width="50%">Dapat Disarankan</td>
-                <td class="blue" bgcolor="$bcg1" width="20%" align="center">450 - 499</td>
+                <td  class="black" bgcolor="$bcg1" width="10%" align="center">K-1</td>
+                <td class="black" bgcolor="$bcg1" align="left" width="20%">BAIK</td>
+                <td class="black" bgcolor="$bcg1" width="50%">Dapat Disarankan</td>
+                <td class="black" bgcolor="$bcg1" width="20%" align="center">450 - 499</td>
             </tr>
            <tr>
-                <td class="blue" bgcolor="$bcg2" width="10%" align="center">K-2</td>
-                <td class="blue" bgcolor="$bcg2" align="left" width="20%">CUKUP</td>
-                <td class="blue" bgcolor="$bcg2" width="50%">Masih Dapat Disarankan</td>
-                <td class="blue" bgcolor="$bcg2" width="20%" align="center">400 - 449</td>
+                <td class="black" bgcolor="$bcg2" width="10%" align="center">K-2</td>
+                <td class="black" bgcolor="$bcg2" align="left" width="20%">CUKUP</td>
+                <td class="black" bgcolor="$bcg2" width="50%">Masih Dapat Disarankan</td>
+                <td class="black" bgcolor="$bcg2" width="20%" align="center">400 - 449</td>
             </tr>
             <tr>
-                <td class="blue" bgcolor="$bcg3" width="10%" align="center">K-3</td>
-                <td class="blue" bgcolor="$bcg3" align="left" width="20%">KURANG</td>
-                <td class="blue" bgcolor="$bcg3" width="50%">Kurang Dapat Disarankan</td>
-                <td class="blue" bgcolor="$bcg3" width="20%" align="center">350 - 399</td>
+                <td class="black" bgcolor="$bcg3" width="10%" align="center">K-3</td>
+                <td class="black" bgcolor="$bcg3" align="left" width="20%">KURANG</td>
+                <td class="black" bgcolor="$bcg3" width="50%">Kurang Dapat Disarankan</td>
+                <td class="black" bgcolor="$bcg3" width="20%" align="center">350 - 399</td>
             </tr>
             <tr>
-                <td class="blue" bgcolor="$bcg4" width="10%" align="center">K-4</td>
-                <td class="blue" bgcolor="$bcg4" align="left" width="20%">BURUK</td>
-                <td class="blue" bgcolor="$bcg4" width="50%">Tidak Dapat Disarankan</td>
-                <td class="blue" bgcolor="$bcg4" width="20%" align="center">349 - Ke bawah</td>
+                <td class="black" bgcolor="$bcg4" width="10%" align="center">K-4</td>
+                <td class="black" bgcolor="$bcg4" align="left" width="20%">BURUK</td>
+                <td class="black" bgcolor="$bcg4" width="50%">Tidak Dapat Disarankan</td>
+                <td class="black" bgcolor="$bcg4" width="20%" align="center">349 - Ke bawah</td>
             </tr>
        </table>
 
