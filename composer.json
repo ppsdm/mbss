@@ -5,6 +5,12 @@
     "homepage": "http://www.yiiframework.com/",
     "type": "project",
     "license": "BSD-3-Clause",
+    "repositories": [
+	        {
+			        "type": "vcs",
+				        "url": "https://github.com/alexjeen/yii2-tcpdf"
+					    }
+    ],
     "support": {
         "issues": "https://github.com/yiisoft/yii2/issues?state=open",
         "forum": "http://www.yiiframework.com/forum/",
@@ -19,8 +25,8 @@
         "yiisoft/yii2-bootstrap": "^2.0",
         "yiisoft/yii2-swiftmailer": "*",
         "yiisoft/yii2-jui": "^2.0",
-        "drivesoftz/yii2-tcpdf": "~1.0",
-        "linslin/yii2-curl": "*"
+        "linslin/yii2-curl": "*",
+        "glitchit/ds-yii2-tcpdf": "^1.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

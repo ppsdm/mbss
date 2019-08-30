@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "51687a30b8cbd94996643acba51e4336",
+    "content-hash": "3530dcefbc00a218244430bd476a2b62",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -280,73 +280,6 @@
             "time": "2017-07-16T21:13:23+00:00"
         },
         {
-            "name": "drivesoftz/yii2-tcpdf",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/drivesoftz/yii2-tcpdf.git",
-                "reference": "f38c558b0b3fa4d10305240708cfc78df3795de5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/drivesoftz/yii2-tcpdf/zipball/f38c558b0b3fa4d10305240708cfc78df3795de5",
-                "reference": "f38c558b0b3fa4d10305240708cfc78df3795de5",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "fonts",
-                    "config",
-                    "include",
-                    "tcpdf.php",
-                    "tcpdf_base.php",
-                    "tcpdf_library.php",
-                    "tcpdf_parser.php",
-                    "tcpdf_import.php",
-                    "tcpdf_barcodes_1d.php",
-                    "tcpdf_barcodes_2d.php",
-                    "include/tcpdf_colors.php",
-                    "include/tcpdf_filters.php",
-                    "include/tcpdf_font_data.php",
-                    "include/tcpdf_fonts.php",
-                    "include/tcpdf_images.php",
-                    "include/tcpdf_static.php",
-                    "include/barcodes/datamatrix.php",
-                    "include/barcodes/pdf417.php",
-                    "include/barcodes/qrcode.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPLv3"
-            ],
-            "authors": [
-                {
-                    "name": "Eakkabin Jaikeawma",
-                    "email": "eakkabin_it@hotmail.com",
-                    "homepage": "https://drivesoft.co"
-                }
-            ],
-            "description": "TCPDF is a PHP class for generating PDF documents and barcodes.",
-            "homepage": "http://www.tcpdf.org/",
-            "keywords": [
-                "CoachMaxz",
-                "PDFD32000-2008",
-                "TCPDF",
-                "barcodes",
-                "datamatrix",
-                "drivesoft",
-                "pdf",
-                "pdf417",
-                "qrcode"
-            ],
-            "time": "2016-03-13T16:42:40+00:00"
-        },
-        {
             "name": "ezyang/htmlpurifier",
             "version": "v4.10.0",
             "source": {
@@ -392,6 +325,79 @@
                 "html"
             ],
             "time": "2018-02-23T01:58:20+00:00"
+        },
+        {
+            "name": "glitchit/ds-yii2-tcpdf",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GlitchIT/ds-yii2-tcpdf.git",
+                "reference": "6746ea4c8a6a3390039c224ed114f2e42f334921"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GlitchIT/ds-yii2-tcpdf/zipball/6746ea4c8a6a3390039c224ed114f2e42f334921",
+                "reference": "6746ea4c8a6a3390039c224ed114f2e42f334921",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "fonts",
+                    "config",
+                    "include",
+                    "tcpdf.php",
+                    "tcpdf_base.php",
+                    "tcpdf_library.php",
+                    "tcpdf_parser.php",
+                    "tcpdf_import.php",
+                    "tcpdf_barcodes_1d.php",
+                    "tcpdf_barcodes_2d.php",
+                    "include/tcpdf_colors.php",
+                    "include/tcpdf_filters.php",
+                    "include/tcpdf_font_data.php",
+                    "include/tcpdf_fonts.php",
+                    "include/tcpdf_images.php",
+                    "include/tcpdf_static.php",
+                    "include/barcodes/datamatrix.php",
+                    "include/barcodes/pdf417.php",
+                    "include/barcodes/qrcode.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPLv3"
+            ],
+            "authors": [
+                {
+                    "name": "Eakkabin Jaikeawma",
+                    "email": "eakkabin_it@hotmail.com",
+                    "homepage": "https://drivesoft.co"
+                },
+                {
+                    "name": "Aaron Toomey",
+                    "email": "aaron@glitch-it.com.au",
+                    "homepage": "http://www.glitch-it.com.au"
+                }
+            ],
+            "description": "Replacement for drivesoftz/yii2-tcpdf abandoned package - TCPDF is a PHP class for generating PDF documents and barcodes.",
+            "homepage": "http://www.tcpdf.org/",
+            "keywords": [
+                "CoachMaxz",
+                "GlitchIT",
+                "PDFD32000-2008",
+                "TCPDF",
+                "barcodes",
+                "datamatrix",
+                "drivesoft",
+                "pdf",
+                "pdf417",
+                "qrcode"
+            ],
+            "time": "2017-10-11T03:38:25+00:00"
         },
         {
             "name": "linslin/yii2-curl",
@@ -547,48 +553,48 @@
             "authors": [
                 {
                     "name": "Qiang Xue",
+                    "role": "Founder and project lead",
                     "email": "qiang.xue@gmail.com",
-                    "homepage": "http://www.yiiframework.com/",
-                    "role": "Founder and project lead"
+                    "homepage": "http://www.yiiframework.com/"
                 },
                 {
                     "name": "Alexander Makarov",
+                    "role": "Core framework development",
                     "email": "sam@rmcreative.ru",
-                    "homepage": "http://rmcreative.ru/",
-                    "role": "Core framework development"
+                    "homepage": "http://rmcreative.ru/"
                 },
                 {
                     "name": "Maurizio Domba",
-                    "homepage": "http://mdomba.info/",
-                    "role": "Core framework development"
+                    "role": "Core framework development",
+                    "homepage": "http://mdomba.info/"
                 },
                 {
                     "name": "Carsten Brandt",
+                    "role": "Core framework development",
                     "email": "mail@cebe.cc",
-                    "homepage": "http://cebe.cc/",
-                    "role": "Core framework development"
+                    "homepage": "http://cebe.cc/"
                 },
                 {
                     "name": "Timur Ruziev",
+                    "role": "Core framework development",
                     "email": "resurtm@gmail.com",
-                    "homepage": "http://resurtm.com/",
-                    "role": "Core framework development"
+                    "homepage": "http://resurtm.com/"
                 },
                 {
                     "name": "Paul Klimov",
-                    "email": "klimov.paul@gmail.com",
-                    "role": "Core framework development"
+                    "role": "Core framework development",
+                    "email": "klimov.paul@gmail.com"
                 },
                 {
                     "name": "Dmitry Naumenko",
-                    "email": "d.naumenko.a@gmail.com",
-                    "role": "Core framework development"
+                    "role": "Core framework development",
+                    "email": "d.naumenko.a@gmail.com"
                 },
                 {
                     "name": "Boudewijn Vahrmeijer",
+                    "role": "Core framework development",
                     "email": "info@dynasource.eu",
-                    "homepage": "http://dynasource.eu",
-                    "role": "Core framework development"
+                    "homepage": "http://dynasource.eu"
                 }
             ],
             "description": "Yii PHP Framework Version 2",
