@@ -646,19 +646,19 @@ public function actionStaffResult($id)
 
 
      $disc1_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-d'])->andWhere(['<=','unscaled',$pcas_aspect_array['a']])->orderBy('unscaled DESC')->One();
-     $disc2_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-d'])->andWhere(['>=','unscaled',$pcas_aspect_array['b']])->orderBy('unscaled DESC')->One();
+     $disc2_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-d'])->andWhere(['>=','unscaled',$pcas_aspect_array['b']])->orderBy('unscaled ASC')->One();
      $disc3_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-d'])->andWhere(['<=','unscaled', ($pcas_aspect_array['a'] - $pcas_aspect_array['b'])])->orderBy('unscaled DESC')->One();
 
      $disc1_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-i'])->andWhere(['<=','unscaled', $pcas_aspect_array['c']])->orderBy('unscaled DESC')->One();
-     $disc2_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-i'])->andWhere(['>=','unscaled', $pcas_aspect_array['d']])->orderBy('unscaled DESC')->One();
+     $disc2_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-i'])->andWhere(['>=','unscaled', $pcas_aspect_array['d']])->orderBy('unscaled ASC')->One();
      $disc3_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-i'])->andWhere(['<=','unscaled', ($pcas_aspect_array['c'] - $pcas_aspect_array['d'])])->orderBy('unscaled DESC')->One();
 
      $disc1_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-s'])->andWhere(['<=','unscaled', $pcas_aspect_array['e']])->orderBy('unscaled DESC')->One();
-     $disc2_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-s'])->andWhere(['>=','unscaled', $pcas_aspect_array['f']])->orderBy('unscaled DESC')->One();
+     $disc2_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-s'])->andWhere(['>=','unscaled', $pcas_aspect_array['f']])->orderBy('unscaled ASC')->One();
      $disc3_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-s'])->andWhere(['<=','unscaled',($pcas_aspect_array['e'] - $pcas_aspect_array['f'])])->orderBy('unscaled DESC')->One();
 
      $disc1_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-c'])->andWhere(['<=','unscaled', $pcas_aspect_array['g']])->orderBy('unscaled DESC')->One();
-     $disc2_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-c'])->andWhere(['>=','unscaled',$pcas_aspect_array['h']])->orderBy('unscaled DESC')->One();
+     $disc2_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-c'])->andWhere(['>=','unscaled',$pcas_aspect_array['h']])->orderBy('unscaled ASC')->One();
      $disc3_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-c'])->andWhere(['<=','unscaled',($pcas_aspect_array['g'] - $pcas_aspect_array['h'])])->orderBy('unscaled DESC')->One();
 
 if($disc3_d->scaled > $disc3_i->scaled) {$di = '>';} else if($disc3_d->scaled < $disc3_i->scaled) {$di = '<';} else {$di = '=';}
@@ -773,11 +773,30 @@ return ['id'=>$id, 'model'=>$model, 'cfit' => $total_cfit_scaled, 'pcas' => $pca
 'i_pos' => $i_pos,
 's_pos' => $s_pos,
 'c_pos' => $c_pos,
-
+'disc1_d' => $disc1_d->scaled,
+'disc1_i' => $disc1_i->scaled,
+'disc1_s' => $disc1_s->scaled,
+'disc1_c' => $disc1_c->scaled,
+'disc2_d' => $disc2_d->scaled,
+'disc2_i' => $disc2_i->scaled,
+'disc2_s' => $disc2_s->scaled,
+'disc2_c' => $disc2_c->scaled,
 'disc3_d' => $disc3_d->scaled,
 'disc3_i' => $disc3_i->scaled,
 'disc3_s' => $disc3_s->scaled,
 'disc3_c' => $disc3_c->scaled,
+'disc1_d_unscaled' => $pcas_aspect_array['a'],
+'disc1_i_unscaled' => $pcas_aspect_array['c'],
+'disc1_s_unscaled' => $pcas_aspect_array['e'],
+'disc1_c_unscaled' => $pcas_aspect_array['g'],
+'disc2_d_unscaled' => $pcas_aspect_array['b'],
+'disc2_i_unscaled' => $pcas_aspect_array['d'],
+'disc2_s_unscaled' => $pcas_aspect_array['f'],
+'disc2_c_unscaled' => $pcas_aspect_array['h'],
+'disc3_d_unscaled' => $pcas_aspect_array['a'] - $pcas_aspect_array['b'],
+'disc3_i_unscaled' => $pcas_aspect_array['c'] - $pcas_aspect_array['d'],
+'disc3_s_unscaled' => $pcas_aspect_array['e'] - $pcas_aspect_array['f'],
+'disc3_c_unscaled' => $pcas_aspect_array['g'] - $pcas_aspect_array['h'],
 
 
 ];
@@ -1116,19 +1135,19 @@ $match = false;
           $total_cfit_scaled = ScaleRef::find()->andWhere(['scale_name' => 'apm'])->andWhere(['unscaled' => $PM_SCORE])->One();
 
      $disc1_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-d'])->andWhere(['<=','unscaled',$pcas_aspect_array['a']])->orderBy('unscaled DESC')->One();
-     $disc2_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-d'])->andWhere(['>=','unscaled',$pcas_aspect_array['b']])->orderBy('unscaled DESC')->One();
+     $disc2_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-d'])->andWhere(['>=','unscaled',$pcas_aspect_array['b']])->orderBy('unscaled ASC')->One();
      $disc3_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-d'])->andWhere(['<=','unscaled', ($pcas_aspect_array['a'] - $pcas_aspect_array['b'])])->orderBy('unscaled DESC')->One();
 
      $disc1_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-i'])->andWhere(['<=','unscaled', $pcas_aspect_array['c']])->orderBy('unscaled DESC')->One();
-     $disc2_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-i'])->andWhere(['>=','unscaled', $pcas_aspect_array['d']])->orderBy('unscaled DESC')->One();
+     $disc2_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-i'])->andWhere(['>=','unscaled', $pcas_aspect_array['d']])->orderBy('unscaled ASC')->One();
      $disc3_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-i'])->andWhere(['<=','unscaled', ($pcas_aspect_array['c'] - $pcas_aspect_array['d'])])->orderBy('unscaled DESC')->One();
 
      $disc1_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-s'])->andWhere(['<=','unscaled', $pcas_aspect_array['e']])->orderBy('unscaled DESC')->One();
-     $disc2_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-s'])->andWhere(['>=','unscaled', $pcas_aspect_array['f']])->orderBy('unscaled DESC')->One();
+     $disc2_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-s'])->andWhere(['>=','unscaled', $pcas_aspect_array['f']])->orderBy('unscaled ASC')->One();
      $disc3_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-s'])->andWhere(['<=','unscaled',($pcas_aspect_array['e'] - $pcas_aspect_array['f'])])->orderBy('unscaled DESC')->One();
 
      $disc1_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-c'])->andWhere(['<=','unscaled', $pcas_aspect_array['g']])->orderBy('unscaled DESC')->One();
-     $disc2_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-c'])->andWhere(['>=','unscaled',$pcas_aspect_array['h']])->orderBy('unscaled DESC')->One();
+     $disc2_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-c'])->andWhere(['>=','unscaled',$pcas_aspect_array['h']])->orderBy('unscaled ASC')->One();
      $disc3_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-c'])->andWhere(['<=','unscaled',($pcas_aspect_array['g'] - $pcas_aspect_array['h'])])->orderBy('unscaled DESC')->One();
 
 if($disc3_d->scaled > $disc3_i->scaled) {$di = '>';} else if($disc3_d->scaled < $disc3_i->scaled) {$di = '<';} else {$di = '=';}
@@ -1235,7 +1254,32 @@ foreach ($PAPIKOSTIK_ARRAY as $papikostik_key => $papikostik_value) {
       ob_end_clean();
      return $this->render('mbss_manager', ['id'=>$id, 'model'=>$model, 'cfit' => $total_cfit_scaled, 'pcas' => $pcas_aspect_array, 'ipa_values' => $ipa_values, 'papikostik' => $PAPIKOSTIK_ARRAY_SCALED]);
 */
-return ['id'=>$id, 'model'=>$model,'disc' => $disc_array,'grafik' => $grafik, 'cfit' => $total_cfit_scaled, 'pcas' => $pcas_aspect_array, 'ipa_values' => $ipa_values, 'papikostik' => $PAPIKOSTIK_ARRAY_SCALED
+return ['id'=>$id, 'model'=>$model,'disc' => $disc_array,'grafik' => $grafik, 'cfit' => $total_cfit_scaled, 'pcas' => $pcas_aspect_array, 'ipa_values' => $ipa_values, 
+'papikostik' => $PAPIKOSTIK_ARRAY_SCALED,
+'disc1_d' => $disc1_d->scaled,
+'disc1_i' => $disc1_i->scaled,
+'disc1_s' => $disc1_s->scaled,
+'disc1_c' => $disc1_c->scaled,
+'disc2_d' => $disc2_d->scaled,
+'disc2_i' => $disc2_i->scaled,
+'disc2_s' => $disc2_s->scaled,
+'disc2_c' => $disc2_c->scaled,
+'disc3_d' => $disc3_d->scaled,
+'disc3_i' => $disc3_i->scaled,
+'disc3_s' => $disc3_s->scaled,
+'disc3_c' => $disc3_c->scaled,
+'disc1_d_unscaled' => $pcas_aspect_array['a'],
+'disc1_i_unscaled' => $pcas_aspect_array['c'],
+'disc1_s_unscaled' => $pcas_aspect_array['e'],
+'disc1_c_unscaled' => $pcas_aspect_array['g'],
+'disc2_d_unscaled' => $pcas_aspect_array['b'],
+'disc2_i_unscaled' => $pcas_aspect_array['d'],
+'disc2_s_unscaled' => $pcas_aspect_array['f'],
+'disc2_c_unscaled' => $pcas_aspect_array['h'],
+'disc3_d_unscaled' => $pcas_aspect_array['a'] - $pcas_aspect_array['b'],
+'disc3_i_unscaled' => $pcas_aspect_array['c'] - $pcas_aspect_array['d'],
+'disc3_s_unscaled' => $pcas_aspect_array['e'] - $pcas_aspect_array['f'],
+'disc3_c_unscaled' => $pcas_aspect_array['g'] - $pcas_aspect_array['h'],
 ];
 
 
@@ -1329,7 +1373,7 @@ return ['id'=>$id, 'model'=>$model,'disc' => $disc_array,'grafik' => $grafik, 'c
                 $object = $this->actionStaffresult($id);
 
                 foreach($object as $obj => $value) {
-                    echo $obj . ' = ' . sizeof($value);
+                    echo 'sizeof ' . $obj . ' = ' . sizeof($value);
                     echo '<br/>';
                 }
                 echo '<pre>';
