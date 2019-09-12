@@ -1320,8 +1320,7 @@ return ['id'=>$id, 'model'=>$model,'disc' => $disc_array,'grafik' => $grafik, 'c
             $adjustments[$adjustmodel->key] = $adjustmodel->value;
         }
 
-
-     return $this->render('mbss_manager2', ['id'=>$object['id'], 'adjustments' => $adjustments, 'model'=>$object['model'], 'cfit' => $object['cfit'], 'pcas' => $object['pcas'], 'ipa_values' => $object['ipa_values'], 'papikostik' => $object['papikostik']]);
+     return $this->render('mbss_manager2', ['id'=>$object['id'], 'adjustments' => $adjustments, 'model'=>$object['model'], 'cfit' => $object['cfit'], 'pcas' => $object['pcas'], 'ipa_values' => $object['ipa_values'], 'papikostik' => $object['papikostik'], "data" => $object]);
 
     }
 
@@ -1365,7 +1364,7 @@ return ['id'=>$id, 'model'=>$model,'disc' => $disc_array,'grafik' => $grafik, 'c
             $adjustments[$adjustmodel->key] = $adjustmodel->value;
         }
 
-     return $this->render('mbss_staff2', ['id'=>$id, 'adjustments'=>$adjustments,'model'=>$object['model'], 'cfit' => $object['cfit'], 'pcas' => $object['pcas'], 'ipa_values' => $object['ipa_values']]);
+     return $this->render('mbss_staff2', ['id'=>$id, 'adjustments'=>$adjustments,'model'=>$object['model'], 'cfit' => $object['cfit'], 'pcas' => $object['pcas'], 'ipa_values' => $object['ipa_values'], "data" => $object]);
 
     }
 
@@ -1373,7 +1372,7 @@ return ['id'=>$id, 'model'=>$model,'disc' => $disc_array,'grafik' => $grafik, 'c
                 $object = $this->actionStaffresult($id);
 
                 foreach($object as $obj => $value) {
-                    echo 'sizeof ' . $obj . ' = ' . sizeof($value);
+                    echo 'sizeof ' . $obj . ' = ' ;
                     echo '<br/>';
                 }
                 echo '<pre>';
