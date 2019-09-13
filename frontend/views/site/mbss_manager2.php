@@ -912,6 +912,68 @@ $tbl = <<<EOD
 EOD;
 
 $pdf->writeHTML($tbl, true, false, false, false, '');
+
+// -----------------------------------------------------------------------------
+$discD1 = $data['disc1_d'];
+$discD2 = $data['disc2_d'];
+$discD3 = $data['disc3_d'];
+$discI1 = $data['disc1_i'];
+$discI2 = $data['disc2_i'];
+$discI3 = $data['disc3_i'];
+$discS1 = $data['disc1_s'];
+$discS2 = $data['disc2_s'];
+$discS3 = $data['disc3_s'];
+$discC1 = $data['disc1_c'];
+$discC2 = $data['disc2_c'];
+$discC3 = $data['disc3_c'];
+
+$tbl = <<<EOD
+<style>
+  table td {
+    border: 1px solid black; 
+    text-align: center;
+  }
+
+  td.bold { 
+      font-weight: 700;
+  }
+</style>
+<table style="width: 50% !important;">
+  <tr>
+    <td> </td>
+    <td class="bold"><b>I</b></td>
+    <td class="bold"><b>II</b></td>
+    <td class="bold"><b>III</b></td>
+  </tr>
+  <tr>
+    <td class="bold"><b>D</b></td>
+    <td>$discD1</td>
+    <td>$discD2 </td>
+    <td>$discD3</td>
+  </tr>
+  <tr>
+    <td class="bold"><b>I</b></td>
+    <td>$discI1</td>
+    <td>$discI2</td>
+    <td>$discI3</td>
+  </tr>
+  <tr>
+    <td class="bold"><b>S</b></td>
+    <td>$discS1</td>
+    <td>$discS2</td>
+    <td>$discS3</td>
+  </tr>
+  <tr>
+    <td class="bold"><b>C</b></td>
+    <td>$discC1</td>
+    <td>$discC2</td>
+    <td>$discC3</td>
+  </tr>
+ </table>
+
+EOD;
+
+$pdf->writeHTML($tbl, true, false, false, false, '');
 //Close and output PDF document
 $pdf->Output('psikotes.pdf', 'I');
 
