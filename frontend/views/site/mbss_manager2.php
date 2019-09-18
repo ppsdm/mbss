@@ -914,18 +914,18 @@ EOD;
 $pdf->writeHTML($tbl, true, false, false, false, '');
 
 // -----------------------------------------------------------------------------
-$discD1 = $data['disc1_d'];
-$discD2 = $data['disc2_d'];
-$discD3 = $data['disc3_d'];
-$discI1 = $data['disc1_i'];
-$discI2 = $data['disc2_i'];
-$discI3 = $data['disc3_i'];
-$discS1 = $data['disc1_s'];
-$discS2 = $data['disc2_s'];
-$discS3 = $data['disc3_s'];
-$discC1 = $data['disc1_c'];
-$discC2 = $data['disc2_c'];
-$discC3 = $data['disc3_c'];
+$discD1 = $data['disc1_d_unscaled'];
+$discD2 = $data['disc2_d_unscaled'];
+$discD3 = $data['disc3_d_unscaled'];
+$discI1 = $data['disc1_i_unscaled'];
+$discI2 = $data['disc2_i_unscaled'];
+$discI3 = $data['disc3_i_unscaled'];
+$discS1 = $data['disc1_s_unscaled'];
+$discS2 = $data['disc2_s_unscaled'];
+$discS3 = $data['disc3_s_unscaled'];
+$discC1 = $data['disc1_c_unscaled'];
+$discC2 = $data['disc2_c_unscaled'];
+$discC3 = $data['disc3_c_unscaled'];
 
 $tbl = <<<EOD
 <style>
