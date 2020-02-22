@@ -3,9 +3,9 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=127.0.0.1;dbname=ppsdm_mbss',
-            'username' => 'ppsdm',
-            'password' => 'ppsdm-mysql',
+            'dsn' => 'mysql:host=localhost;dbname=ppsdm_mbss',
+            'username' => 'root',
+            'password' => '#root123',
             'charset' => 'utf8',
         ],
         'taodb' => [
@@ -17,11 +17,11 @@ return [
         ],
         'coredb' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=127.0.0.1;dbname=ppsdmdb',
-            'username' => 'ppsdm',
-            'password' => 'ppsdm-mysql',
+            'dsn' => 'mysql:host=localhost;dbname=ppsdm_core',
+            'username' => 'root',
+            'password' => '#root123',
             'charset' => 'utf8',
-        ],
+    ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'viewPath' => '@common/mail',

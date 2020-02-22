@@ -744,11 +744,11 @@ if($disc3_s->scaled > $disc3_c->scaled) {$sc = '>';} else if($disc3_s->scaled < 
          echo '<br/> C scaled: ' . $disc3_c->scaled;
          */
      } else if(sizeof($ranged_grafik) > 1) {
-    //  echo '<br/>MULTIPLE RANGE GRAFIK<br/>';
+      //echo '<br/>MULTIPLE RANGE GRAFIK<br/>';
          $ipa_values = new PcasIpaRef;
      } else {
          $ipa_values = new PcasIpaRef;
-    //  echo '<br/>TIDAK ADA MATCHING RANGE GRAFIK';
+      //echo '<br/>TIDAK ADA MATCHING RANGE GRAFIK';
 
 
      }

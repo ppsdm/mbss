@@ -272,7 +272,7 @@ $tbl = <<<EOD
 <td colspan="2" align="center" class="blue"><H1><B>PSIKOGRAM</B></H1></td>
 </tr>
 <tr>
-<td width="80%" align="center" class="blue"><H1><B>HASIL ASSESSMENT/PEMERIKSAAN PSIKOLOGIS</B></H1></td>
+<td bgcolor="#00ff00" width="80%" align="center" class="blue" ><H1><B>HASIL ASSESSMENT/PEMERIKSAAN PSIKOLOGIS</B></H1></td>
 <td bgcolor="#2f318b" width="20%" align="center" class="blue"><H1><B><font color="white">RAHASIA</font></B></H1></td>
 </tr>
 </table>

@@ -290,12 +290,12 @@ $tbl = <<<EOD
 
 <table cellspacing="1" cellpadding="1" class="first">
 <tr>
-<td width="66%" align="center" class="black"><H1><B>PSIKOGRAM</B></H1></td>
+<td bgcolor="#FFFF00" width="66%" align="center" class="black"><H1><B>PSIKOGRAM</B></H1></td>
 <td bgcolor="#00AFEF" width="34%" align="center" class="black"><H1><B><font>RAHASIA</font></B></H1></td>
 </tr>
 <tr>
-<td width="66%" align="center" class="black"><H4><B>HASIL ASSESSMENT/PEMERIKSAAN PSIKOLOGIS</B></H4></td>
-<td bgcolor="#FFFF00" width="34%" align="center" class="black"><H4><B><font>LEVEL SUPERVISOR - MANAGER</font></B></H4></td>
+<td bgcolor="#FFFF00" width="66%" align="center" class="black"><H4><B>HASIL ASSESSMENT/PEMERIKSAAN PSIKOLOGIS</B></H4></td>
+<td bgcolor="#FFFF00" width="34%" align="center" class="black"><H4><B><font>LEVEL SUPERVISOR</font></B></H4></td>
 </tr>
 </table>
 
@@ -304,8 +304,8 @@ $tbl = <<<EOD
 <table cellspacing="0" cellpadding="1" class="first">
 
     <tr>
-        <td width="66%" align="center" class="black"><H1><B>IDENTITAS PESERTA</B></H1></td>
-        <td width="34%" align="center" class="black"><H1><B>KETERANGAN</B></H1></td>
+        <td bgcolor="#FFFF00" width="66%" align="center" class="black"><H1><B>IDENTITAS PESERTA</B></H1></td>
+        <td bgcolor="#FFFF00" width="34%" align="center" class="black"><H1><B>KETERANGAN</B></H1></td>
     </tr>
     <tr>
 
@@ -391,24 +391,24 @@ $tbl = <<<EOD
 
 <table cellspacing="0" cellpadding="1"  class="first">
     <tr>
-        <td  class="black" rowspan="2" align="CENTER" width="66%"><h3><B>ASPEK - ASPEK PENILAIAN</B></h3></td>
-        <td class="black" rowspan="2"align="center" width="5%"><B>Bobot</B></td>
-        <td class="black" rowspan="2" align="center" width="14%"><h3><B>RATING</B></h3></td>
-        <td class="black" colspan="3" align="center" width="15%"><h3><B>SKOR</B></h3></td>
+        <td  bgcolor="#FFFF00" class="black" rowspan="2" align="CENTER" width="66%"><h3><B>ASPEK - ASPEK PENILAIAN</B></h3></td>
+        <td bgcolor="#FFFF00" class="black" rowspan="2"align="center" width="5%"><B>Bobot</B></td>
+        <td bgcolor="#FFFF00" class="black" rowspan="2" align="center" width="14%"><h3><B>RATING</B></h3></td>
+        <td bgcolor="#FFFF00" class="black" colspan="3" align="center" width="15%"><h3><B>SKOR</B></h3></td>
     </tr>
     <tr>
-        <td class="black" align="center"><B>MIN</B></td>
-        <td class="black" align="center"><B>PRBDI</B></td>
-        <td class="black" align="center"><B>MAKS</B></td>
+        <td bgcolor="#FFFF00" class="black" align="center"><B>MIN</B></td>
+        <td bgcolor="#FFFF00" class="black" align="center"><B>PRBDI</B></td>
+        <td bgcolor="#FFFF00" class="black" align="center"><B>MAKS</B></td>
     </tr>
 </table>
 
 <table class="first">
     <tr>
-        <td  rowspan="4" align="left" width="66%"><h3><B>A. ASPEK KECERDASAN</B></h3></td>
-        <td  align="center" width="5%"><h3><B></B></h3></td>
-        <td  align="center" width="14%"><h3><B></B></h3></td>
-        <td  align="center" width="15%"><h3><B></B></h3></td>
+        <td  bgcolor="#48e70a" rowspan="4" align="left" width="66%"><h3><B>A. ASPEK KECERDASAN</B></h3></td>
+        <td  bgcolor="#48e70a" align="center" width="5%"><h3><B></B></h3></td>
+        <td  bgcolor="#48e70a" align="center" width="14%"><h3><B></B></h3></td>
+        <td  bgcolor="#48e70a" align="center" width="15%"><h3><B></B></h3></td>
     </tr>
 </table>
 
@@ -446,10 +446,10 @@ $tbl = <<<EOD
 
 <table class="first">
     <tr>
-        <td  rowspan="4" align="left" width="66%"><h3><B>B. ASPEK KEPRIBADIAN</B></h3></td>
-        <td  align="center" width="5%"><h3><B></B></h3></td>
-        <td  align="center" width="14%"><h3><B></B></h3></td>
-        <td  align="center" width="15%"><h3><B></B></h3></td>
+        <td  bgcolor="#48e70a" rowspan="4" align="left" width="66%"><h3><B>B. ASPEK KEPRIBADIAN</B></h3></td>
+        <td  bgcolor="#48e70a" align="center" width="5%"><h3><B></B></h3></td>
+        <td  bgcolor="#48e70a" align="center" width="14%"><h3><B></B></h3></td>
+        <td  bgcolor="#48e70a" align="center" width="15%"><h3><B></B></h3></td>
     </tr>
 </table>
 
@@ -583,10 +583,10 @@ $tbl = <<<EOD
 
 <table class="first">
     <tr>
-        <td  rowspan="4" align="left" width="66%"><h3><B>C. ASPEK SIKAP KERJA</B></h3></td>
-        <td  align="center" width="5%"><h3><B></B></h3></td>
-        <td  align="center" width="14%"><h3><B></B></h3></td>
-        <td  align="center" width="15%"><h3><B></B></h3></td>
+        <td  bgcolor="#48e70a" rowspan="4" align="left" width="66%"><h3><B>C. ASPEK SIKAP KERJA</B></h3></td>
+        <td  bgcolor="#48e70a" align="center" width="5%"><h3><B></B></h3></td>
+        <td  bgcolor="#48e70a" align="center" width="14%"><h3><B></B></h3></td>
+        <td  bgcolor="#48e70a" align="center" width="15%"><h3><B></B></h3></td>
     </tr>
 </table>
 
@@ -752,10 +752,10 @@ $tbl = <<<EOD
 
 <table class="first">
     <tr>
-        <td  rowspan="4" align="left" width="66%"><h3><B>D. ASPEK KEPEMIMPINAN</B></h3></td>
-        <td  align="center" width="5%"><h3><B></B></h3></td>
-        <td  align="center" width="14%"><h3><B></B></h3></td>
-        <td  align="center" width="15%"><h3><B></B></h3></td>
+        <td  bgcolor="#48e70a" rowspan="4" align="left" width="66%"><h3><B>D. ASPEK KEPEMIMPINAN</B></h3></td>
+        <td  bgcolor="#48e70a" align="center" width="5%"><h3><B></B></h3></td>
+        <td  bgcolor="#48e70a" align="center" width="14%"><h3><B></B></h3></td>
+        <td  bgcolor="#48e70a" align="center" width="15%"><h3><B></B></h3></td>
     </tr>
 </table>
 
@@ -847,9 +847,9 @@ $tbl = <<<EOD
 
             </tr>
             <tr>
-                <td class="black" bgcolor="#bebebe" colspan="2" align="center" width="30%"><B>KUALIFIKASI</B></td>
-                <td  class="black"bgcolor="#bebebe"  align="center" width="50%"><B>REKOMENDASI</B></td>
-                <td class="black" bgcolor="#bebebe"  align="center" width="20%"><B>SKALA</B></td>
+                <td class="black" bgcolor="#51dd51" colspan="2" align="center" width="30%"><B>KUALIFIKASI</B></td>
+                <td  class="black"bgcolor="#51dd51"  align="center" width="50%"><B>REKOMENDASI</B></td>
+                <td class="black" bgcolor="#51dd51"  align="center" width="20%"><B>SKALA</B></td>
             </tr>
             <tr>
                 <td  class="black" bgcolor="$bcg1" width="10%" align="center">K-1</td>
