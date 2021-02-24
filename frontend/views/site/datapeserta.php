@@ -30,10 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
 'dateFormat' => 'yyyy-MM-dd',
 ]) ?>
                                                          <?= $form->field($model2, 'jabatan_dilamar')->textInput() ?>
-                                                                            <?= $form->field($model2, 'pendidikan_terakhir')->dropDownList(['sd' => 'sd', 'smp' => 'smp', 'sma' => 'sma', 
-                                                                            'smk' => 'smk','d1' => 'd1', 'd2' => 'd2','d3' => 'd3','d4' => 'd4','s1' => 's1', 's2'=>'s2', 's3'=>'s3'], ['prompt'=>'Select...']) ?>
+                                                                            <?= $form->field($model2, 'pendidikan_terakhir')->dropDownList(['SD' => 'SD', 'SMP' => 'SMP', 'SMA' => 'SMA', 
+                                                                            'SMK' => 'SMK','D1' => 'D1', 'D2' => 'D2','D3' => 'D3','D4' => 'D4','S1' => 'S1', 'S2'=>'S2', 'S3'=>'S3'], ['prompt'=>'Select...']) ?>
 
-                                                                            <?= $form->field($model2, 'tujuan_pemeriksaan')->dropDownList(['seleksi' => 'seleksi', 'promosi' => 'promosi', 'evaluasi' => 'evaluasi'],['prompt'=>'Select...']) ?>
+                                                                            <?= $form->field($model2, 'tujuan_pemeriksaan')->dropDownList(['Seleksi' => 'Seleksi', 'Promosi' => 'Promosi', 'Evaluasi' => 'Evaluasi'],['prompt'=>'Select...']) ?>
                                                                             <?= $form->field($model2, 'tempat')->textInput(['readonly' => False]) ?>
                                                                             <?= $form->field($model2, 'tanggal_test')->widget(DatePicker::classname(), [
     //'language' => 'ru',
