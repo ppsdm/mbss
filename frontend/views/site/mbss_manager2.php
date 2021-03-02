@@ -2,7 +2,7 @@
 
 use app\models\Adjustment;
 
-require __DIR__ . '/../../../vendor/reno/tcpdf/tcpdf.php';;
+require __DIR__ . '/../../../reno/tcpdf/tcpdf.php';;
 
 //============================================================+
 // File name   : example_048.php
