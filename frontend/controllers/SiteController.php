@@ -1102,6 +1102,24 @@ public function actionManagerprintaws($id)
 
 }
 
+
+public function actionStaffprintawsdebug($id)
+{
+    $object = $this->actionStaffresultaws($id,true);
+
+    $adjustments = [];
+    $adjustmentModel = Adjustment::find()->andWhere(['test_id' => $id])->All();
+    foreach ($adjustmentModel as $adjustmodel){
+        $adjustments[$adjustmodel->key] = $adjustmodel->value;
+    }
+
+//    echo '<pre>';
+//    foreach($object as $ob) {
+//        print_r($ob);
+//    }
+
+
+}
 public function actionStaffprintaws($id)
 {
     $object = $this->actionStaffresultaws($id,false);
@@ -1463,12 +1481,21 @@ public function actionStaffresultaws($id,$debug)
         ->All();
 
     if(sizeof($grafik) == 1) {
-        //echo 'size' .  sizeof($grafik);
-        //echo '<br/># matching grafik : ' . sizeof($grafik) . ' ( ' .$grafik[0]->grafik.')';
+        if ($debug) {
+            echo 'size' .  sizeof($grafik);
+            echo '<br/># matching grafik : ' . sizeof($grafik) . ' ( ' .$grafik[0]->grafik.')';
+        }
+
         $ipa_values = PcasIpaRef::findOne($grafik[0]->grafik);
         //print_r($ipa_values);
     } else if(sizeof($grafik) > 1) {
-//        echo '<br/>MULTIPLE GRAFIK<br/>';
+//
+        if ($debug) {
+            echo '<br/>MULTIPLE GRAFIK<br/>';
+            echo '<pre>';
+            print_r($grafik);
+            echo '</pre>';
+        }
 
         $grafs = [];
         foreach($grafik as $graf) {
@@ -1493,27 +1520,19 @@ public function actionStaffresultaws($id,$debug)
 //        echo '<pre>';
 //        print_r($ranged_grafik);
         if(sizeof($ranged_grafik) == 1) {
-//              echo '<br/># matching grafik :  ' .$ranged_grafik[0]->grafik.')';
+            if ($debug) {
+                echo '<br/># matching grafik :  ' .$ranged_grafik[0]->grafik.')';
+            }
+//
             $ipa_values = PcasIpaRef::findOne($ranged_grafik[0]->grafik);
-            /*echo '<br/> d : ' . $d_pos;
- echo '<br/> i : ' . $i_pos;
-  echo '<br/> s : ' . $s_pos;
-   echo '<br/> c : ' . $c_pos;
 
-            echo '<br/> di : ' . $di;
-            echo '<br/> ds : ' . $ds;
-            echo '<br/> dc : ' . $dc;
-            echo '<br/> is : ' . $is;
-            echo '<br/> ic : ' . $ic;
-            echo '<br/> sc : ' . $sc;
 
-            echo '<br/> D scaled: ' . $disc3_d->scaled;
-       echo '<br/> I scaled: ' . $disc3_i->scaled;
-        echo '<br/> S scaled: ' . $disc3_s->scaled;
-         echo '<br/> C scaled: ' . $disc3_c->scaled;
-         */
+
         } else if(sizeof($ranged_grafik) > 1) {
-//            echo '<br/>MULTIPLE RANGE GRAFIK<br/>';
+            if ($debug) {
+                            echo '<br/>MULTIPLE RANGE GRAFIK<br/>';
+            }
+
             $ipa_values = new PcasIpaRef;
         } else {
             $ipa_values = new PcasIpaRef;
@@ -1533,6 +1552,27 @@ public function actionStaffresultaws($id,$debug)
 //    echo "<hr/>cfit score array = ". json_encode($cfit_score_array);
 
     $total_cfit_scaled = ScaleRef::find()->andWhere(['scale_name' => 'cfit-to-6'])->andWhere(['unscaled' => $total_cfit])->One();
+
+    if ($debug) {
+
+        echo '<br/> d : ' . $d_pos;
+        echo '<br/> i : ' . $i_pos;
+        echo '<br/> s : ' . $s_pos;
+        echo '<br/> c : ' . $c_pos;
+
+        echo '<br/> di : ' . $di;
+        echo '<br/> ds : ' . $ds;
+        echo '<br/> dc : ' . $dc;
+        echo '<br/> is : ' . $is;
+        echo '<br/> ic : ' . $ic;
+        echo '<br/> sc : ' . $sc;
+
+        echo '<br/> D scaled: ' . $disc3_d->scaled;
+        echo '<br/> I scaled: ' . $disc3_i->scaled;
+        echo '<br/> S scaled: ' . $disc3_s->scaled;
+        echo '<br/> C scaled: ' . $disc3_c->scaled;
+
+    }
 
 return ['id'=>$id, 'model'=>$model, 'biodata' => $biodata, 'cfit' => $total_cfit_scaled, 'pcas' => $pcas_aspect_array, 'ipa_values' => $ipa_values,
 'grafik' => $grafik,
