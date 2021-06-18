@@ -1530,7 +1530,10 @@ public function actionStaffresultaws($id,$debug)
 
         } else if(sizeof($ranged_grafik) > 1) {
             if ($debug) {
-                            echo '<br/>MULTIPLE RANGE GRAFIK<br/>';
+                            echo '<br/>MULTIPLE RANGE GRAFIK a<br/>';
+                            foreach ($ranged_grafik as $graf) {
+                                echo '<br/># matching grafik :  ' .$graf->grafik.')';
+                            }
             }
 
             $ipa_values = new PcasIpaRef;
@@ -1543,7 +1546,7 @@ public function actionStaffresultaws($id,$debug)
         //print_r($ranged_grafik);
 
     } else {
-//           echo '<br/>TIDAK ADA MATCHING GRAFIK';
+          echo '<br/>TIDAK ADA MATCHING GRAFIK';
         $ipa_values = new PcasIpaRef;
 
     }
