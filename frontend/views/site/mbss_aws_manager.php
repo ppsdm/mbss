@@ -29,7 +29,7 @@ require __DIR__ . '/../../../reno/tcpdf/tcpdf.php';;
 * @since 2009-03-20
 */
 // Dummy Variable Data Diri
-$nama           = $biodata['nama'];
+$nama           = $biodata['nama'] ? $biodata['nama'] : '';
 $no             = $id;
 $jabatanlamar   = $biodata['prospek_jabatan'];
 
