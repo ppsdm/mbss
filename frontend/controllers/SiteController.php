@@ -1095,7 +1095,7 @@ public function discProcessor($id,$debug)
 }
 public function actionManagerprintaws($id)
 {
-    $object = $this->actionManagerresultaws($id,true);
+    $object = $this->actionManagerresultaws($id,false);
 
      $adjustments = [];
      $adjustmentModel = Adjustment::find()->andWhere(['test_id' => $id])->All();
@@ -1327,9 +1327,34 @@ public function actionManagerresultaws($id,$debug)
          ->andWhere(['like','c-pos', $c_pos])
          ->All();
 
+
+    if ($debug) {
+        echo "<hr/>di = " . $di;
+                    echo "<hr/>ds = " . $ds;
+        echo "<hr/>dc = " . $dc;
+        echo "<hr/>is = " . $is;
+        echo "<hr/>ic = " . $ic;
+        echo "<hr/>sc = " . $sc;
+        echo "<hr/>d-pos = " . $d_pos;
+        echo "<hr/>i-pos = " . $i_pos;
+        echo "<hr/>s-pos = " . $s_pos;
+        echo "<hr/>c-pos = " . $c_pos;
+        echo "<hr/>d = " . $disc3_d->scaled;
+        echo "<hr/>i = " . $disc3_i->scaled;
+        echo "<hr/>s = " . $disc3_s->scaled;
+        echo "<hr/>c = " . $disc3_c->scaled;
+        print_r($grafik);
+//            echo "<hr/>total unscaled cfit = " . $total_cfit_scaled->unscaled;
+//            echo "<hr/>cfit score array = ". json_encode($cfit_score_array);
+    }
+
+
      if(sizeof($grafik) == 1) {
-         //echo 'size' .  sizeof($grafik);
-         //echo '<br/># matching grafik : ' . sizeof($grafik) . ' ( ' .$grafik[0]->grafik.')';
+//         if ($debug) {
+//             echo 'size' .  sizeof($grafik);
+//             echo '<br/># matching grafik : ' . sizeof($grafik) . ' ( ' .$grafik[0]->grafik.')';
+//         }
+
          $ipa_values = PcasIpaRef::findOne($grafik[0]->grafik);
          //print_r($ipa_values);
      } else if(sizeof($grafik) > 1) {
@@ -1377,8 +1402,8 @@ public function actionManagerresultaws($id,$debug)
 
      }
 
- //    echo "<hr/>total unscaled cfit = " . $total_cfit_scaled->unscaled;
- //    echo "<hr/>cfit score array = ". json_encode($cfit_score_array);
+
+
 
      $disc_array = ['di' => $di,'ds' => $ds,
          'dc' => $dc,'is' => $is,'ic' => $ic,'sc' => $sc,'d-pos' => $d_pos,'i-pos' => $i_pos,'s-pos' => $s_pos,'c-pos' => $c_pos,
