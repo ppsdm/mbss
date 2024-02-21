@@ -806,10 +806,15 @@ public function biodataProcessor($id,$debug)
 {
     $biodata = [];
     $biodata['nama'] = '';
+    $biodata['jabatan'] = '';
     $biodata['prospek_jabatan'] = '';
     $biodata['tempat_lahir'] = '';
     $biodata['tanggal_lahir'] = '';
     $biodata['tujuan_test'] = '';
+    $biodata['usia'] = '';
+    $biodata['handphone'] = '';
+    $biodata['email'] = '';
+    $biodata['jenis_kelamin'] = '';
     $biodata['pendidikan_terakhir'] = '';
     $biodata['tanggal_test'] = '';
     $tao_model = Models::find()->andWhere(['modelid' => '1'])->One();
@@ -1454,7 +1459,7 @@ public function actionStaffresultaws($id,$debug)
 
     $total_cfit = $this->cfitProcessor($id,$debug);
     $pcas_aspect_array = $this->discProcessor($id,$debug);
-//    $biodata = $this->biodataProcessor($id,$debug);
+    $biodata = $this->biodataProcessor($id,$debug);
 
     $tao_model = Models::find()->andWhere(['modelid' => '1'])->One();
     $result_storage = ResultsStorage::find()->andWhere(['result_id' => $tao_model->modeluri . 'i'. $id])->One();
