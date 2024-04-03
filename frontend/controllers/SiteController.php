@@ -802,7 +802,7 @@ public function actionResultstaffcat($id) {
 
 }
 
-public function biodataProcessor($id,$debug)
+public function biodataProcessor($id,$model)
 {
     $biodata = [];
     $biodata['nama'] = '';
@@ -817,8 +817,8 @@ public function biodataProcessor($id,$debug)
     $biodata['jenis_kelamin'] = '';
     $biodata['pendidikan_terakhir'] = '';
     $biodata['tanggal_test'] = '';
-    $tao_model = Models::find()->andWhere(['modelid' => '1'])->One();
-    $result_storage = ResultsStorage::find()->andWhere(['result_id' => $tao_model->modeluri . 'i'. $id])->One();
+
+    $result_storage = ResultsStorage::find()->andWhere(['like', 'result_id', '%'. 'i'. $id.'%', false])->One();
 //        $result_rdf = 'https://cat.ppsdm.com/cat.rdf#i'. $id;
 
     $total_cfit = 0;
@@ -912,19 +912,19 @@ return $biodata;
         return $total_cfit;
     }
 
-    public function cfitProcessor($id,$debug)
+    public function cfitProcessor($id,$model)
     {
-        $tao_model = Models::find()->andWhere(['modelid' => '1'])->One();
-        $result_storage = ResultsStorage::find()->andWhere(['result_id' => $tao_model->modeluri . 'i'. $id])->One();
+
+        $result_storage = ResultsStorage::find()->andWhere(['like', 'result_id', '%'. 'i'. $id.'%', false])->One();
         $result_rdf = 'https://cat.ppsdm.com/cat.rdf#i'. $id;
 
-        $user = Statements::find()->andWhere(['predicate' => 'http://www.tao.lu/Ontologies/generis.rdf#login'])
-            ->andWhere(['subject' => $result_storage->test_taker])
-            ->One();
-        $model = UserExt::find()->andWhere(['username' => $user->object])->One();
-        if(!isset($model)) {
-            $model = new UserExt;
-        }
+//        $user = Statements::find()->andWhere(['predicate' => 'http://www.tao.lu/Ontologies/generis.rdf#login'])
+//            ->andWhere(['subject' => $result_storage->test_taker])
+//            ->One();
+//        $model = UserExt::find()->andWhere(['username' => $user->object])->One();
+//        if(!isset($model)) {
+//            $model = new UserExt;
+//        }
         $total_cfit = 0;
         $items = [$result_rdf .".item-3.0",$result_rdf .".item-5.0",$result_rdf .".item-8.0",$result_rdf .".item-10.0"];
 
@@ -995,10 +995,10 @@ return $biodata;
     }
 
 
-public function discProcessor($id,$debug)
+public function discProcessor($id,$model)
 {
-    $tao_model = Models::find()->andWhere(['modelid' => '1'])->One();
-    $result_storage = ResultsStorage::find()->andWhere(['result_id' => $tao_model->modeluri . 'i'. $id])->One();
+
+    $result_storage = ResultsStorage::find()->andWhere(['like', 'result_id', '%'. 'i'. $id.'%', false])->One();
     $result_rdf = 'https://cat.ppsdm.com/cat.rdf#i'. $id;
 
     $pcas_results = VariablesStorage::find()
@@ -1010,12 +1010,6 @@ public function discProcessor($id,$debug)
         ->orderBy('variable_id ASC')
         ->All();
 
-    if ($debug)
-    {
-//            echo $result_rdf;
-//    echo '<hr/>';
-//    echo sizeof($pcas_results);
-    }
 
 
     $pcas_score_array = [];
@@ -1147,6 +1141,20 @@ public function actionStaffprintaws($id)
 
 }
 
+    public function actionStaff2024print($id)
+    {
+        $object = $this->actionStaff2024($id,false);
+
+        $adjustments = [];
+        $adjustmentModel = Adjustment::find()->andWhere(['test_id' => $id])->All();
+        foreach ($adjustmentModel as $adjustmodel){
+            $adjustments[$adjustmodel->key] = $adjustmodel->value;
+        }
+
+
+        return $this->render('mbss_aws_staff', ['id'=>$id, 'adjustments'=>$adjustments,'biodata'=>$object['biodata'],'model'=>$object['model'], 'cfit' => $object['cfit'], 'pcas' => $object['pcas'], 'ipa_values' => $object['ipa_values'], "data" => $object]);
+
+    }
 
 
 public function papikostikProcessor($id, $debug) {
@@ -1450,6 +1458,242 @@ public function actionManagerresultaws($id,$debug)
 
 }
 
+public function grafikProcessor($pcas_aspect_array) {
+    $disc1_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-d'])->andWhere(['<=','unscaled',$pcas_aspect_array['a']])->orderBy('unscaled DESC')->One();
+    $disc2_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-d'])->andWhere(['>=','unscaled',$pcas_aspect_array['b']])->orderBy('unscaled ASC')->One();
+    $disc3_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-d'])->andWhere(['<=','unscaled', ($pcas_aspect_array['a'] - $pcas_aspect_array['b'])])->orderBy('unscaled DESC')->One();
+
+    $disc1_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-i'])->andWhere(['<=','unscaled', $pcas_aspect_array['c']])->orderBy('unscaled DESC')->One();
+    $disc2_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-i'])->andWhere(['>=','unscaled', $pcas_aspect_array['d']])->orderBy('unscaled ASC')->One();
+    $disc3_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-i'])->andWhere(['<=','unscaled', ($pcas_aspect_array['c'] - $pcas_aspect_array['d'])])->orderBy('unscaled DESC')->One();
+
+    $disc1_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-s'])->andWhere(['<=','unscaled', $pcas_aspect_array['e']])->orderBy('unscaled DESC')->One();
+    $disc2_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-s'])->andWhere(['>=','unscaled', $pcas_aspect_array['f']])->orderBy('unscaled ASC')->One();
+    $disc3_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-s'])->andWhere(['<=','unscaled',($pcas_aspect_array['e'] - $pcas_aspect_array['f'])])->orderBy('unscaled DESC')->One();
+
+    $disc1_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-c'])->andWhere(['<=','unscaled', $pcas_aspect_array['g']])->orderBy('unscaled DESC')->One();
+    $disc2_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-c'])->andWhere(['>=','unscaled',$pcas_aspect_array['h']])->orderBy('unscaled ASC')->One();
+    $disc3_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-c'])->andWhere(['<=','unscaled',($pcas_aspect_array['g'] - $pcas_aspect_array['h'])])->orderBy('unscaled DESC')->One();
+
+    if($disc3_d->scaled > $disc3_i->scaled) {$di = '>';} else if($disc3_d->scaled < $disc3_i->scaled) {$di = '<';} else {$di = '=';}
+    if($disc3_d->scaled > $disc3_s->scaled) {$ds = '>';} else if($disc3_d->scaled < $disc3_s->scaled) {$ds = '<';} else {$ds = '=';}
+    if($disc3_d->scaled > $disc3_c->scaled) {$dc = '>';} else if($disc3_d->scaled < $disc3_c->scaled) {$dc = '<';} else {$dc = '=';}
+    if($disc3_i->scaled > $disc3_s->scaled) {$is = '>';} else if($disc3_i->scaled < $disc3_s->scaled) {$is = '<';} else {$is = '=';}
+    if($disc3_i->scaled > $disc3_c->scaled) {$ic = '>';} else if($disc3_i->scaled < $disc3_c->scaled) {$ic = '<';} else {$ic = '=';}
+    if($disc3_s->scaled > $disc3_c->scaled) {$sc = '>';} else if($disc3_s->scaled < $disc3_c->scaled) {$sc = '<';} else {$sc = '=';}
+
+
+    $d_pos = ($disc3_d->scaled >= 20) ? '1':'0';
+    $i_pos = ($disc3_i->scaled >= 20) ? '1':'0';
+    $s_pos= ($disc3_s->scaled >= 20) ? '1':'0';
+    $c_pos= ($disc3_c->scaled >= 20) ? '1':'0';
+
+    $grafik = PcasGrafikRef::find()->andWhere(['di' => $di])
+        ->andWhere(['like','ds',$ds])
+        ->andWhere(['like','dc' , $dc])
+        ->andWhere(['like','is' , $is])
+        ->andWhere(['like','ic' , $ic])
+        ->andWhere(['like','sc' , $sc])
+        ->andWhere(['like','d-pos' , $d_pos])
+        ->andWhere(['like','i-pos' , $i_pos])
+        ->andWhere(['like','s-pos', $s_pos])
+        ->andWhere(['like','c-pos', $c_pos])
+        ->All();
+
+    return $grafik;
+}
+
+public function actionStaff2024($id) {
+
+        $debug = 0;
+        $user = Statements::find()
+    ->join('INNER JOIN', 'results_storage', 'statements.subject = results_storage.test_taker')
+        ->andWhere(['like', 'statements.predicate', '%generis.rdf#login%', false])
+        ->andWhere(['like', 'results_storage.result_id', '%'. 'i'. $id.'%', false])
+        ->one();
+
+
+    $model = UserExt::find()->andWhere(['username' => $user->object])->One();
+    if(!isset($model)) {
+        $model = new UserExt;
+    }
+
+    $total_cfit = $this->cfitProcessor($id,$model);
+    $pcas_aspect_array = $this->discProcessor($id,$model);
+    $biodata = $this->biodataProcessor($id,$model);
+
+
+
+
+//    $grafik = $this->grafikProcessor($pcas_aspect_array);
+
+    $disc1_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-d'])->andWhere(['<=','unscaled',$pcas_aspect_array['a']])->orderBy('unscaled DESC')->One();
+    $disc2_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-d'])->andWhere(['>=','unscaled',$pcas_aspect_array['b']])->orderBy('unscaled ASC')->One();
+    $disc3_d = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-d'])->andWhere(['<=','unscaled', ($pcas_aspect_array['a'] - $pcas_aspect_array['b'])])->orderBy('unscaled DESC')->One();
+
+    $disc1_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-i'])->andWhere(['<=','unscaled', $pcas_aspect_array['c']])->orderBy('unscaled DESC')->One();
+    $disc2_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-i'])->andWhere(['>=','unscaled', $pcas_aspect_array['d']])->orderBy('unscaled ASC')->One();
+    $disc3_i = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-i'])->andWhere(['<=','unscaled', ($pcas_aspect_array['c'] - $pcas_aspect_array['d'])])->orderBy('unscaled DESC')->One();
+
+    $disc1_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-s'])->andWhere(['<=','unscaled', $pcas_aspect_array['e']])->orderBy('unscaled DESC')->One();
+    $disc2_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-s'])->andWhere(['>=','unscaled', $pcas_aspect_array['f']])->orderBy('unscaled ASC')->One();
+    $disc3_s = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-s'])->andWhere(['<=','unscaled',($pcas_aspect_array['e'] - $pcas_aspect_array['f'])])->orderBy('unscaled DESC')->One();
+
+    $disc1_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-1-c'])->andWhere(['<=','unscaled', $pcas_aspect_array['g']])->orderBy('unscaled DESC')->One();
+    $disc2_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-2-c'])->andWhere(['>=','unscaled',$pcas_aspect_array['h']])->orderBy('unscaled ASC')->One();
+    $disc3_c = ScaleRef::find()->andWhere(['scale_name' => 'pcas-3-c'])->andWhere(['<=','unscaled',($pcas_aspect_array['g'] - $pcas_aspect_array['h'])])->orderBy('unscaled DESC')->One();
+
+    if($disc3_d->scaled > $disc3_i->scaled) {$di = '>';} else if($disc3_d->scaled < $disc3_i->scaled) {$di = '<';} else {$di = '=';}
+    if($disc3_d->scaled > $disc3_s->scaled) {$ds = '>';} else if($disc3_d->scaled < $disc3_s->scaled) {$ds = '<';} else {$ds = '=';}
+    if($disc3_d->scaled > $disc3_c->scaled) {$dc = '>';} else if($disc3_d->scaled < $disc3_c->scaled) {$dc = '<';} else {$dc = '=';}
+    if($disc3_i->scaled > $disc3_s->scaled) {$is = '>';} else if($disc3_i->scaled < $disc3_s->scaled) {$is = '<';} else {$is = '=';}
+    if($disc3_i->scaled > $disc3_c->scaled) {$ic = '>';} else if($disc3_i->scaled < $disc3_c->scaled) {$ic = '<';} else {$ic = '=';}
+    if($disc3_s->scaled > $disc3_c->scaled) {$sc = '>';} else if($disc3_s->scaled < $disc3_c->scaled) {$sc = '<';} else {$sc = '=';}
+
+
+    $d_pos = ($disc3_d->scaled >= 20) ? '1':'0';
+    $i_pos = ($disc3_i->scaled >= 20) ? '1':'0';
+    $s_pos= ($disc3_s->scaled >= 20) ? '1':'0';
+    $c_pos= ($disc3_c->scaled >= 20) ? '1':'0';
+
+    $grafik = PcasGrafikRef::find()->andWhere(['di' => $di])
+        ->andWhere(['like','ds',$ds])
+        ->andWhere(['like','dc' , $dc])
+        ->andWhere(['like','is' , $is])
+        ->andWhere(['like','ic' , $ic])
+        ->andWhere(['like','sc' , $sc])
+        ->andWhere(['like','d-pos' , $d_pos])
+        ->andWhere(['like','i-pos' , $i_pos])
+        ->andWhere(['like','s-pos', $s_pos])
+        ->andWhere(['like','c-pos', $c_pos])
+        ->All();
+
+    if(sizeof($grafik) == 1) {
+        if ($debug) {
+            echo 'size' .  sizeof($grafik);
+            echo '<br/># matching grafik : ' . sizeof($grafik) . ' ( ' .$grafik[0]->grafik.')';
+        }
+
+        $ipa_values = PcasIpaRef::findOne($grafik[0]->grafik);
+        //print_r($ipa_values);
+    } else if(sizeof($grafik) > 1) {
+//
+        if ($debug) {
+            echo '<br/>MULTIPLE GRAFIK<br/>';
+            echo '<pre>';
+            // print_r($grafik);
+            echo '</pre>';
+        }
+
+        $grafs = [];
+        foreach($grafik as $graf) {
+
+            array_push($grafs, $graf->grafik);
+        }
+
+
+        $ranged_grafik = PcasRangeMap::find()
+            ->andWhere(['in', 'grafik', $grafs])
+            ->andWhere(['<=', 'dmin', $disc3_d->scaled])
+            ->andWhere(['>', 'dmax', $disc3_d->scaled])
+            ->andWhere(['<=', 'imin', $disc3_i->scaled]) //
+            ->andWhere(['>', 'imax', $disc3_i->scaled])
+            ->andWhere(['<=', 'smin', $disc3_s->scaled])
+            ->andWhere(['>', 'smax', $disc3_s->scaled])
+            ->andWhere(['<=', 'cmin', $disc3_c->scaled])
+            ->andWhere(['>', 'cmax', $disc3_c->scaled])
+            ->All();
+        //    echo '<pre> ranbger dragif : ';
+        //    print_r($ranged_grafik);
+        if(sizeof($ranged_grafik) == 1) {
+            if ($debug) {
+                echo '<br/># matching grafik :  ' .$ranged_grafik[0]->grafik.')';
+            }
+//
+            $ipa_values = PcasIpaRef::findOne($ranged_grafik[0]->grafik);
+
+
+
+        } else if(sizeof($ranged_grafik) > 1) {
+            if ($debug) {
+                echo '<br/>MULTIPLE RANGE GRAFIK a<br/>';
+                foreach ($ranged_grafik as $graf) {
+                    echo '<br/># matching grafik :  ' .$graf->grafik.')';
+                }
+            }
+            $ipa_values = new PcasIpaRef;
+        } else {
+            $ipa_values = new PcasIpaRef;
+//            echo '<br/>TIDAK ADA MATCHING RANGE GRAFIK';
+        }
+    } else {
+        echo '<br/>TIDAK ADA MATCHING GRAFIK';
+        $ipa_values = new PcasIpaRef;
+
+    }
+    $total_cfit_scaled = ScaleRef::find()->andWhere(['scale_name' => 'cfit-to-6'])->andWhere(['unscaled' => $total_cfit])->One();
+//dd('here');
+    if ($debug) {
+
+        echo '<br/> d : ' . $d_pos;
+        echo '<br/> i : ' . $i_pos;
+        echo '<br/> s : ' . $s_pos;
+        echo '<br/> c : ' . $c_pos;
+
+        echo '<br/> di : ' . $di;
+        echo '<br/> ds : ' . $ds;
+        echo '<br/> dc : ' . $dc;
+        echo '<br/> is : ' . $is;
+        echo '<br/> ic : ' . $ic;
+        echo '<br/> sc : ' . $sc;
+
+        echo '<br/> D scaled: ' . $disc3_d->scaled;
+        echo '<br/> I scaled: ' . $disc3_i->scaled;
+        echo '<br/> S scaled: ' . $disc3_s->scaled;
+        echo '<br/> C scaled: ' . $disc3_c->scaled;
+
+    }
+
+    return ['id'=>$id, 'model'=>$model, 'biodata' => $biodata, 'cfit' => $total_cfit_scaled, 'pcas' => $pcas_aspect_array, 'ipa_values' => $ipa_values,
+        'grafik' => $grafik,
+        'ds' => $ds,
+        'di' => $di,
+        'dc' => $dc,
+        'is' => $is,
+        'ic' => $ic,
+        'sc' => $sc,
+        'd_pos' => $d_pos,
+        'i_pos' => $i_pos,
+        's_pos' => $s_pos,
+        'c_pos' => $c_pos,
+        'disc1_d' => $disc1_d->scaled,
+        'disc1_i' => $disc1_i->scaled,
+        'disc1_s' => $disc1_s->scaled,
+        'disc1_c' => $disc1_c->scaled,
+        'disc2_d' => $disc2_d->scaled,
+        'disc2_i' => $disc2_i->scaled,
+        'disc2_s' => $disc2_s->scaled,
+        'disc2_c' => $disc2_c->scaled,
+        'disc3_d' => $disc3_d->scaled,
+        'disc3_i' => $disc3_i->scaled,
+        'disc3_s' => $disc3_s->scaled,
+        'disc3_c' => $disc3_c->scaled,
+        'disc1_d_unscaled' => $pcas_aspect_array['a'],
+        'disc1_i_unscaled' => $pcas_aspect_array['c'],
+        'disc1_s_unscaled' => $pcas_aspect_array['e'],
+        'disc1_c_unscaled' => $pcas_aspect_array['g'],
+        'disc2_d_unscaled' => $pcas_aspect_array['b'],
+        'disc2_i_unscaled' => $pcas_aspect_array['d'],
+        'disc2_s_unscaled' => $pcas_aspect_array['f'],
+        'disc2_c_unscaled' => $pcas_aspect_array['h'],
+        'disc3_d_unscaled' => $pcas_aspect_array['a'] - $pcas_aspect_array['b'],
+        'disc3_i_unscaled' => $pcas_aspect_array['c'] - $pcas_aspect_array['d'],
+        'disc3_s_unscaled' => $pcas_aspect_array['e'] - $pcas_aspect_array['f'],
+        'disc3_c_unscaled' => $pcas_aspect_array['g'] - $pcas_aspect_array['h'],
+
+    ];
+
+}
     /***
      * @param $id
      * ini function untuk MBSS di cat
@@ -1457,21 +1701,34 @@ public function actionManagerresultaws($id,$debug)
 public function actionStaffresultaws($id,$debug)
 {
 
-    $total_cfit = $this->cfitProcessor($id,$debug);
-    $pcas_aspect_array = $this->discProcessor($id,$debug);
-    $biodata = $this->biodataProcessor($id,$debug);
+    $user = Statements::find()
+        ->join('INNER JOIN', 'results_storage', 'statements.subject = results_storage.test_taker')
+        ->andWhere(['like', 'statements.predicate', '%generis.rdf#login%', false])
+        ->andWhere(['like', 'results_storage.result_id', '%'. 'i'. $id.'%', false])
+        ->one();
 
-    $tao_model = Models::find()->andWhere(['modelid' => '1'])->One();
-    $result_storage = ResultsStorage::find()->andWhere(['result_id' => $tao_model->modeluri . 'i'. $id])->One();
-//    $result_rdf = 'https://cat.ppsdm.com/cat.rdf#i'. $id;
 
-    $user = Statements::find()->andWhere(['predicate' => 'http://www.tao.lu/Ontologies/generis.rdf#login'])
-        ->andWhere(['subject' => $result_storage->test_taker])
-        ->One();
     $model = UserExt::find()->andWhere(['username' => $user->object])->One();
     if(!isset($model)) {
         $model = new UserExt;
     }
+
+
+    $total_cfit = $this->cfitProcessor($id,$model);
+    $pcas_aspect_array = $this->discProcessor($id,$model);
+    $biodata = $this->biodataProcessor($id,$model);
+
+//    $tao_model = Models::find()->andWhere(['modelid' => '1'])->One();
+//    $result_storage = ResultsStorage::find()->andWhere(['result_id' => $tao_model->modeluri . 'i'. $id])->One();
+////    $result_rdf = 'https://cat.ppsdm.com/cat.rdf#i'. $id;
+//
+//    $user = Statements::find()->andWhere(['predicate' => 'http://www.tao.lu/Ontologies/generis.rdf#login'])
+//        ->andWhere(['subject' => $result_storage->test_taker])
+//        ->One();
+//    $model = UserExt::find()->andWhere(['username' => $user->object])->One();
+//    if(!isset($model)) {
+//        $model = new UserExt;
+//    }
 
 //    echo 'total cfit : ' . $total_cfit;
 //    echo 'pcas aspect array<pre>';
@@ -1582,16 +1839,12 @@ public function actionStaffresultaws($id,$debug)
 
 
         }
-        //print_r($ranged_grafik);
 
     } else {
           echo '<br/>TIDAK ADA MATCHING GRAFIK';
         $ipa_values = new PcasIpaRef;
 
     }
-
-//    echo "<hr/>total unscaled cfit = " . $total_cfit_scaled->unscaled;
-//    echo "<hr/>cfit score array = ". json_encode($cfit_score_array);
 
     $total_cfit_scaled = ScaleRef::find()->andWhere(['scale_name' => 'cfit-to-6'])->andWhere(['unscaled' => $total_cfit])->One();
 
