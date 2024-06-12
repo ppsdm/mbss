@@ -1156,6 +1156,264 @@ public function actionStaffprintaws($id)
 
     }
 
+    public function actionStaffresultbyemail($email, $deliveryId)
+    {
+
+        $resultController = new ResultController($deliveryId,$this);
+        $id = $resultController->actionGetresultid($email, $deliveryId);
+        $resultController->actionGetscore($email, $deliveryId);
+
+
+        $object = $this->actionStaff2024($id,false);
+
+        $adjustments = [];
+        $adjustmentModel = Adjustment::find()->andWhere(['test_id' => $id])->All();
+        foreach ($adjustmentModel as $adjustmodel){
+            $adjustments[$adjustmodel->key] = $adjustmodel->value;
+        }
+
+        $scores = $this->getScores($id, $object);
+//        print_r($scores);
+
+        return $this->render('mbss_aws_staff_portal', ['id'=>$id, 'adjustments'=>$adjustments,'biodata'=>$object['biodata'],'model'=>$object['model'], 'cfit' => $object['cfit'], 'pcas' => $object['pcas'], 'ipa_values' => $object['ipa_values'], "data" => $object, 'scores' => $scores]);
+
+    }
+
+public function getScores($id, $object)
+{
+
+    $biodata = $object['biodata'];
+    $model = $object['model'];;
+    $cfit = $object['cfit'];
+    $ipa_values = $object['ipa_values'];
+
+    $res = [];
+
+    $nama           = $biodata['nama'];
+    $no             = $id;
+    $jabatanlamar   = $biodata['prospek_jabatan'];
+
+    $ttl            = $biodata['tempat_lahir'] .', ' . $biodata['tanggal_lahir'];
+    $tujuan         = $biodata['tujuan_test'];
+    $pendidikan     = $biodata['pendidikan_terakhir'];
+    $tgltes         = $biodata['tanggal_test'];
+    $tempattes      = $model->tempat;
+    $ttd            = "Drs. Herry Sardjono, Psikolog";
+    $himpsi         = "0101188383";
+
+    $namaaspek = "GENERAL INTELLIGENCE";
+    $judul     = "PSIKOGRAM HASIL ASSESSMENT / PEMERIKSAAN PSIKOLOGIS";
+
+    $bobot1 = 19; // General Intelligence
+
+    $bobot3 = 9; // Interpersonal Understanding
+    $bobot4 = 9; // Stabilitas Emosi
+    $bobot6 = 9; // Kepercayaan diri
+    $bobot10 = 9; // Kemandirian bobot
+
+    $bobot2 = 9; // Achievement motivation
+    $bobot5 = 9; // Pengambilan resiko
+    $bobot7 = 9; // Inisiatif
+    $bobot8 = 9; // Kerjasama
+    $bobot9 = 9; // Ketekunan
+
+    $total_bobot =  $bobot1 + $bobot2 + $bobot3+ $bobot4+ $bobot5+ $bobot6+ $bobot7+ $bobot8+ $bobot9+ $bobot10;
+
+    $total_min = 0;
+    $total_pribadi = 0;
+    $total_max = 0;
+
+    $min1 = 1 * $bobot1;$min2 = 1 * $bobot2;$min3 = 1 * $bobot3;$min4 = 1 * $bobot4;$min5 = 1 * $bobot5;$min6 = 1 * $bobot6;$min7 = 1 * $bobot7;$min8 = 1 * $bobot8;$min9 = 1 * $bobot9;$min10 = 1 * $bobot10;
+    $max1 = 7 * $bobot1;$max2 = 7 * $bobot2;$max3 = 7 * $bobot3;$max4 = 7 * $bobot4;$max5 = 7 * $bobot5;$max6 = 7 * $bobot6;$max7 = 7 * $bobot7;$max8 = 7 * $bobot8;$max9 = 7 * $bobot9;$max10 = 7 * $bobot10;
+
+    $total_min = $min1 + $min2 + $min3 + $min4 + $min5 + $min6 + $min7 + $min8 + $min9 + $min10;
+    $total_max = $max1 + $max2 + $max3 + $max4 + $max5 + $max6 + $max7 + $max8 + $max9 + $max10;
+
+
+
+    $rating1 = $cfit->scaled;
+    $rating2 = $ipa_values->trait_1;
+    $rating3 = $ipa_values->trait_2;
+    $rating4 = $ipa_values->trait_3;
+    $rating5 = $ipa_values->trait_4;
+    $rating6 = $ipa_values->trait_5;
+    $rating7 = $ipa_values->trait_6;
+    $rating8 = $ipa_values->trait_7;
+    $rating9 = $ipa_values->trait_8;
+    $rating10 = $ipa_values->trait_9;
+
+    if(isset($adjustments['general_intelligence'])){
+        $rating1 = $adjustments['general_intelligence'];
+    }
+    if(isset($adjustments['interpersonal_understanding'])){
+        $rating3 = $adjustments['interpersonal_understanding'];
+    }
+    if(isset($adjustments['stabilitas_emosi'])){
+        $rating4 = $adjustments['stabilitas_emosi'];
+    }
+    if(isset($adjustments['kepercayaan_diri'])){
+        $rating6 = $adjustments['kepercayaan_diri'];
+    }
+    if(isset($adjustments['pengambilan_resiko'])){
+        $rating5 = $adjustments['pengambilan_resiko'];
+    }
+    if(isset($adjustments['achievement_motivation'])){
+        $rating2 = $adjustments['achievement_motivation'];
+    }
+    if(isset($adjustments['kemandirian'])){
+        $rating10 = $adjustments['kemandirian'];
+    }
+    if(isset($adjustments['inisiatif'])){
+        $rating7 = $adjustments['inisiatif'];
+    }
+    if(isset($adjustments['kerjasama'])){
+        $rating8 = $adjustments['kerjasama'];
+    }
+    if(isset($adjustments['ketekunan'])){
+        $rating9 = $adjustments['ketekunan'];
+    }
+
+    if(isset($adjustments['kepemimpinan'])){
+        $rating11 = $adjustments['kepemimpinan'];
+    }
+
+
+
+
+    $rating1_adj = Adjustment::find()->andWhere(['test_id' => $id])->andWhere(['key' => 'rating1'])->One();
+    if(null !== $rating1_adj) {
+        $rating1 = $rating1_adj->value;
+    }
+    $rating2_adj = Adjustment::find()->andWhere(['test_id' => $id])->andWhere(['key' => 'rating2'])->One();
+    if(null !== $rating2_adj) {
+        $rating2 = $rating2_adj->value;
+    }
+    $rating3_adj = Adjustment::find()->andWhere(['test_id' => $id])->andWhere(['key' => 'rating3'])->One();
+    if(null !== $rating3_adj) {
+        $rating3 = $rating3_adj->value;
+    }
+    $rating4_adj = Adjustment::find()->andWhere(['test_id' => $id])->andWhere(['key' => 'rating4'])->One();
+    if(null !== $rating4_adj) {
+        $rating4 = $rating4_adj->value;
+    }
+    $rating5_adj = Adjustment::find()->andWhere(['test_id' => $id])->andWhere(['key' => 'rating5'])->One();
+    if(null !== $rating5_adj) {
+        $rating5 = $rating5_adj->value;
+    }
+    $rating6_adj = Adjustment::find()->andWhere(['test_id' => $id])->andWhere(['key' => 'rating6'])->One();
+    if(null !== $rating6_adj) {
+        $rating6 = $rating6_adj->value;
+    }
+    $rating7_adj = Adjustment::find()->andWhere(['test_id' => $id])->andWhere(['key' => 'rating7'])->One();
+    if(null !== $rating7_adj) {
+        $rating7 = $rating7_adj->value;
+    }
+    $rating8_adj = Adjustment::find()->andWhere(['test_id' => $id])->andWhere(['key' => 'rating8'])->One();
+    if(null !== $rating8_adj) {
+        $rating8 = $rating8_adj->value;
+    }
+    $rating9_adj = Adjustment::find()->andWhere(['test_id' => $id])->andWhere(['key' => 'rating9'])->One();
+    if(null !== $rating9_adj) {
+        $rating9 = $rating9_adj->value;
+    }
+    $rating10_adj = Adjustment::find()->andWhere(['test_id' => $id])->andWhere(['key' => 'rating10'])->One();
+    if(null !== $rating10_adj) {
+        $rating10 = $rating10_adj->value;
+    }
+
+
+    $pribadi1 = $rating1 * $bobot1 ;$pribadi2 =  $rating2 * $bobot2;$pribadi3 =  $rating3 * $bobot3;$pribadi4 =  $rating4 * $bobot4;$pribadi5 =  $rating5 * $bobot5;$pribadi6 =  $rating6 * $bobot6;$pribadi7 =  $rating7 * $bobot7;$pribadi8 =  $rating8 * $bobot8;$pribadi9 =  $rating9 * $bobot9;$pribadi10 =  $rating10 * $bobot10;
+    $total_pribadi = $pribadi1 + $pribadi2 + $pribadi3 + $pribadi4 + $pribadi5 + $pribadi6 + $pribadi7 + $pribadi8 + $pribadi9 + $pribadi10;
+    if ($rating1 == 1 ){ $rat11 = "grey";} else { $rat11 = "";}
+    if ($rating1 == 2 ){ $rat12 = "grey";} else { $rat12 = "";}
+    if ($rating1 == 3 ){ $rat13 = "grey";} else { $rat13 = "";}
+    if ($rating1 == 4 ){ $rat14 = "grey";} else { $rat14 = "";}
+    if ($rating1 == 5 ){ $rat15 = "grey";} else { $rat15 = "";}
+    if ($rating1 == 6 ){ $rat16 = "grey";} else { $rat16 = "";}
+    if ($rating1 == 7 ){ $rat17 = "grey";} else { $rat17 = "";}
+
+    if ($rating2 == 1 ){ $rat21 = "grey";} else { $rat21 = "";}
+    if ($rating2 == 2 ){ $rat22 = "grey";} else { $rat22 = "";}
+    if ($rating2 == 3 ){ $rat23 = "grey";} else { $rat23 = "";}
+    if ($rating2 == 4 ){ $rat24 = "grey";} else { $rat24 = "";}
+    if ($rating2 == 5 ){ $rat25 = "grey";} else { $rat25 = "";}
+    if ($rating2 == 6 ){ $rat26 = "grey";} else { $rat26 = "";}
+    if ($rating2 == 7 ){ $rat27 = "grey";} else { $rat27 = "";}
+
+    if ($rating3 == 1 ){ $rat31 = "grey";} else { $rat31 = "";}
+    if ($rating3 == 2 ){ $rat32 = "grey";} else { $rat32 = "";}
+    if ($rating3 == 3 ){ $rat33 = "grey";} else { $rat33 = "";}
+    if ($rating3 == 4 ){ $rat34 = "grey";} else { $rat34 = "";}
+    if ($rating3 == 5 ){ $rat35 = "grey";} else { $rat35 = "";}
+    if ($rating3 == 6 ){ $rat36 = "grey";} else { $rat36 = "";}
+    if ($rating3 == 7 ){ $rat37 = "grey";} else { $rat37 = "";}
+
+    if ($rating4 == 1 ){ $rat41 = "grey";} else { $rat41 = "";}
+    if ($rating4 == 2 ){ $rat42 = "grey";} else { $rat42 = "";}
+    if ($rating4 == 3 ){ $rat43 = "grey";} else { $rat43 = "";}
+    if ($rating4 == 4 ){ $rat44 = "grey";} else { $rat44 = "";}
+    if ($rating4 == 5 ){ $rat45 = "grey";} else { $rat45 = "";}
+    if ($rating4 == 6 ){ $rat46 = "grey";} else { $rat46 = "";}
+    if ($rating4 == 7 ){ $rat47 = "grey";} else { $rat47 = "";}
+
+    if ($rating5 == 1 ){ $rat51 = "grey";} else { $rat51 = "";}
+    if ($rating5 == 2 ){ $rat52 = "grey";} else { $rat52 = "";}
+    if ($rating5 == 3 ){ $rat53 = "grey";} else { $rat53 = "";}
+    if ($rating5 == 4 ){ $rat54 = "grey";} else { $rat54 = "";}
+    if ($rating5 == 5 ){ $rat55 = "grey";} else { $rat55 = "";}
+    if ($rating5 == 6 ){ $rat56 = "grey";} else { $rat56 = "";}
+    if ($rating5 == 7 ){ $rat57 = "grey";} else { $rat57 = "";}
+
+    if ($rating6 == 1 ){ $rat61 = "grey";} else { $rat61 = "";}
+    if ($rating6 == 2 ){ $rat62 = "grey";} else { $rat62 = "";}
+    if ($rating6 == 3 ){ $rat63 = "grey";} else { $rat63 = "";}
+    if ($rating6 == 4 ){ $rat64 = "grey";} else { $rat64 = "";}
+    if ($rating6 == 5 ){ $rat65 = "grey";} else { $rat65 = "";}
+    if ($rating6 == 6 ){ $rat66 = "grey";} else { $rat66 = "";}
+    if ($rating6 == 7 ){ $rat67 = "grey";} else { $rat67 = "";}
+
+    if ($rating7 == 1 ){ $rat71 = "grey";} else { $rat71 = "";}
+    if ($rating7 == 2 ){ $rat72 = "grey";} else { $rat72 = "";}
+    if ($rating7 == 3 ){ $rat73 = "grey";} else { $rat73 = "";}
+    if ($rating7 == 4 ){ $rat74 = "grey";} else { $rat74 = "";}
+    if ($rating7 == 5 ){ $rat75 = "grey";} else { $rat75 = "";}
+    if ($rating7 == 6 ){ $rat76 = "grey";} else { $rat76 = "";}
+    if ($rating7 == 7 ){ $rat77 = "grey";} else { $rat77 = "";}
+
+    if ($rating8 == 1 ){ $rat81 = "grey";} else { $rat81 = "";}
+    if ($rating8 == 2 ){ $rat82 = "grey";} else { $rat82 = "";}
+    if ($rating8 == 3 ){ $rat83 = "grey";} else { $rat83 = "";}
+    if ($rating8 == 4 ){ $rat84 = "grey";} else { $rat84 = "";}
+    if ($rating8 == 5 ){ $rat85 = "grey";} else { $rat85 = "";}
+    if ($rating8 == 6 ){ $rat86 = "grey";} else { $rat86 = "";}
+    if ($rating8 == 7 ){ $rat87 = "grey";} else { $rat87 = "";}
+
+    if ($rating9 == 1 ){ $rat91 = "grey";} else { $rat91 = "";}
+    if ($rating9 == 2 ){ $rat92 = "grey";} else { $rat92 = "";}
+    if ($rating9 == 3 ){ $rat93 = "grey";} else { $rat93 = "";}
+    if ($rating9 == 4 ){ $rat94 = "grey";} else { $rat94 = "";}
+    if ($rating9 == 5 ){ $rat95 = "grey";} else { $rat95 = "";}
+    if ($rating9 == 6 ){ $rat96 = "grey";} else { $rat96 = "";}
+    if ($rating9 == 7 ){ $rat97 = "grey";} else { $rat97 = "";}
+
+    if ($rating10 == 1 ){ $rat101 = "grey";} else { $rat101 = "";}
+    if ($rating10 == 2 ){ $rat102 = "grey";} else { $rat102 = "";}
+    if ($rating10 == 3 ){ $rat103 = "grey";} else { $rat103 = "";}
+    if ($rating10 == 4 ){ $rat104 = "grey";} else { $rat104 = "";}
+    if ($rating10 == 5 ){ $rat105 = "grey";} else { $rat105 = "";}
+    if ($rating10 == 6 ){ $rat106 = "grey";} else { $rat106 = "";}
+    if ($rating10 == 7 ){ $rat107 = "grey";} else { $rat107 = "";}
+
+    if ($total_pribadi > 449 ){ $bcg1 = "yellow";} else { $bcg1 = "";}
+    if ($total_pribadi > 399 && $total_pribadi < 450 ){ $bcg2 = "yellow";} else { $bcg2 = "";}
+    if ($total_pribadi > 349 && $total_pribadi < 400 ){ $bcg3 = "yellow";} else { $bcg3 = "";}
+    if ($total_pribadi < 350 ){ $bcg4 = "yellow";} else { $bcg4 = "";}
+
+//    print_r($total_pribadi);
+
+    $res['total_pribadi'] = $total_pribadi;
+    return $res;
+}
 
 public function papikostikProcessor($id, $debug) {
 
