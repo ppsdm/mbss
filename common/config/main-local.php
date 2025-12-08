@@ -15,6 +15,13 @@ return [
             'password' => 'ppsdm-mysql',
             'charset' => 'utf8',
         ],
+        // 'taodb' => [
+        //     'class' => 'yii\db\Connection',
+        //     'dsn' => 'mysql:host=18.141.43.66;dbname=taodb',
+        //     'username' => 'ppsdm',
+        //     'password' => 'Prima2020#',
+        //     'charset' => 'utf8',
+        // ],
         'coredb' => [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=localhost;dbname=ppsdm_core',
