@@ -13,6 +13,8 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     'aliases' => [
 	    '@tcpdf' => '@vendor/reno/tcpdf',
+        '@bower' => '@vendor/bower-asset',
+        '@npm' => '@vendor/npm-asset',
     ],
     'components' => [
         'request' => [

@@ -7,6 +7,11 @@ $config = [
             'cookieValidationKey' => '5pOQ0cfHM0NcGtMCDhDk4u9mjltZsMvj',
         ],
     ],
+    'aliases' => [
+ #       '@bower' => '@vendor/bower-asset',
+  #      '@npm'   => '@vendor/npm-asset',
+
+    ],
 ];
 
 if (!YII_ENV_TEST) {

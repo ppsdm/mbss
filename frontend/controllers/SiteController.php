@@ -174,10 +174,6 @@ class SiteController extends Controller
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
 
-                        //      $this->redirect('http://127.0.0.1:8090/ppsdm/tao/tao/Users/ppsdmAdd?' . http_build_query(['param' => $model]));
-         //echo '<pre>';
-         //print_r($model);
-         //echo '</pre>';
 
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
@@ -2065,11 +2061,11 @@ return ['id'=>$id, 'model'=>$model,'disc' => $disc_array,'grafik' => $grafik, 'c
                 $object = $this->actionStaffresult($id);
 
                 foreach($object as $obj => $value) {
-                    echo $obj . ' = ' ;
+                    echo $obj . ' = ' . json_encode($value);
                     echo '<br/>';
                 }
                 echo '<pre>';
-                // print_r($object);
+//                 print_r($object);
                 /*** untuk mencari iq*/
                 echo '<h2/>IQ</h2>';
                 echo 'CFIT Unscaled : ' . $object['cfit']['unscaled'];

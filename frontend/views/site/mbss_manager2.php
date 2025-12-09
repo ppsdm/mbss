@@ -2,7 +2,11 @@
 
 use app\models\Adjustment;
 
+<<<<<<< HEAD
 require __DIR__ . '/../../../vendor/reno/tcpdf/tcpdf.php';;
+=======
+require __DIR__ . '/../../../reno/tcpdf/tcpdf.php';;
+>>>>>>> a01a7f15ed3b582ca63af6052f5a4348d9297db0
 
 //============================================================+
 // File name   : example_048.php
@@ -38,8 +42,8 @@ $tujuan         = $model->tujuan_pemeriksaan;
 $pendidikan     = $model->pendidikan_terakhir;
 $tgltes         = $model->tanggal_test;
 $tempattes      = $model->tempat;
-$ttd            = "Drs. Budiman Sanusi, MPsi.";
-$himpsi         = "0111891963";
+$ttd            = "Drs. Herry Sardjono, Psikolog";
+$himpsi         = "0101188383";
 
 $namaaspek = "GENERAL INTELLIGENCE";
 $judul     = "PSIKOGRAM HASIL ASSESSMENT / PEMERIKSAAN PSIKOLOGIS";
@@ -238,9 +242,29 @@ $rekomendasi = "Memperhatikan seluruh gambaran aspek Psikologi yang dimiliki, di
 
 //require_once('tcpdf_include.php');
 
+class MYPDF extends TCPDF {
+    //Page header
+    public function Header() {
+        // get the current page break margin
+        $bMargin = $this->getBreakMargin();
+        // get current auto-page-break mode
+        $auto_page_break = $this->AutoPageBreak;
+        // disable auto-page-break
+        $this->SetAutoPageBreak(false, 0);
+        // set bacground image
+        $img_file = 'http://mbss.report.ppsdm.com/images/ppa_bg.png';
+        // $img_file = K_PATH_IMAGES.'ppa_bg.png';
+        $this->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+        // restore auto-page-break status
+        $this->SetAutoPageBreak($auto_page_break, $bMargin);
+        // set the starting point for the page content
+        $this->setPageMark();
+    }
+}
+
 
 // create new PDF document
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+$pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 // set document information
 
@@ -248,7 +272,7 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 
 $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
 $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-$pdf->SetPrintHeader(false);
+$pdf->SetPrintHeader(true);
 $pdf->SetPrintFooter(false);
 // set default monospaced font
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
@@ -897,7 +921,7 @@ $tbl = <<<EOD
             <td align="center">A.n. Psikolog Pemeriksa</td>
             </tr>
             <tr>
-            <td align="center"><img src="http://mbss.report.ppsdm.com/images/ttd_budiman.jpg" width="150px"></td>
+            <td align="center"><img src="http://mbss.report.ppsdm.com/images/ttd_herrysardjono.jpg" width="150px"></td>
             </tr>
             <tr>
             <td align="center">$ttd</td>
