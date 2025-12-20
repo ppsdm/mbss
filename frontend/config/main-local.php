@@ -8,8 +8,8 @@ $config = [
         ],
     ],
     'aliases' => [
- #       '@bower' => '@vendor/bower-asset',
-  #      '@npm'   => '@vendor/npm-asset',
+        '@bower' => '@vendor/bower-asset',
+        '@npm'   => '@vendor/npm-asset',
 
     ],
 ];

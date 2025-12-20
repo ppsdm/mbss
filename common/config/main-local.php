@@ -5,7 +5,7 @@ return [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=aws.ppsdm.com;dbname=ppsdm_mbss',
             'username' => 'root',
-            'password' => '#root123',
+            'password' => 'root#2025',
             'charset' => 'utf8',
         ],
          'taodb' => [
@@ -19,7 +19,7 @@ return [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=aws.ppsdm.com;dbname=ppsdm_core',
             'username' => 'root',
-            'password' => '#root123',
+            'password' => 'root#2025',
 //            'dsn' => 'mysql:host=localhost;dbname=ppsdm_core',
 //            'username' => 'root',
 //            'password' => '',
@@ -29,7 +29,7 @@ return [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=aws.ppsdm.com;dbname=ppsdm_portal',
             'username' => 'root',
-            'password' => '#root123',
+            'password' => 'root#2025',
             'charset' => 'utf8',
         ],
         'mailer' => [
