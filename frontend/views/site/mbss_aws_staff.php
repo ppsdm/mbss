@@ -37,8 +37,8 @@ $tujuan         = $biodata['tujuan_test'];
 $pendidikan     = $biodata['pendidikan_terakhir'];
 $tgltes         = $biodata['tanggal_test'];
 $tempattes      = $model->tempat;
-$ttd            = "Drs. Herry Sardjono, Psikolog";
-$himpsi         = "0101188383";
+$ttd            = "Drs. JOSEP PRASETYO, M.M., Psikolog";
+$himpsi         = "20120183";
 
 $namaaspek = "GENERAL INTELLIGENCE";
 $judul     = "PSIKOGRAM HASIL ASSESSMENT / PEMERIKSAAN PSIKOLOGIS";
@@ -904,7 +904,7 @@ $tbl = <<<EOD
             <td align="center">A.n. Psikolog Pemeriksa</td>
             </tr>
             <tr>
-            <td align="center"><img src="http://mbss.report.ppsdm.com/images/ttd_herrysardjono.jpg" width="150px"></td>
+            <td align="center"><img src="http://mbss.report.ppsdm.com/images/ttd_pakjo.png" width="150px"></td>
             </tr>
             <tr>
             <td align="center">$ttd</td>
