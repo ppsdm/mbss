@@ -38,7 +38,7 @@ $pendidikan     = $biodata['pendidikan_terakhir'];
 $tgltes         = $biodata['tanggal_test'];
 $tempattes      = $model->tempat;
 $ttd            = "Drs. JOSEP PRASETYO, M.M., Psikolog";
-$himpsi         = "20120183";
+$himpsi         = "No. HIMPSI: 20120183";
 
 $namaaspek = "GENERAL INTELLIGENCE";
 $judul     = "PSIKOGRAM HASIL ASSESSMENT / PEMERIKSAAN PSIKOLOGIS";
